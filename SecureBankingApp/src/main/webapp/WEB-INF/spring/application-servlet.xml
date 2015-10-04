@@ -25,11 +25,19 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 	<!-- Views end -->
+
+    <!-- service -->
+    <bean class="edu.asu.securebanking.service.LoginService"
+          id="loginService"></bean>
 	
 	<!-- message -->
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basename" value="messages"></property>
 	</bean>
+
+    <!-- validators -->
+    <bean class="edu.asu.securebanking.util.LoginFormValidator"
+          id="loginFormValidator"></bean>
 	
 	<!-- resources -->
 	<mvc:resources mapping="/static/css/**" location="/static/css/" />
