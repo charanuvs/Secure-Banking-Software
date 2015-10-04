@@ -5,6 +5,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import edu.asu.securebanking.beans.PageViewBean;
+
 /**
  * @author
  * 
@@ -22,8 +24,9 @@ public class WelcomeController {
 	 */
 	@RequestMapping(value = { "/index.html", "" }, method = RequestMethod.GET)
 	public String welcome(final Model model) {
-		model.addAttribute("person", "Some person");
+		PageViewBean page = new PageViewBean();
+		model.addAttribute("page", page);
+		
 		return "welcome";
 	}
-	
 }
