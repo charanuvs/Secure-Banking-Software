@@ -36,7 +36,10 @@
         <div class="container">
             <div class="jumbotron">
                 <h1>XYZ Secure Online Banking</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, ex. Maxime, autem. Repellat quod autem quos delectus! Possimus at eius atque dolores corrupti, fugiat accusamus qui, vel incidunt itaque, ipsam.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    Ab, ex. Maxime, autem. Repellat quod autem quos delectus!
+                    Possimus at eius atque dolores corrupti, fugiat accusamus qui,
+                    vel incidunt itaque, ipsam.</p>
                 <p>
                     <a class="btn btn-lg btn-primary" href="<c:url value='/login' />" role="button">Sign In to Access »</a>
                     <a class="btn btn-lg btn-primary" href="<c:url value='/apply' />" role="button">Create an account »</a>

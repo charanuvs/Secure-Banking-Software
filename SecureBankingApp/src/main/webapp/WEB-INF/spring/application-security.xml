@@ -27,5 +27,5 @@
 		/>
 		<logout logout-url="/user/logout" logout-success-url="/user/login"/>
 	</http>  -->
-	
+
 </beans:beans>
