@@ -16,30 +16,40 @@ import java.util.Date;
 @Table(name = "users")
 public class AppUser implements Serializable {
 
-    private Long userId;
-
-    private String emailId;
-
-    private String firstName;
-
-    private String lastName;
-
-    private String gender;
-
-    private Date dateOfBirth;
-
-    private String phoneNumber;
-
-    private String address;
-
-    private String ssn;
-
-    private String userType;
-
-    private String password;
-
     @Id
     @Column(name = "USER_ID")
+    private Long userId;
+
+    @Column(name = "EMAIL_ID", unique = true)
+    private String emailId;
+
+    @Column(name = "FIRST_NAME", nullable = false)
+    private String firstName;
+
+    @Column(name = "LAST_NAME", nullable = false)
+    private String lastName;
+
+    @Column(name = "GENDER")
+    private String gender;
+
+    @Column(name = "DATE_OF_BIRTH")
+    private Date dateOfBirth;
+
+    @Column(name = "PHONE_NUMBER")
+    private String phoneNumber;
+
+    @Column(name = "ADDRESS")
+    private String address;
+
+    @Column(name = "SSN")
+    private String ssn;
+
+    @Column(name = "USER_TYPE")
+    private String userType;
+
+    @Column(name = "PASSWORD")
+    private String password;
+
     public Long getUserId() {
         return userId;
     }
@@ -48,7 +58,6 @@ public class AppUser implements Serializable {
         this.userId = userId;
     }
 
-    @Column(name = "EMAIL_ID", unique = true)
     public String getEmailId() {
         return emailId;
     }
@@ -57,7 +66,6 @@ public class AppUser implements Serializable {
         this.emailId = emailId;
     }
 
-    @Column(name = "FIRST_NAME", nullable = false)
     public String getFirstName() {
         return firstName;
     }
@@ -66,7 +74,6 @@ public class AppUser implements Serializable {
         this.firstName = firstName;
     }
 
-    @Column(name = "LAST_NAME", nullable = false)
     public String getLastName() {
         return lastName;
     }
@@ -75,7 +82,6 @@ public class AppUser implements Serializable {
         this.lastName = lastName;
     }
 
-    @Column(name = "GENDER")
     public String getGender() {
         return gender;
     }
@@ -84,7 +90,6 @@ public class AppUser implements Serializable {
         this.gender = gender;
     }
 
-    @Column(name = "DATE_OF_BIRTH")
     public Date getDateOfBirth() {
         return dateOfBirth;
     }
@@ -93,7 +98,6 @@ public class AppUser implements Serializable {
         this.dateOfBirth = dateOfBirth;
     }
 
-    @Column(name = "PHONE_NUMBER")
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -102,7 +106,6 @@ public class AppUser implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    @Column(name = "ADDRESS")
     public String getAddress() {
         return address;
     }
@@ -111,7 +114,6 @@ public class AppUser implements Serializable {
         this.address = address;
     }
 
-    @Column(name = "SSN")
     public String getSsn() {
         return ssn;
     }
@@ -120,7 +122,6 @@ public class AppUser implements Serializable {
         this.ssn = ssn;
     }
 
-    @Column(name = "USER_TYPE")
     public String getUserType() {
         return userType;
     }
@@ -129,7 +130,6 @@ public class AppUser implements Serializable {
         this.userType = userType;
     }
 
-    @Column(name = "PASSWORD")
     public String getPassword() {
         return password;
     }
