@@ -1,9 +1,6 @@
 package edu.asu.securebanking.beans;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -13,29 +10,27 @@ import java.util.Date;
  *         Application User
  */
 @Entity
-@Table(name = "users")
+@Table(name = "USER")
 public class AppUser implements Serializable {
 
     @Id
     @Column(name = "USER_ID")
     private Long userId;
 
-    @Column(name = "EMAIL_ID", unique = true)
-    private String emailId;
+    @Column(name = "EMAIL")
+    private String email;
 
-    @Column(name = "FIRST_NAME", nullable = false)
-    private String firstName;
-
-    @Column(name = "LAST_NAME", nullable = false)
-    private String lastName;
+    @Column(name = "NAME")
+    private String name;
 
     @Column(name = "GENDER")
     private String gender;
 
-    @Column(name = "DATE_OF_BIRTH")
-    private Date dateOfBirth;
+    @Column(name = "DOB")
+    @Temporal(TemporalType.DATE)
+    private Date dob;
 
-    @Column(name = "PHONE_NUMBER")
+    @Column(name = "PHONE_NO")
     private String phoneNumber;
 
     @Column(name = "ADDRESS")
@@ -58,28 +53,20 @@ public class AppUser implements Serializable {
         this.userId = userId;
     }
 
-    public String getEmailId() {
-        return emailId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getGender() {
@@ -90,12 +77,12 @@ public class AppUser implements Serializable {
         this.gender = gender;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
+    public Date getDob() {
+        return dob;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setDob(Date dob) {
+        this.dob = dob;
     }
 
     public String getPhoneNumber() {
@@ -141,14 +128,14 @@ public class AppUser implements Serializable {
     @Override
     public String toString() {
         return "AppUser{" +
-                "userId='" + userId + '\'' +
-                ", emailId='" + emailId + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                "userId=" + userId +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
                 ", gender='" + gender + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
+                ", dob=" + dob +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", address='" + address + '\'' +
+                ", ssn='" + ssn + '\'' +
                 ", userType='" + userType + '\'' +
                 '}';
     }

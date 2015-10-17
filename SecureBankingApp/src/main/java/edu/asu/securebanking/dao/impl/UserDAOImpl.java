@@ -19,7 +19,7 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
     @Transactional
     public AppUser getUser(String emailID) {
         Criteria criteria = getSession().createCriteria(AppUser.class);
-        criteria.add(Restrictions.eq("emailId", emailID));
+        criteria.add(Restrictions.eq("email", emailID));
         return (AppUser) criteria.uniqueResult();
     }
 }
