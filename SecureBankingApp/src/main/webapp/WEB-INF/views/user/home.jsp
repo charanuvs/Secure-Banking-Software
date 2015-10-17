@@ -37,37 +37,11 @@
 <div class="container col-sm-6 col-sm-offset-3 ">
 
     <c:if test="${page.valid == false}">
-        <div class="alert alert-danger">Invalid username and password</div>
+        <div class="alert alert-danger">Something wrong</div>
     </c:if>
 
     <div class="well">
-        <form:form method="POST" name="login"
-                   class="form-horizontal" commandName="loginFormBean" action="loginAuth">
-            <legend>Login</legend>
-            <div class="form-group">
-                <label class="col-sm-3 control-label" for="username">Username</label>
-
-                <div class="col-sm-7">
-                    <form:input path="username" class="form-control" type="text"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label" for="username">Password</label>
-
-                <div class="col-sm-7">
-                    <form:input path="password" class="form-control" type="password"/>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-sm-3"></div>
-                <div class="col-sm-7">
-                    <input type="submit" id="submit" class="btn btn-primary btn-lg btn-sm-10"
-                           value="Login">
-                </div>
-            </div>
-        </form:form>
-
+        Welcome user
     </div>
 </div>
 </body>

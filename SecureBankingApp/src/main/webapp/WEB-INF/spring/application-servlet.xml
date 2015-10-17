@@ -39,10 +39,6 @@
     <bean class="edu.asu.securebanking.service.UserService"
           id="userService"></bean>
 
-    <!-- DAO -->
-    <bean class="edu.asu.securebanking.dao.impl.UserDAOImpl"
-          id="userDAO"></bean>
-
     <!-- validators -->
     <bean class="edu.asu.securebanking.util.LoginFormValidator"
           id="loginFormValidator"></bean>
