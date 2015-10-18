@@ -15,7 +15,7 @@ public class AppUser implements Serializable {
 
     @Id
     @Column(name = "USER_ID")
-    private Long userId;
+    private String userId;
 
     @Column(name = "EMAIL")
     private String email;
@@ -45,11 +45,11 @@ public class AppUser implements Serializable {
     @Column(name = "PASSWORD")
     private String password;
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
