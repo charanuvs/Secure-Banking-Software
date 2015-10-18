@@ -1,123 +1,81 @@
--- MySQL dump 10.13  Distrib 5.5.44, for debian-linux-gnu (i686)
+-- phpMyAdmin SQL Dump
+-- version 4.4.14
+-- http://www.phpmyadmin.net
 --
--- Host: localhost    Database: securebank
--- ------------------------------------------------------
--- Server version	5.5.44-0ubuntu0.14.04.1
+-- Host: 127.0.0.1
+-- Generation Time: Oct 18, 2015 at 07:33 AM
+-- Server version: 5.6.26
+-- PHP Version: 5.6.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Table structure for table `ACCOUNT`
+-- Database: `secure_bank`
+--
+CREATE DATABASE IF NOT EXISTS `secure_bank` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `secure_bank`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `account`
 --
 
-DROP TABLE IF EXISTS `ACCOUNT`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ACCOUNT` (
-  `ACC_NO` varchar(30) NOT NULL DEFAULT '',
+CREATE TABLE IF NOT EXISTS `account` (
+  `ACC_NO` int(11) NOT NULL,
   `USER_ID` varchar(20) DEFAULT NULL,
   `BALANCE` decimal(10,2) DEFAULT NULL,
   `TYPE` enum('SAVINGS','CHECKIN','MERCHANT') DEFAULT NULL,
   `OPEN_DATE` date DEFAULT NULL,
-  `CLOSING_DATE` date DEFAULT NULL,
-  PRIMARY KEY (`ACC_NO`),
-  KEY `USER_ID` (`USER_ID`),
-  CONSTRAINT `ACCOUNT_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `USER` (`USER_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `CLOSING_DATE` date DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=1000000000 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `ACCOUNT`
+-- Table structure for table `log`
 --
 
-LOCK TABLES `ACCOUNT` WRITE;
-/*!40000 ALTER TABLE `ACCOUNT` DISABLE KEYS */;
-/*!40000 ALTER TABLE `ACCOUNT` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `LOG`
---
-
-DROP TABLE IF EXISTS `LOG`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `LOG` (
-  `LOG_ID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `log` (
+  `LOG_ID` int(11) NOT NULL,
   `USER_ID` varchar(20) DEFAULT NULL,
-  `ACCOUNT_NO` varchar(30) DEFAULT NULL,
+  `ACCOUNT_NO` int(11) DEFAULT NULL,
   `L_DATE` date DEFAULT NULL,
   `SEVERITY` enum('MNG','EMP') DEFAULT NULL,
-  `DESCRIPTION` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`LOG_ID`),
-  KEY `ACCOUNT_NO` (`ACCOUNT_NO`),
-  KEY `USER_ID` (`USER_ID`),
-  CONSTRAINT `LOG_ibfk_1` FOREIGN KEY (`ACCOUNT_NO`) REFERENCES `ACCOUNT` (`ACC_NO`),
-  CONSTRAINT `LOG_ibfk_2` FOREIGN KEY (`USER_ID`) REFERENCES `USER` (`USER_ID`)
+  `DESCRIPTION` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `LOG`
+-- Table structure for table `transaction`
 --
 
-LOCK TABLES `LOG` WRITE;
-/*!40000 ALTER TABLE `LOG` DISABLE KEYS */;
-/*!40000 ALTER TABLE `LOG` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `TRANSACTION`
---
-
-DROP TABLE IF EXISTS `TRANSACTION`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TRANSACTION` (
-  `T_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `TO_ACCOUNT` varchar(20) DEFAULT NULL,
-  `FROM_ACCOUNT` varchar(20) DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `transaction` (
+  `T_ID` int(11) NOT NULL,
+  `TO_ACCOUNT` int(11) DEFAULT NULL,
+  `FROM_ACCOUNT` int(11) DEFAULT NULL,
   `AMOUNT` decimal(10,2) DEFAULT NULL,
   `T_TYPE` enum('TRANSFER','PAYMENT') DEFAULT NULL,
   `T_STATUS` enum('PENDING','COMPLETE') DEFAULT NULL,
   `T_DATE` date DEFAULT NULL,
-  `AUTHORISED_EMP` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`T_ID`),
-  KEY `TO_ACCOUNT` (`TO_ACCOUNT`),
-  KEY `FROM_ACCOUNT` (`FROM_ACCOUNT`),
-  KEY `AUTHORISED_EMP` (`AUTHORISED_EMP`),
-  CONSTRAINT `TRANSACTION_ibfk_1` FOREIGN KEY (`TO_ACCOUNT`) REFERENCES `ACCOUNT` (`ACC_NO`),
-  CONSTRAINT `TRANSACTION_ibfk_2` FOREIGN KEY (`FROM_ACCOUNT`) REFERENCES `ACCOUNT` (`ACC_NO`),
-  CONSTRAINT `TRANSACTION_ibfk_3` FOREIGN KEY (`AUTHORISED_EMP`) REFERENCES `USER` (`USER_ID`)
+  `AUTHORISED_EMP` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `TRANSACTION`
+-- Table structure for table `user`
 --
 
-LOCK TABLES `TRANSACTION` WRITE;
-/*!40000 ALTER TABLE `TRANSACTION` DISABLE KEYS */;
-/*!40000 ALTER TABLE `TRANSACTION` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `USER`
---
-
-DROP TABLE IF EXISTS `USER`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `USER` (
+CREATE TABLE IF NOT EXISTS `user` (
   `USER_ID` varchar(20) NOT NULL DEFAULT '',
   `SSN` varchar(20) DEFAULT NULL,
   `NAME` varchar(40) DEFAULT NULL,
@@ -128,27 +86,87 @@ CREATE TABLE `USER` (
   `PASSWORD` varchar(40) DEFAULT NULL,
   `GENDER` enum('MALE','FEMALE') DEFAULT NULL,
   `USER_TYPE` enum('ROLE_NORMAL','ROLE_MERCHANT','ROLE_EMPLOYEE','ROLE_MANAGER','ROLE_ADMIN') DEFAULT NULL,
-  `GOV_CERT` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`USER_ID`)
+  `GOV_CERT` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `USER`
+-- Indexes for dumped tables
 --
 
-LOCK TABLES `USER` WRITE;
-/*!40000 ALTER TABLE `USER` DISABLE KEYS */;
-/*!40000 ALTER TABLE `USER` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+--
+-- Indexes for table `account`
+--
+ALTER TABLE `account`
+  ADD PRIMARY KEY (`ACC_NO`),
+  ADD KEY `USER_ID` (`USER_ID`);
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+--
+-- Indexes for table `log`
+--
+ALTER TABLE `log`
+  ADD PRIMARY KEY (`LOG_ID`),
+  ADD KEY `ACCOUNT_NO` (`ACCOUNT_NO`),
+  ADD KEY `USER_ID` (`USER_ID`);
+
+--
+-- Indexes for table `transaction`
+--
+ALTER TABLE `transaction`
+  ADD PRIMARY KEY (`T_ID`),
+  ADD KEY `TO_ACCOUNT` (`TO_ACCOUNT`),
+  ADD KEY `FROM_ACCOUNT` (`FROM_ACCOUNT`),
+  ADD KEY `AUTHORISED_EMP` (`AUTHORISED_EMP`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`USER_ID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `account`
+--
+ALTER TABLE `account`
+  MODIFY `ACC_NO` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1000000000;
+--
+-- AUTO_INCREMENT for table `log`
+--
+ALTER TABLE `log`
+  MODIFY `LOG_ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `transaction`
+--
+ALTER TABLE `transaction`
+  MODIFY `T_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1001;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `account`
+--
+ALTER TABLE `account`
+  ADD CONSTRAINT `ACCOUNT_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `user` (`USER_ID`);
+
+--
+-- Constraints for table `log`
+--
+ALTER TABLE `log`
+  ADD CONSTRAINT `LOG_ibfk_1` FOREIGN KEY (`ACCOUNT_NO`) REFERENCES `account` (`ACC_NO`),
+  ADD CONSTRAINT `LOG_ibfk_2` FOREIGN KEY (`USER_ID`) REFERENCES `user` (`USER_ID`);
+
+--
+-- Constraints for table `transaction`
+--
+ALTER TABLE `transaction`
+  ADD CONSTRAINT `TRANSACTION_ibfk_1` FOREIGN KEY (`TO_ACCOUNT`) REFERENCES `account` (`ACC_NO`),
+  ADD CONSTRAINT `TRANSACTION_ibfk_2` FOREIGN KEY (`FROM_ACCOUNT`) REFERENCES `account` (`ACC_NO`),
+  ADD CONSTRAINT `TRANSACTION_ibfk_3` FOREIGN KEY (`AUTHORISED_EMP`) REFERENCES `user` (`USER_ID`);
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2015-10-17 21:37:27
