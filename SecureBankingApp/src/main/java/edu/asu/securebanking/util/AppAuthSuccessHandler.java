@@ -2,6 +2,7 @@ package edu.asu.securebanking.util;
 
 import edu.asu.securebanking.beans.AppUser;
 import edu.asu.securebanking.dao.UserDAO;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
@@ -20,9 +21,12 @@ import java.io.IOException;
  */
 public class AppAuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
+
     @Autowired
     @Qualifier("userDAO")
     private UserDAO userDAO;
+
+    private static Logger LOGGER = Logger.getLogger(AppAuthSuccessHandler.class);
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -32,7 +36,7 @@ public class AppAuthSuccessHandler extends SavedRequestAwareAuthenticationSucces
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         HttpSession session = request.getSession(true);
         AppUser appUser = userDAO.getUser(user.getUsername());
-        session.setAttribute("user", session);
+        session.setAttribute("user", appUser);
 
         // super.onAuthenticationSuccess(request, response, authentication);
         response.sendRedirect(request.getContextPath() + "/user/home");

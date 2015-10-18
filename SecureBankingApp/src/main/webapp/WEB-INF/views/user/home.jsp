@@ -41,7 +41,7 @@
     </c:if>
 
     <div class="well">
-        Welcome user
+        Welcome user - <c:out value="${user}"/>
     </div>
 </div>
 </body>
