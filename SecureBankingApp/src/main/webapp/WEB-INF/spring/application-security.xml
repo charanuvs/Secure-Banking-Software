@@ -14,8 +14,10 @@
     <http pattern="/static/**" security="none"/>
 
     <http use-expressions="true" authentication-manager-ref="userAuthManager">
+        <!--<csrf disabled="true"/>-->
         <intercept-url pattern="/user/**" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/employee/**" access="hasRole('ROLE_EMPLOYEE')"/>
+        <intercept-url pattern="/logout" access="hasAnyRole('ROLE_EMPLOYEE', 'ROLE_USER')"/>
         <form-login username-parameter="username" password-parameter="password"
                     login-page="/login"
                     always-use-default-target="true"
@@ -24,7 +26,7 @@
                     authentication-failure-url="/login?invalidCred=true"
                     authentication-success-handler-ref="appAuthSuccessHandler"
                 />
-        <logout logout-url="/logout" invalidate-session="true" logout-success-url="/login"/>
+        <logout logout-url="/logout" logout-success-url="/login"/>
     </http>
 
     <authentication-manager id="userAuthManager">

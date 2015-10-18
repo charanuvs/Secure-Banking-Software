@@ -25,4 +25,5 @@ public class UserController {
         model.addAttribute("user", user.getEmail());
         return "user/home";
     }
+
 }

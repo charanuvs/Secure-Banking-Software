@@ -43,6 +43,12 @@
     <div class="well">
         Welcome user - <c:out value="${user}"/>
     </div>
+
+    <div>
+        <form action="<c:url value='/logout'/>" method="POST">
+            <input type="submit" class="btn" value="Logout">
+        </form>
+    </div>
 </div>
 </body>
 
