@@ -15,7 +15,7 @@
     <jsp:include page="../js.jsp"></jsp:include>
 </head>
 <body>
-<jsp:include page="nav.jsp"/>
+<jsp:include page="nav.jsp"></jsp:include>
 
 <div class="container col-sm-6 col-sm-offset-3 ">
 
@@ -26,7 +26,6 @@
     <div class="well">
         Welcome - <c:out value="${loggedInUser.name}"/>
     </div>
-
 </div>
 </body>
 

@@ -43,6 +43,9 @@
     <bean class="edu.asu.securebanking.util.LoginFormValidator"
           id="loginFormValidator"></bean>
 
+    <bean class="edu.asu.securebanking.util.AppUserValidator"
+          id="appUserValidator"></bean>
+
     <!-- resources -->
     <mvc:resources mapping="/static/css/**" location="/static/css/"/>
     <mvc:resources mapping="/static/js/**" location="/static/js/"/>

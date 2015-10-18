@@ -4,6 +4,7 @@ import edu.asu.securebanking.beans.AppUser;
 import edu.asu.securebanking.dao.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,7 +15,11 @@ public class UserService {
 
     @Autowired
     @Qualifier("userDAO")
-    UserDAO userDAO;
+    private UserDAO userDAO;
+
+    @Autowired
+    @Qualifier("pwdEncoder")
+    private PasswordEncoder encoder;
 
     /**
      * Get user for emailID
@@ -22,8 +27,14 @@ public class UserService {
      * @param emailID
      * @return user
      */
-    public AppUser getUser(final String emailID) {
+    public AppUser getUser(final String username) {
 
-        return userDAO.getUser("vdoosa@asu.edu");
+        return userDAO.getUser(username);
+    }
+
+    public void addUser(final AppUser user) {
+        // Hash the password of the user
+        user.setPassword(encoder.encode(user.getPassword()));
+        userDAO.addUser(user);
     }
 }

@@ -24,14 +24,13 @@ public class AppUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        // email
         AppUser user = userDAO.getUser(username);
 
         if (user == null)
-            return null;
+            throw new UsernameNotFoundException("Invalid username/password");
 
         List<GrantedAuthority> auths = buildAuthorities(user.getUserType());
-        User secUser = new User(user.getEmail(), user.getPassword(),
+        User secUser = new User(user.getUserId(), user.getPassword(),
                 true, true, true, true, auths);
 
         return secUser;

@@ -15,9 +15,13 @@
 
     <http use-expressions="true" authentication-manager-ref="userAuthManager">
         <!--<csrf disabled="true"/>-->
-        <intercept-url pattern="/user/**" access="hasRole('ROLE_USER')"/>
-        <intercept-url pattern="/employee/**" access="hasRole('ROLE_EMPLOYEE')"/>
-        <intercept-url pattern="/logout" access="hasAnyRole('ROLE_EMPLOYEE', 'ROLE_USER')"/>
+        <intercept-url pattern="/user/**" access="hasRole('ROLE_NORMAL')"/>
+        <intercept-url pattern="/emp/**" access="hasRole('ROLE_EMPLOYEE')"/>
+        <intercept-url pattern="/manage/**" access="hasRole('ROLE_MANAGER')"/>
+        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/merch/**" access="hasRole('ROLE_MERCHANT')"/>
+        <intercept-url pattern="/logout" access="hasAnyRole('ROLE_EMPLOYEE',
+            'ROLE_NORMAL', 'ROLE_ADMIN', 'ROLE_MERCHANT', 'ROLE_MANAGER')"/>
         <form-login username-parameter="username" password-parameter="password"
                     login-page="/login"
                     always-use-default-target="true"
@@ -30,7 +34,9 @@
     </http>
 
     <authentication-manager id="userAuthManager">
-        <authentication-provider user-service-ref="userAuthService"/>
+        <authentication-provider user-service-ref="userAuthService">
+            <password-encoder hash="bcrypt"></password-encoder>
+        </authentication-provider>
     </authentication-manager>
 
     <beans:bean id="userAuthService" class="edu.asu.securebanking.service.AppUserDetailsService"></beans:bean>

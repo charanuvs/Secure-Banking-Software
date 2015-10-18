@@ -17,9 +17,16 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
 
     @Override
     @Transactional
-    public AppUser getUser(String emailID) {
+    public void addUser(AppUser user) {
+        getSession().save(user);
+    }
+
+    @Override
+    @Transactional
+    public AppUser getUser(String username) {
         Criteria criteria = getSession().createCriteria(AppUser.class);
-        criteria.add(Restrictions.eq("email", emailID));
+        criteria.add(Restrictions.eq("userId", username));
         return (AppUser) criteria.uniqueResult();
     }
+
 }

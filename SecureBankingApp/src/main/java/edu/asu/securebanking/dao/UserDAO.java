@@ -9,8 +9,15 @@ public interface UserDAO {
 
     /**
      * Get user for an email ID
-     * @param emailID
+     *
+     * @param username
      * @return user
      */
-    public AppUser getUser(final String emailID);
+    public AppUser getUser(final String username);
+
+    /**
+     * @param user
+     * @return added
+     */
+    public void addUser(final AppUser user);
 }

@@ -36,9 +36,10 @@ public class AppAuthSuccessHandler extends SavedRequestAwareAuthenticationSucces
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         HttpSession session = request.getSession(true);
         AppUser appUser = userDAO.getUser(user.getUsername());
-        session.setAttribute("user", appUser);
+        session.setAttribute("loggedInUser", appUser);
 
         // super.onAuthenticationSuccess(request, response, authentication);
-        response.sendRedirect(request.getContextPath() + "/user/home");
+        response.sendRedirect(request.getContextPath() + "/" +
+                AppUtil.getUrl(appUser.getUserType()) + "/home");
     }
 }

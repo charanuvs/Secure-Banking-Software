@@ -45,6 +45,39 @@ public class AppUser implements Serializable {
     @Column(name = "PASSWORD")
     private String password;
 
+    @Transient
+    private String tempPassword;
+
+    @Transient
+    private String confirmPassword;
+
+    @Transient
+    private String dateString;
+
+    public String getDateString() {
+        return dateString;
+    }
+
+    public void setDateString(String dateString) {
+        this.dateString = dateString;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
+    public String getTempPassword() {
+        return tempPassword;
+    }
+
+    public void setTempPassword(String tempPassword) {
+        this.tempPassword = tempPassword;
+    }
+
     public String getUserId() {
         return userId;
     }

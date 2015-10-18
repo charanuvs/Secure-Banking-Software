@@ -34,4 +34,8 @@
     <bean class="edu.asu.securebanking.dao.impl.UserDAOImpl"
           id="userDAO"></bean>
 
+    <!-- password -->
+    <bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"
+          id="pwdEncoder"/>
+
 </beans>
