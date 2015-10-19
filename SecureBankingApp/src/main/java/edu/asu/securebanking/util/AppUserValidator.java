@@ -16,27 +16,33 @@ import java.util.regex.Pattern;
  */
 public class AppUserValidator implements Validator {
 
-    private static String userIdRegex = "[a-z0-9]{4,10}";
+    protected static String defaultMerchantDate = "1980-01-01";
 
-    private static String nameRegex = "[a-zA-Z ]{2,40}";
+    protected static String userIdRegex = "^[a-z0-9]{4,10}$";
 
-    private static String addressRegex = "[a-zA-Z0-9-, ]{2,100}";
+    protected static String nameRegex = "^[a-zA-Z ]{2,40}$";
 
-    private static String phoneRegex = "[0-9]{10,12}";
+    protected static String addressRegex = "^[a-zA-Z0-9-, ]{2,100}$";
 
-    private static String ssnRegex = "[0-9]{10}";
+    protected static String phoneRegex = "^[0-9]{10,12}$";
 
-    private Pattern userIdPattern = Pattern.compile(userIdRegex);
+    protected static String ssnRegex = "^[0-9]{10}$";
 
-    private Pattern userFullNamePattern = Pattern.compile(nameRegex);
+    protected static String simpleEmailRegex = "^\\S+@\\S+$";
 
-    private Pattern addressPattern = Pattern.compile(addressRegex);
+    protected static Pattern userIdPattern = Pattern.compile(userIdRegex);
 
-    private SimpleDateFormat dobFormat = new SimpleDateFormat("yyyy-MM-dd");
+    protected static Pattern userFullNamePattern = Pattern.compile(nameRegex);
 
-    private Pattern phonePattern = Pattern.compile(phoneRegex);
+    protected static Pattern addressPattern = Pattern.compile(addressRegex);
 
-    private Pattern ssnPattern = Pattern.compile(ssnRegex);
+    protected static SimpleDateFormat dobFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    protected static Pattern phonePattern = Pattern.compile(phoneRegex);
+
+    protected static Pattern ssnPattern = Pattern.compile(ssnRegex);
+
+    protected static Pattern emailPattern = Pattern.compile(simpleEmailRegex);
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -78,6 +84,13 @@ public class AppUserValidator implements Validator {
         // Date of birth
 
         try {
+            // If he is a merchant/organization set the default date
+            if (AppConstants.ROLE_MERCHANT
+                    .equalsIgnoreCase(user.getUserType())) {
+                // Default date 1980-01-01
+                user.setDateString(defaultMerchantDate);
+            }
+
             Date date = dobFormat.parse(user.getDateString());
             user.setDob(date);
             Date currentDate = new Date();
@@ -102,7 +115,10 @@ public class AppUserValidator implements Validator {
         }
 
         // Gender
-        if (!AppConstants.GENDERS.containsKey(user.getGender())) {
+        if (AppConstants.ROLE_MERCHANT
+                .equalsIgnoreCase(user.getUserType())) {
+            user.setGender(AppConstants.GENDER_OTHER);
+        } else if (!AppConstants.GENDERS.containsKey(user.getGender())) {
             errors.rejectValue("gender", "gender", "Invalid Gender");
         }
 
@@ -114,6 +130,16 @@ public class AppUserValidator implements Validator {
         } else {
             user.setSsn("");
         }
+
         // Check all the strings
+        if (StringUtils.hasText(user.getEmail())) {
+            user.setEmail(user.getEmail().trim());
+            if (!emailPattern.matcher(user.getEmail()).matches())
+                errors.rejectValue("email", "email", "Email is invalid");
+            else if (user.getEmail().length() > AppConstants.MAX_EMAIL_LEN)
+                errors.rejectValue("email", "email", "Email is invalid");
+        } else {
+            errors.rejectValue("email", "email", "Email is invalid");
+        }
     }
 }

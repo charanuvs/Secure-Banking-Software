@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by Vikranth on 10/12/2015.
  */
@@ -24,7 +26,7 @@ public class UserService {
     /**
      * Get user for emailID
      *
-     * @param emailID
+     * @param username
      * @return user
      */
     public AppUser getUser(final String username) {
@@ -32,9 +34,20 @@ public class UserService {
         return userDAO.getUser(username);
     }
 
+    /**
+     * @param user
+     */
     public void addUser(final AppUser user) {
         // Hash the password of the user
         user.setPassword(encoder.encode(user.getPassword()));
         userDAO.addUser(user);
     }
+
+    /**
+     * @return externalUsers
+     */
+    public List<AppUser> getExternalUsers() {
+        return userDAO.getExteranlUsers();
+    }
+
 }

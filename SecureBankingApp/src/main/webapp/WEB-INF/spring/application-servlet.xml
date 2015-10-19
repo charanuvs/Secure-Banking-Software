@@ -41,10 +41,13 @@
 
     <!-- validators -->
     <bean class="edu.asu.securebanking.util.LoginFormValidator"
-          id="loginFormValidator"></bean>
+          id="loginFormValidator"/>
 
-    <bean class="edu.asu.securebanking.util.AppUserValidator"
-          id="appUserValidator"></bean>
+    <bean class="edu.asu.securebanking.util.InternalUserValidator"
+          id="internalUserValidator"/>
+
+    <bean class="edu.asu.securebanking.util.ExternalUserValidator"
+          id="externalUserValidator"/>
 
     <!-- resources -->
     <mvc:resources mapping="/static/css/**" location="/static/css/"/>

@@ -1,6 +1,7 @@
 package edu.asu.securebanking.util;
 
 import edu.asu.securebanking.beans.AppUser;
+import edu.asu.securebanking.constants.AppConstants;
 import edu.asu.securebanking.dao.UserDAO;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class AppAuthSuccessHandler extends SavedRequestAwareAuthenticationSucces
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         HttpSession session = request.getSession(true);
         AppUser appUser = userDAO.getUser(user.getUsername());
-        session.setAttribute("loggedInUser", appUser);
+        session.setAttribute(AppConstants.LOGGEDIN_USER, appUser);
 
         // super.onAuthenticationSuccess(request, response, authentication);
         response.sendRedirect(request.getContextPath() + "/" +

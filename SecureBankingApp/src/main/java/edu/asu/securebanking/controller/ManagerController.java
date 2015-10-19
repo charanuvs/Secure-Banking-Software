@@ -3,6 +3,7 @@ package edu.asu.securebanking.controller;
 import edu.asu.securebanking.beans.AppUser;
 import edu.asu.securebanking.beans.PageViewBean;
 import edu.asu.securebanking.constants.AppConstants;
+import edu.asu.securebanking.service.EmailService;
 import edu.asu.securebanking.service.UserService;
 import edu.asu.securebanking.util.AppUtil;
 import org.apache.log4j.Logger;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.List;
+
 
 /**
  * Created by Vikranth on 10/18/2015.
@@ -25,14 +28,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class ManagerController {
 
     @Autowired
+    private EmailService emailService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserService userService;
 
     @Autowired
-    @Qualifier("appUserValidator")
-    private Validator appUserValidator;
+    @Qualifier("externalUserValidator")
+    private Validator externalUserValidator;
 
     private static Logger LOGGER = Logger.getLogger(ManagerController.class);
 
@@ -51,14 +57,33 @@ public class ManagerController {
     /**
      * Add user form
      *
-     * @return add-user
+     * @return view
      */
     @RequestMapping(value = "/manage/user/add",
             method = RequestMethod.GET)
     public String addUser(@ModelAttribute("user") AppUser user,
                           Model model) {
         model.addAttribute("genders", AppConstants.GENDERS);
-        return "manage/add-user";
+        model.addAttribute("roles", AppConstants.EXTERNAL_USERS_ROLES);
+
+        return "manage/user-add";
+    }
+
+
+    /**
+     * Get all external Users
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/manage/user/list", method = RequestMethod.GET)
+    public String getExternalUsers(Model model) {
+        List<AppUser> users = userService.getExternalUsers();
+
+        LOGGER.info("Users size: " + users.size());
+        model.addAttribute("users", users);
+        model.addAttribute("roles", AppConstants.EXTERNAL_USERS_ROLES);
+        return "manage/user-list";
     }
 
     /**
@@ -72,20 +97,23 @@ public class ManagerController {
     public String addUser(@ModelAttribute("user") AppUser user,
                           Model model,
                           BindingResult result) {
+        model.addAttribute("genders", AppConstants.GENDERS);
+        model.addAttribute("roles", AppConstants.EXTERNAL_USERS_ROLES);
+
         // Set the defaults
-        user.setUserType(AppConstants.ROLE_NORMAL);
 
         user.setTempPassword(AppUtil.getRandomPwd());
         user.setPassword(user.getTempPassword());
         user.setConfirmPassword(user.getConfirmPassword());
         // Validate all the details
 
-        appUserValidator.validate(user, result);
+        LOGGER.info("User: " + user);
+
+        externalUserValidator.validate(user, result);
 
         if (result.hasErrors()) {
             LOGGER.debug("Errors in appuser obj");
-            model.addAttribute("genders", AppConstants.GENDERS);
-            return "manage/add-user";
+            return "manage/user-add";
         }
 
         AppUser prevUser = userService.getUser(user.getUserId());
@@ -94,20 +122,26 @@ public class ManagerController {
             String error = "User with username '" +
                     prevUser.getUserId() + "' already exists";
             LOGGER.debug(error);
-            model.addAttribute("genders", AppConstants.GENDERS);
             result.rejectValue("userId", "userId", error);
-            return "manage/add-user";
+            return "manage/user-add";
         }
 
         // Everythings good
         userService.addUser(user);
         LOGGER.info("Object saved: " + user);
 
+        // Send an email
+        String sub = "You are new User account created";
+        String body = "Please find the login details below" +
+                "\n\nUsername: " + user.getUserId() + "\n" +
+                "Password: " + user.getTempPassword();
+        emailService.sendEmail(user.getEmail(), sub, body);
+
         PageViewBean page = new PageViewBean();
         page.setValid(true);
         page.setMessage("User created with username '" + user.getUserId() + "'");
         model.addAttribute("page", page);
-        // Check if user exists
+
         return "manage/message";
     }
 }

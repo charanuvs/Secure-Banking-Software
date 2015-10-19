@@ -23,7 +23,8 @@ public class AppUser implements Serializable {
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "GENDER")
+    @Column(name = "GENDER",
+            columnDefinition = "enum('MALE', 'FEMALE', 'OTHER')")
     private String gender;
 
     @Column(name = "DOB")
@@ -39,7 +40,10 @@ public class AppUser implements Serializable {
     @Column(name = "SSN")
     private String ssn;
 
-    @Column(name = "USER_TYPE")
+    @Column(name = "USER_TYPE",
+            columnDefinition = "enum('ROLE_NORMAL', 'ROLE_MERCHANT'," +
+                    " 'ROLE_EMPLOYEE'," +
+                    "'ROLE_ADMIN', 'ROLE_MANAGER')")
     private String userType;
 
     @Column(name = "PASSWORD")

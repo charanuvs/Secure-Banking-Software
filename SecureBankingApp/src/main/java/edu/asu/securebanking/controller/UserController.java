@@ -1,6 +1,7 @@
 package edu.asu.securebanking.controller;
 
 import edu.asu.securebanking.beans.AppUser;
+import edu.asu.securebanking.constants.AppConstants;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +21,7 @@ public class UserController {
     @RequestMapping(value = {"/user/home", "/user/"}, method = RequestMethod.GET)
     public String home(HttpSession session,
                        Model model) {
-        AppUser user = (AppUser) session.getAttribute("user");
+        AppUser user = (AppUser) session.getAttribute(AppConstants.LOGGEDIN_USER);
 
         model.addAttribute("user", user.getEmail());
         return "user/home";

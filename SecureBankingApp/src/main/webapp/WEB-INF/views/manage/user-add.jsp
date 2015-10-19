@@ -42,6 +42,14 @@
             </div>
 
             <div class="form-group">
+                <label class="col-sm-4 control-label" for="userType">Type</label>
+
+                <div class="col-sm-7">
+                    <form:select class="form-control" path="userType" items="${roles}"></form:select>
+                </div>
+            </div>
+
+            <div class="form-group" id="dobCont">
                 <label class="col-sm-4 control-label" for="dateString">Date of birth (YYYY-MM-DD)</label>
 
                 <div class="col-sm-7">
@@ -73,7 +81,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" id="ssnCont">
                 <label class="col-sm-4 control-label" for="ssn">SSN</label>
 
                 <div class="col-sm-7">
@@ -81,7 +89,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" id="genderCont">
                 <label class="col-sm-4 control-label" for="gender">Gender</label>
 
                 <div class="col-sm-7">
@@ -101,6 +109,33 @@
 
     </div>
 </div>
+
+<script type="application/javascript">
+    (function () {
+        $gender = $("#genderCont");
+        $ssn = $("#ssnCont");
+        $userType = $('#userType');
+        $dob = $('#dobCont');
+        $userType.change(function () {
+            update();
+        });
+
+        function update() {
+            var val = $userType.val();
+            if (val === 'ROLE_MERCHANT') {
+                $ssn.hide();
+                $gender.hide();
+                $dob.hide();
+            } else {
+                $ssn.show();
+                $gender.show();
+                $dob.show();
+            }
+        }
+
+        update();
+    })();
+</script>
 </body>
 
 </html>

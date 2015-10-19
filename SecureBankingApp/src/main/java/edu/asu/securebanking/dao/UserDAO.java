@@ -2,6 +2,8 @@ package edu.asu.securebanking.dao;
 
 import edu.asu.securebanking.beans.AppUser;
 
+import java.util.List;
+
 /**
  * Created by Vikranth on 10/12/2015.
  */
@@ -20,4 +22,14 @@ public interface UserDAO {
      * @return added
      */
     public void addUser(final AppUser user);
+
+    /**
+     * @return externalUsers
+     */
+    public List<AppUser> getExteranlUsers();
+
+    /**
+     * @return employees
+     */
+    public List<AppUser> getInternalUsers();
 }
