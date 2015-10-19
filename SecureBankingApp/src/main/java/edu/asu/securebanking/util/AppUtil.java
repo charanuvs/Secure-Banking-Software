@@ -3,6 +3,8 @@ package edu.asu.securebanking.util;
 import edu.asu.securebanking.constants.AppConstants;
 import org.apache.commons.lang3.RandomStringUtils;
 
+import java.util.Date;
+
 /**
  * Created by Vikranth on 10/18/2015.
  */
@@ -24,7 +26,20 @@ public final class AppUtil {
         return AppConstants.ROLE_URL_MAP.get(role);
     }
 
+    /**
+     * Get Random passwords of 8 characters
+     *
+     * @return pwd
+     */
     public static String getRandomPwd() {
         return RandomStringUtils.randomAlphanumeric(8);
     }
+
+    public static String convertDateToString(Date date) {
+        if (null == date)
+            return "";
+
+        return AppConstants.DATE_FORMAT.format(date);
+    }
+
 }

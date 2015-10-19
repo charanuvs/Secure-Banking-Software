@@ -36,7 +36,7 @@ public class AppUserValidator implements Validator {
 
     protected static Pattern addressPattern = Pattern.compile(addressRegex);
 
-    protected static SimpleDateFormat dobFormat = new SimpleDateFormat("yyyy-MM-dd");
+    protected static SimpleDateFormat dobFormat = AppConstants.DATE_FORMAT;
 
     protected static Pattern phonePattern = Pattern.compile(phoneRegex);
 
@@ -131,6 +131,12 @@ public class AppUserValidator implements Validator {
             user.setSsn("");
         }
 
+        if (AppConstants.ROLE_MERCHANT
+                .equalsIgnoreCase(user.getUserType())) {
+            user.setSsn("");
+            user.setGender(AppConstants.GENDER_OTHER);
+        }
+
         // Check all the strings
         if (StringUtils.hasText(user.getEmail())) {
             user.setEmail(user.getEmail().trim());
@@ -139,7 +145,12 @@ public class AppUserValidator implements Validator {
             else if (user.getEmail().length() > AppConstants.MAX_EMAIL_LEN)
                 errors.rejectValue("email", "email", "Email is invalid");
         } else {
-            errors.rejectValue("email", "email", "Email is invalid");
+            errors.rejectValue("email", "email", "Invalid email");
+        }
+
+        // Status
+        if (!AppConstants.USER_STATUS.containsKey(user.getStatus())) {
+            errors.rejectValue("status", "status", "Invalid status");
         }
     }
 }

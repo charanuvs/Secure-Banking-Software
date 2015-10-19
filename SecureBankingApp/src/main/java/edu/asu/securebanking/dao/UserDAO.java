@@ -18,6 +18,13 @@ public interface UserDAO {
     public AppUser getUser(final String username);
 
     /**
+     * Update user
+     *
+     * @param user
+     */
+    public void updateUser(AppUser user);
+
+    /**
      * @param user
      * @return added
      */
@@ -26,10 +33,11 @@ public interface UserDAO {
     /**
      * @return externalUsers
      */
-    public List<AppUser> getExteranlUsers();
+    public List<AppUser> getExternalUsers();
 
     /**
      * @return employees
      */
     public List<AppUser> getInternalUsers();
+
 }

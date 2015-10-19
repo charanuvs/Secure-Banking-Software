@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import java.io.IOException;
 
 /**
@@ -30,6 +31,7 @@ public class AppAuthSuccessHandler extends SavedRequestAwareAuthenticationSucces
     private static Logger LOGGER = Logger.getLogger(AppAuthSuccessHandler.class);
 
     @Override
+    @Transactional(rollbackOn = Throwable.class)
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws ServletException, IOException {

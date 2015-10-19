@@ -23,7 +23,8 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="<c:out value='/manage/user/add' />">Add User</a></li>
-                <li class="active"><a href="<c:out value='/manage/account/add' />">Add Account</a></li>
+                <li class="active"><a href="<c:out value='/manage/user/list' />">List Users</a></li>
+                <li class="active"><a href="<c:out value='/manage/update' />">Update Info</a></li>
             </ul>
         </div>
     </div>

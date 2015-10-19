@@ -1,5 +1,6 @@
 package edu.asu.securebanking.constants;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +33,10 @@ public final class AppConstants {
 
     public static final String GENDER_OTHER = "OTHER";
 
+    public static final String USER_ACTIVE = "ACTIVE";
+
+    public static final String USER_LOCKED = "LOCKED";
+
     public static final Map<String, String> GENDERS =
             new HashMap<String, String>();
 
@@ -44,6 +49,8 @@ public final class AppConstants {
     public static final Map<String, String> INTERNAL_USERS_ROLES =
             new HashMap<String, String>();
 
+    public static final Map<String, String> USER_STATUS = new HashMap<String, String>();
+
     public static final int MIN_AGE = 15;
 
     public static final int MAX_EMAIL_LEN = 50;
@@ -52,10 +59,15 @@ public final class AppConstants {
 
     public static String LOGGEDIN_USER = "loggedInUser";
 
+    public static String DEFAULT_ERROR_MSG = "Something is wrong. Please try again";
+
+
+    public static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+
     static {
-        GENDERS.put("MALE", "Male");
-        GENDERS.put("FEMALE", "Female");
-        GENDERS.put("OTHER", "Other");
+        GENDERS.put(GENDER_MALE, "Male");
+        GENDERS.put(GENDER_FEMALE, "Female");
+        GENDERS.put(GENDER_OTHER, "Other");
 
         ROLE_URL_MAP.put(ROLE_NORMAL, "user");
         ROLE_URL_MAP.put(ROLE_EMP, "emp");
@@ -71,5 +83,9 @@ public final class AppConstants {
         INTERNAL_USERS_ROLES.put(ROLE_EMP, "Employee");
         INTERNAL_USERS_ROLES.put(ROLE_MANAGER, "System Manager");
         INTERNAL_USERS_ROLES.put(ROLE_ADMIN, "System Administrator");
+
+        // User status
+        USER_STATUS.put(USER_ACTIVE, "Active");
+        USER_STATUS.put(USER_LOCKED, "Locked");
     }
 }

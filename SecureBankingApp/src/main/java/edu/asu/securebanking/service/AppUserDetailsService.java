@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class AppUserDetailsService implements UserDetailsService {
     private UserDAO userDAO;
 
     @Override
+    @Transactional(rollbackOn = Throwable.class)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         AppUser user = userDAO.getUser(username);
@@ -29,9 +31,10 @@ public class AppUserDetailsService implements UserDetailsService {
         if (user == null)
             throw new UsernameNotFoundException("Invalid username/password");
 
+
         List<GrantedAuthority> auths = buildAuthorities(user.getUserType());
         User secUser = new User(user.getUserId(), user.getPassword(),
-                true, true, true, true, auths);
+                user.isActive(), true, true, true, auths);
 
         return secUser;
     }

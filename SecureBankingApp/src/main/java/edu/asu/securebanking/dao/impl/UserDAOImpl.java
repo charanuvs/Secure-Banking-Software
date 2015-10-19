@@ -9,7 +9,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -17,9 +16,14 @@ import java.util.List;
  */
 @Repository
 public class UserDAOImpl extends AbstractDAO implements UserDAO {
+
     @Override
-    @Transactional
-    public List<AppUser> getExteranlUsers() {
+    public void updateUser(AppUser user) {
+        getSession().saveOrUpdate(user);
+    }
+
+    @Override
+    public List<AppUser> getExternalUsers() {
         Criteria criteria = getSession().createCriteria(AppUser.class);
         criteria.add(Restrictions.in("userType",
                 AppConstants.EXTERNAL_USERS_ROLES.keySet()));
@@ -28,23 +32,18 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
     }
 
     @Override
-    @Transactional
     public List<AppUser> getInternalUsers() {
         return null;
     }
 
     @Override
-    @Transactional
     public void addUser(AppUser user) {
         getSession().save(user);
     }
 
     @Override
-    @Transactional
     public AppUser getUser(String username) {
-        /*Criteria criteria = getSession().createCriteria(AppUser.class);
-        criteria.add(Restrictions.eq("userId", username));
-        return (AppUser) criteria.uniqueResult();*/
+
         return (AppUser) getSession().get(AppUser.class, username);
     }
 

@@ -22,14 +22,15 @@
 
     <div class="well">
         <form:form method="post"
-                   class="form-horizontal" commandName="user" action="/manage/user/add">
-            <legend>Add User</legend>
+                   class="form-horizontal" commandName="user" action="/manage/user/update">
+            <legend>Update User</legend>
             <form:errors path="*" cssClass="alert alert-danger" element="div"></form:errors>
             <div class="form-group">
                 <label class="col-sm-4 control-label" for="userId">Username</label>
 
                 <div class="col-sm-7">
-                    <form:input path="userId" class="form-control" type="text"/>
+                    <form:input path="userId" class="form-control" type="text"
+                                readonly="true"/>
                 </div>
             </div>
 
@@ -37,7 +38,8 @@
                 <label class="col-sm-4 control-label" for="userType">Type</label>
 
                 <div class="col-sm-7">
-                    <form:select class="form-control" path="userType" items="${roles}"></form:select>
+                    <form:select class="form-control" path="userType" items="${roles}"
+                                 readonly="true"></form:select>
                 </div>
             </div>
 
@@ -97,11 +99,19 @@
                 </div>
             </div>
 
+            <div class="form-group" id="genderCont">
+                <label class="col-sm-4 control-label" for="status">Status</label>
+
+                <div class="col-sm-7">
+                    <form:select class="form-control" path="status" items="${status}"></form:select>
+                </div>
+            </div>
+
             <div class="form-group">
                 <div class="col-sm-4"></div>
                 <div class="col-sm-7">
                     <input type="submit" id="submit" class="btn btn-primary btn-lg btn-sm-10"
-                           value="Add User">
+                           value="Update User">
                 </div>
             </div>
 

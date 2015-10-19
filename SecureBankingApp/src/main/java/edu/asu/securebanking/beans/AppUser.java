@@ -1,5 +1,8 @@
 package edu.asu.securebanking.beans;
 
+import edu.asu.securebanking.constants.AppConstants;
+import edu.asu.securebanking.util.AppUtil;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -46,6 +49,12 @@ public class AppUser implements Serializable {
                     "'ROLE_ADMIN', 'ROLE_MANAGER')")
     private String userType;
 
+    @Column(name = "GOV_CERT")
+    private String govCert;
+
+    @Column(name = "STATUS", columnDefinition = "enum('LOCKED', 'ACTIVE')")
+    private String status;
+
     @Column(name = "PASSWORD")
     private String password;
 
@@ -58,7 +67,28 @@ public class AppUser implements Serializable {
     @Transient
     private String dateString;
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getGovCert() {
+        return govCert;
+    }
+
+    public void setGovCert(String govCert) {
+        this.govCert = govCert;
+    }
+
     public String getDateString() {
+        if (null == this.dateString) {
+            // Convert the date object to String
+            this.dateString = AppUtil.convertDateToString(this.dob);
+        }
+
         return dateString;
     }
 
@@ -175,5 +205,14 @@ public class AppUser implements Serializable {
                 ", ssn='" + ssn + '\'' +
                 ", userType='" + userType + '\'' +
                 '}';
+    }
+
+    /**
+     * Check if a user is active
+     *
+     * @return isActive
+     */
+    public boolean isActive() {
+        return AppConstants.USER_ACTIVE.equalsIgnoreCase(this.status);
     }
 }

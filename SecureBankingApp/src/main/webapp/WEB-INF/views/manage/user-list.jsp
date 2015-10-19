@@ -30,7 +30,9 @@
                 <th>Name</th>
                 <th>Type</th>
                 <th>Email</th>
-                <th>Edit</th>
+                <th>Status</th>
+                <th>Account</th>
+                <th>Update</th>
             </tr>
             </thead>
             <tbody>
@@ -40,8 +42,11 @@
                     <td><c:out value="${user.name}"/></td>
                     <td><c:out value="${roles[user.userType]}"/></td>
                     <td><c:out value="${user.email}"/></td>
-                    <td><a href="<c:url value='/manage/user/edit/${user.userId}'/>"
-                           class="btn btn-default btn-sm">Edit</a></td>
+                    <td><c:out value="${status[user.status]}"/></td>
+                    <td><a href="<c:url value='/manage/user/account/${user.userId}'/>"
+                           class="btn btn-default btn-sm">Account</a></td>
+                    <td><a href="<c:url value='/manage/user/update/${user.userId}'/>"
+                           class="btn btn-default btn-sm">Update</a></td>
                 </tr>
             </c:forEach>
             </tbody>

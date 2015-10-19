@@ -5,22 +5,19 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.springframework.org/schema/mvc 
-    http://www.springframework.org/schema/mvc/spring-mvc.xsd
-    http://www.springframework.org/schema/tx
-	http://www.springframework.org/schema/tx/spring-tx.xsd">
+    http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <!-- scan for all the controllers in this package -->
     <context:component-scan base-package="edu.asu.securebanking.controller"></context:component-scan>
 
     <mvc:annotation-driven/>
 
-    <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
+    <!--<tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>-->
 
     <!-- To map requests -->
     <!-- <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
@@ -32,22 +29,6 @@
         <property name="suffix" value=".jsp"/>
     </bean>
     <!-- Views end -->
-
-    <!-- service -->
-    <bean class="edu.asu.securebanking.service.LoginService"
-          id="loginService"></bean>
-    <bean class="edu.asu.securebanking.service.UserService"
-          id="userService"></bean>
-
-    <!-- validators -->
-    <bean class="edu.asu.securebanking.util.LoginFormValidator"
-          id="loginFormValidator"/>
-
-    <bean class="edu.asu.securebanking.util.InternalUserValidator"
-          id="internalUserValidator"/>
-
-    <bean class="edu.asu.securebanking.util.ExternalUserValidator"
-          id="externalUserValidator"/>
 
     <!-- resources -->
     <mvc:resources mapping="/static/css/**" location="/static/css/"/>

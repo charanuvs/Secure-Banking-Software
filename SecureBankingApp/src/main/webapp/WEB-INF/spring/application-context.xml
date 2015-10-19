@@ -56,4 +56,21 @@
     <!-- Email service -->
     <bean id="emailService" class="edu.asu.securebanking.service.EmailService"/>
 
+
+    <!-- service -->
+    <bean class="edu.asu.securebanking.service.LoginService"
+          id="loginService"></bean>
+    <bean class="edu.asu.securebanking.service.UserService"
+          id="userService"></bean>
+
+    <!-- validators -->
+    <bean class="edu.asu.securebanking.util.LoginFormValidator"
+          id="loginFormValidator"/>
+
+    <bean class="edu.asu.securebanking.util.InternalUserValidator"
+          id="internalUserValidator"/>
+
+    <bean class="edu.asu.securebanking.util.ExternalUserValidator"
+          id="externalUserValidator"/>
+
 </beans>
