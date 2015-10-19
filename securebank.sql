@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 18, 2015 at 07:33 AM
+-- Generation Time: Oct 19, 2015 at 09:37 PM
 -- Server version: 5.6.26
 -- PHP Version: 5.6.12
 
@@ -28,6 +28,7 @@ USE `secure_bank`;
 -- Table structure for table `account`
 --
 
+DROP TABLE IF EXISTS `account`;
 CREATE TABLE IF NOT EXISTS `account` (
   `ACC_NO` int(11) NOT NULL,
   `USER_ID` varchar(20) DEFAULT NULL,
@@ -35,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `account` (
   `TYPE` enum('SAVINGS','CHECKIN','MERCHANT') DEFAULT NULL,
   `OPEN_DATE` date DEFAULT NULL,
   `CLOSING_DATE` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1000000000 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -43,6 +44,7 @@ CREATE TABLE IF NOT EXISTS `account` (
 -- Table structure for table `log`
 --
 
+DROP TABLE IF EXISTS `log`;
 CREATE TABLE IF NOT EXISTS `log` (
   `LOG_ID` int(11) NOT NULL,
   `USER_ID` varchar(20) DEFAULT NULL,
@@ -58,6 +60,7 @@ CREATE TABLE IF NOT EXISTS `log` (
 -- Table structure for table `transaction`
 --
 
+DROP TABLE IF EXISTS `transaction`;
 CREATE TABLE IF NOT EXISTS `transaction` (
   `T_ID` int(11) NOT NULL,
   `TO_ACCOUNT` int(11) DEFAULT NULL,
@@ -67,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `T_STATUS` enum('PENDING','COMPLETE') DEFAULT NULL,
   `T_DATE` date DEFAULT NULL,
   `AUTHORISED_EMP` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -75,19 +78,31 @@ CREATE TABLE IF NOT EXISTS `transaction` (
 -- Table structure for table `user`
 --
 
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `USER_ID` varchar(20) NOT NULL DEFAULT '',
   `SSN` varchar(20) DEFAULT NULL,
   `NAME` varchar(40) DEFAULT NULL,
   `ADDRESS` varchar(100) DEFAULT NULL,
   `DOB` date DEFAULT NULL,
-  `EMAIl` varchar(20) DEFAULT NULL,
+  `EMAIL` varchar(100) DEFAULT NULL,
   `PHONE_NO` varchar(12) DEFAULT NULL,
-  `PASSWORD` varchar(40) DEFAULT NULL,
-  `GENDER` enum('MALE','FEMALE') DEFAULT NULL,
+  `PASSWORD` varchar(60) DEFAULT NULL,
+  `GENDER` enum('MALE','FEMALE','OTHER') DEFAULT NULL,
   `USER_TYPE` enum('ROLE_NORMAL','ROLE_MERCHANT','ROLE_EMPLOYEE','ROLE_MANAGER','ROLE_ADMIN') DEFAULT NULL,
-  `GOV_CERT` varchar(20) DEFAULT NULL
+  `GOV_CERT` varchar(20) DEFAULT NULL,
+  `STATUS` enum('ACTIVE','LOCKED') NOT NULL DEFAULT 'ACTIVE'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`USER_ID`, `SSN`, `NAME`, `ADDRESS`, `DOB`, `EMAIL`, `PHONE_NO`, `PASSWORD`, `GENDER`, `USER_TYPE`, `GOV_CERT`, `STATUS`) VALUES
+('merch1', '', 'Merchant AB', '1255 East University Drive, Apt 120', '1980-01-01', 'vdoosa@asu.edu', '4803348771', '$2a$10$hOJ62n4CLrK4/PYJ5RM.pOSee.Zg8wTLxNm1WrOAc3Ng4umnqrGAS', 'OTHER', 'ROLE_MERCHANT', NULL, 'ACTIVE'),
+('vdoosa', '', 'Vikranth Doosa', '1255 East University Drive, Apt 120', '1990-11-21', 'vdoosa@asu.edu', '4803348775', '$2a$10$NRhNYxOpWFSGH7mu6MyJ9u6vb29yUXSArF8HEJXtd4sphfAdy2O4i', 'MALE', 'ROLE_NORMAL', NULL, 'ACTIVE'),
+('vdoosa2', '', 'Vikranth Customer', '1255 East University Drive, Apt 120', '1990-08-02', 'vdoosa@asu.edu', '4803348775', '$2a$10$lEYuz8r2RdCDaQzVdV7Vg.EvqxbjLNtwQClE9oWJ1o1jOhAtBNlEy', 'MALE', 'ROLE_NORMAL', NULL, 'ACTIVE'),
+('vdoosam', NULL, 'Vikranth Manager', 'Some address', '1990-04-18', 'vickydoosa@gmail.com', '19874563210', '$2a$10$zSv2QnEyksK7gldd4f7vXOuVzOiQUSBJa1cj88DK.PK1q7pkF.J6m', 'MALE', 'ROLE_MANAGER', NULL, 'ACTIVE');
 
 --
 -- Indexes for dumped tables
@@ -131,7 +146,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `ACC_NO` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1000000000;
+  MODIFY `ACC_NO` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `log`
 --
@@ -141,7 +156,7 @@ ALTER TABLE `log`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `T_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1001;
+  MODIFY `T_ID` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
