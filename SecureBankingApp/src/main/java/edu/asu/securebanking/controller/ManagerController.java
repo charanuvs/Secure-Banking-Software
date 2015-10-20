@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 
@@ -217,79 +216,6 @@ public class ManagerController {
         }
     }
 
-    @RequestMapping(value = "/manage/update",
-            method = RequestMethod.GET)
-    public String updateInfo(Model model,
-                             HttpSession session) {
-
-        AppUser loggedInUser = (AppUser) session.getAttribute(AppConstants.LOGGEDIN_USER);
-        PageViewBean page = new PageViewBean();
-        model.addAttribute("page", page);
-
-        AppUser user;
-        try {
-
-            // Def get from database
-            user = userService.getUser(loggedInUser.getUserId());
-            session.setAttribute("updateUser", user);
-
-            model.addAttribute("user", user);
-
-            return "manage/user-update-info";
-        } catch (Exception e) {
-            page.setValid(false);
-            page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
-            LOGGER.error(e.getMessage());
-
-            return "message";
-        }
-    }
-
-    @RequestMapping(value = "/manage/update",
-            method = RequestMethod.POST)
-    public String updateInfo(Model model,
-                             @ModelAttribute("user") AppUser user,
-                             HttpSession session,
-                             BindingResult result) {
-
-        AppUser loggedInUser = (AppUser) session.getAttribute(AppConstants.LOGGEDIN_USER);
-        PageViewBean page = new PageViewBean();
-        model.addAttribute("page", page);
-        // From session
-        AppUser updateUser = (AppUser) session.getAttribute("updateUser");
-
-        try {
-            if (updateUser == null) {
-                updateUser = userService.getUser(loggedInUser.getUserId());
-                session.setAttribute("updateUser", updateUser);
-            }
-
-            // Copy necessary attributes to user
-            copyUserInfo(updateUser, user);
-
-            appUserValidator.validate(updateUser, result);
-
-            if (result.hasErrors()) {
-                return "manage/user-update-info";
-            }
-
-            userService.updateUser(updateUser);
-            // user has been updated
-            // keep this user in the session
-            session.setAttribute(AppConstants.LOGGEDIN_USER, updateUser);
-            // No errors
-            page.setValid(true);
-            page.setMessage("Your information has been updated!");
-            return "message";
-
-        } catch (Exception e) {
-            page.setValid(false);
-            page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
-            LOGGER.error(e.getMessage());
-
-            return "message";
-        }
-    }
 
     /**
      * @param user
@@ -379,18 +305,5 @@ public class ManagerController {
         dbUser.setDateString(reqUser.getDateString());
         dbUser.setSsn(reqUser.getSsn());
         // end
-    }
-
-    /**
-     * Copy only update info fields
-     *
-     * @param dbUser
-     * @param reqUser
-     */
-    private static void copyUserInfo(AppUser dbUser, AppUser reqUser) {
-        dbUser.setName(reqUser.getName());
-        dbUser.setEmail(reqUser.getEmail());
-        dbUser.setAddress(reqUser.getAddress());
-        dbUser.setPhoneNumber(reqUser.getPhoneNumber());
     }
 }

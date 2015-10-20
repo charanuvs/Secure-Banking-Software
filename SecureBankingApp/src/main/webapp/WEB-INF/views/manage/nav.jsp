@@ -24,7 +24,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="<c:out value='/manage/user/add' />">Add User</a></li>
                 <li class="active"><a href="<c:out value='/manage/user/list' />">List Users</a></li>
-                <li class="active"><a href="<c:out value='/manage/update' />">Update Info</a></li>
+                <li class="active"><a href="<c:out value='/all/update' />">Update Info</a></li>
                 <li class="active"><a href="<c:out value='/all/pwd' />">Change Password</a></li>
             </ul>
         </div>

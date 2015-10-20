@@ -15,14 +15,14 @@
     <jsp:include page="../js.jsp"></jsp:include>
 </head>
 <body>
-<jsp:include page="nav.jsp"></jsp:include>
+<jsp:include page="../nav.jsp"></jsp:include>
 
 <div class="container col-sm-6 col-sm-offset-3 ">
 
 
     <div class="well">
         <form:form method="post"
-                   class="form-horizontal" commandName="user" action="/manage/update">
+                   class="form-horizontal" commandName="user" action="/all/update">
             <legend>Update Info</legend>
             <form:errors path="*" cssClass="alert alert-danger" element="div"></form:errors>
             <div class="form-group">

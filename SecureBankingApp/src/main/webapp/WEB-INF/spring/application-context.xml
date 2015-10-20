@@ -38,6 +38,8 @@
     <!-- DAO -->
     <bean class="edu.asu.securebanking.dao.impl.UserDAOImpl"
           id="userDAO"></bean>
+    <bean class="edu.asu.securebanking.dao.impl.AccountDAOImpl"
+          id="accountDAO"/>
 
     <!-- password -->
     <bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"
@@ -71,6 +73,7 @@
           id="userService"></bean>
     <bean id="otpService" class="edu.asu.securebanking.service.OTPService"
             />
+    <bean id="accountService" class="edu.asu.securebanking.service.AccountService"/>
 
     <!-- validators -->
     <bean class="edu.asu.securebanking.util.LoginFormValidator"
