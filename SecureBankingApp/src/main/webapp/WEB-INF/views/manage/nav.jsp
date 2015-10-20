@@ -25,7 +25,7 @@
                 <li class="active"><a href="<c:out value='/manage/user/add' />">Add User</a></li>
                 <li class="active"><a href="<c:out value='/manage/user/list' />">List Users</a></li>
                 <li class="active"><a href="<c:out value='/manage/update' />">Update Info</a></li>
-                <li class="active"><a href="<c:out value='/manage/update/pwd' />">Change Password</a></li>
+                <li class="active"><a href="<c:out value='/all/pwd' />">Change Password</a></li>
             </ul>
         </div>
     </div>

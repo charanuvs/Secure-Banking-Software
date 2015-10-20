@@ -22,6 +22,8 @@
         <intercept-url pattern="/merch/**" access="hasRole('ROLE_MERCHANT')"/>
         <intercept-url pattern="/logout" access="hasAnyRole('ROLE_EMPLOYEE',
             'ROLE_NORMAL', 'ROLE_ADMIN', 'ROLE_MERCHANT', 'ROLE_MANAGER')"/>
+        <intercept-url pattern="/all/**" access="hasAnyRole('ROLE_EMPLOYEE',
+            'ROLE_NORMAL', 'ROLE_ADMIN', 'ROLE_MERCHANT', 'ROLE_MANAGER')"/>
         <form-login username-parameter="username" password-parameter="password"
                     login-page="/login"
                     always-use-default-target="true"
@@ -35,7 +37,7 @@
 
     <authentication-manager id="userAuthManager">
         <authentication-provider user-service-ref="userAuthService">
-            <password-encoder hash="bcrypt"></password-encoder>
+            <password-encoder ref="pwdEncoder"></password-encoder>
         </authentication-provider>
     </authentication-manager>
 

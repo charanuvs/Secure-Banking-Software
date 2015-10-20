@@ -12,6 +12,8 @@
 	http://www.springframework.org/schema/mvc 
     http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+    <context:annotation-config/>
+
     <!-- scan for all the controllers in this package -->
     <context:component-scan base-package="edu.asu.securebanking.controller"></context:component-scan>
 

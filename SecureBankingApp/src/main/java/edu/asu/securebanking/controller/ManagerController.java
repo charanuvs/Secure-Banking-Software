@@ -100,7 +100,7 @@ public class ManagerController {
             page.setValid(false);
             page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
 
-            return "manage/message";
+            return "message";
         }
     }
 
@@ -125,7 +125,7 @@ public class ManagerController {
             if (null == user) {
                 page.setValid(false);
                 page.setMessage("The user does not exist");
-                return "manage/message";
+                return "message";
             }
 
             // User exists
@@ -140,7 +140,7 @@ public class ManagerController {
             page.setValid(false);
             page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
 
-            return "manage/message";
+            return "message";
         }
     }
 
@@ -173,7 +173,7 @@ public class ManagerController {
                 page.setValid(false);
                 page.setMessage("Invalid user update");
 
-                return "manage/message";
+                return "message";
             }
 
             // Get the user with the username
@@ -188,7 +188,7 @@ public class ManagerController {
                 page.setValid(false);
                 page.setMessage("Invalid user update");
 
-                return "manage/message";
+                return "message";
             }
 
             // Copy the values to be updated
@@ -207,13 +207,13 @@ public class ManagerController {
             page.setValid(true);
             page.setMessage("User updated successfully!");
 
-            return "manage/message";
+            return "message";
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             page.setValid(false);
             page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
 
-            return "manage/message";
+            return "message";
         }
     }
 
@@ -241,7 +241,7 @@ public class ManagerController {
             page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
             LOGGER.error(e.getMessage());
 
-            return "manage/message";
+            return "message";
         }
     }
 
@@ -280,14 +280,14 @@ public class ManagerController {
             // No errors
             page.setValid(true);
             page.setMessage("Your information has been updated!");
-            return "manage/message";
+            return "message";
 
         } catch (Exception e) {
             page.setValid(false);
             page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
             LOGGER.error(e.getMessage());
 
-            return "manage/message";
+            return "message";
         }
     }
 
@@ -355,13 +355,13 @@ public class ManagerController {
             page.setMessage("User created with username '" + user.getUserId() + "'");
             model.addAttribute("page", page);
 
-            return "manage/message";
+            return "message";
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             page.setValid(false);
             page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
 
-            return "manage/message";
+            return "message";
         }
 
     }

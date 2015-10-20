@@ -15,54 +15,39 @@
     <jsp:include page="../js.jsp"></jsp:include>
 </head>
 <body>
-<jsp:include page="nav.jsp"></jsp:include>
+<jsp:include page="../nav.jsp"></jsp:include>
 
 <div class="container col-sm-6 col-sm-offset-3 ">
 
-
     <div class="well">
         <form:form method="post"
-                   class="form-horizontal" commandName="user" action="/manage/update">
-            <legend>Update User</legend>
+                   class="form-horizontal" commandName="pwd" action="/all/pwd">
+            <legend>Update Password</legend>
             <form:errors path="*" cssClass="alert alert-danger" element="div"></form:errors>
+
             <div class="form-group">
-                <label class="col-sm-4 control-label" for="userId">Username</label>
+                <label class="col-sm-4 control-label" for="currentPassword">Current Password</label>
 
                 <div class="col-sm-7">
-                    <form:input path="userId" class="form-control" type="text"
-                                readonly="true"/>
+                    <form:password path="currentPassword" class="form-control"
+                            />
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-sm-4 control-label" for="name">Full name</label>
+                <label class="col-sm-4 control-label" for="password">Password</label>
 
                 <div class="col-sm-7">
-                    <form:input path="name" class="form-control" type="text"/>
+                    <form:password path="password" class="form-control"
+                            />
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-sm-4 control-label" for="email">Email</label>
+                <label class="col-sm-4 control-label" for="confirmPassword">Confirm Password</label>
 
                 <div class="col-sm-7">
-                    <form:input path="email" class="form-control" type="text"/>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-4 control-label" for="address">Address</label>
-
-                <div class="col-sm-7">
-                    <form:input path="address" class="form-control" type="text"/>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-4 control-label" for="phoneNumber">Phone</label>
-
-                <div class="col-sm-7">
-                    <form:input path="phoneNumber" class="form-control" type="text"/>
+                    <form:password path="confirmPassword" class="form-control"/>
                 </div>
             </div>
 

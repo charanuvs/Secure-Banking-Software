@@ -32,9 +32,22 @@ public final class AppUtil {
      * @return pwd
      */
     public static String getRandomPwd() {
-        return RandomStringUtils.randomAlphanumeric(8);
+        return getRandomPwd(8);
     }
 
+    /**
+     * Get Random passwords of 'num' characters
+     *
+     * @return pwd
+     */
+    public static String getRandomPwd(int num) {
+        return RandomStringUtils.randomAlphanumeric(num);
+    }
+
+    /**
+     * @param date
+     * @return dateAsString
+     */
     public static String convertDateToString(Date date) {
         if (null == date)
             return "";
