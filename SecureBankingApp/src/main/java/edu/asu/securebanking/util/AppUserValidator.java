@@ -44,6 +44,8 @@ public class AppUserValidator implements Validator {
 
     protected static Pattern emailPattern = Pattern.compile(simpleEmailRegex);
 
+    protected static String pwdRegex = "^[0-9]$";
+
     @Override
     public boolean supports(Class<?> clazz) {
         if (clazz == AppUser.class) {

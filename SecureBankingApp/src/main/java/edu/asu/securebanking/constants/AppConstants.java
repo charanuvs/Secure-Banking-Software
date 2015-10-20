@@ -87,5 +87,6 @@ public final class AppConstants {
         // User status
         USER_STATUS.put(USER_ACTIVE, "Active");
         USER_STATUS.put(USER_LOCKED, "Locked");
+
     }
 }

@@ -73,4 +73,7 @@
     <bean class="edu.asu.securebanking.util.ExternalUserValidator"
           id="externalUserValidator"/>
 
+    <bean class="edu.asu.securebanking.util.AppUserValidator"
+          id="appUserValidator"/>
+
 </beans>
