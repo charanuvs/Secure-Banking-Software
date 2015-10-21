@@ -18,6 +18,7 @@
             <list>
                 <value>edu.asu.securebanking.beans.AppUser</value>
                 <value>edu.asu.securebanking.beans.Account</value>
+                <value>edu.asu.securebanking.beans.Transaction</value>
             </list>
         </property>
     </bean>
