@@ -4,12 +4,15 @@ import edu.asu.securebanking.beans.AppUser;
 import edu.asu.securebanking.constants.AppConstants;
 import org.apache.commons.lang3.RandomStringUtils;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 
 /**
  * Created by Vikranth on 10/18/2015.
  */
 public final class AppUtil {
+
+    private static DecimalFormat amtFormatter = new DecimalFormat("$0.00");
 
     /**
      * Private Constructor
@@ -73,6 +76,10 @@ public final class AppUtil {
         dbUser.setDateString(reqUser.getDateString());
         dbUser.setSsn(reqUser.getSsn());
         // end
+    }
+
+    public static String getFormattedString(double amount) {
+        return amtFormatter.format(amount);
     }
 
 }

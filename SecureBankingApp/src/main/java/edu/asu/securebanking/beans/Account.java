@@ -104,5 +104,6 @@ public class Account implements Serializable {
                 ", openingDate=" + openingDate +
                 ", closingDate=" + closingDate +
                 '}';
+
     }
 }

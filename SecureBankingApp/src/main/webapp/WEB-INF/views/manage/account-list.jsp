@@ -38,7 +38,8 @@
                 <tr>
                     <td><c:out value="${account.accountNum}"/></td>
                     <td><c:out value="${accountTypes[account.accountType]}"/></td>
-                    <td>$ <c:out value="${account.balance}"/></td>
+                    <td><fmt:formatNumber value="${account.balance}"
+                                          type="currency"/></td>
                     <td><fmt:formatDate value="${account.openingDate}" pattern="dd MMMM yyyy"/></td>
                 </tr>
             </c:forEach>
