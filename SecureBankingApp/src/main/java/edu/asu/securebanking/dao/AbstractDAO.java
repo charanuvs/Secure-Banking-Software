@@ -16,9 +16,11 @@ public class AbstractDAO {
 
     /**
      * Get current session
+     *
      * @return session
      */
     protected Session getSession() {
-        return this.sessionFactory.getCurrentSession();
+        Session session = this.sessionFactory.getCurrentSession();
+        return session;
     }
 }

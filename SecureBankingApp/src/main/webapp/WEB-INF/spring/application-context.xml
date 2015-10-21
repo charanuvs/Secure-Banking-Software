@@ -90,5 +90,7 @@
 
     <bean class="edu.asu.securebanking.util.PasswordValidator"
           id="passwordValidator"/>
+    <bean class="edu.asu.securebanking.util.AccountValidator"
+          id="accountValidator"/>
 
 </beans>

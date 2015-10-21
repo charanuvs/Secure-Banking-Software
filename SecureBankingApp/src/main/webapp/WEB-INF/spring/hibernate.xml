@@ -17,6 +17,7 @@
         <property name="annotatedClasses">
             <list>
                 <value>edu.asu.securebanking.beans.AppUser</value>
+                <value>edu.asu.securebanking.beans.Account</value>
             </list>
         </property>
     </bean>

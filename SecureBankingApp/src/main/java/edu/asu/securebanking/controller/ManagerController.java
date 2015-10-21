@@ -1,8 +1,11 @@
 package edu.asu.securebanking.controller;
 
+import edu.asu.securebanking.beans.Account;
 import edu.asu.securebanking.beans.AppUser;
 import edu.asu.securebanking.beans.PageViewBean;
 import edu.asu.securebanking.constants.AppConstants;
+import edu.asu.securebanking.exceptions.AppBusinessException;
+import edu.asu.securebanking.service.AccountService;
 import edu.asu.securebanking.service.EmailService;
 import edu.asu.securebanking.service.UserService;
 import edu.asu.securebanking.util.AppUtil;
@@ -12,6 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,7 +23,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -44,6 +50,13 @@ public class ManagerController {
     @Autowired
     @Qualifier("appUserValidator")
     private Validator appUserValidator;
+
+    @Autowired
+    private AccountService accountService;
+
+    @Autowired
+    @Qualifier("accountValidator")
+    private Validator accountValidator;
 
     private static Logger LOGGER = Logger.getLogger(ManagerController.class);
 
@@ -191,7 +204,7 @@ public class ManagerController {
             }
 
             // Copy the values to be updated
-            copySubUserToDBUser(user, externalUser);
+            AppUtil.copySubUserToDBUser(user, externalUser);
 
             // Validate the inputs
             externalUserValidator.validate(externalUser, result);
@@ -216,8 +229,155 @@ public class ManagerController {
         }
     }
 
+    /**
+     * Get accounts for external user
+     *
+     * @param username
+     * @param model
+     * @return view
+     */
+    @RequestMapping(value = "/manage/account/{id}",
+            method = RequestMethod.GET)
+    public String getAccounts(@PathVariable("id") String
+                                      username,
+                              Model model) {
+        PageViewBean page = new PageViewBean();
+        List<Account> accounts;
+
+        model.addAttribute("accountTypes", AppConstants.ACCOUNT_TYPES);
+
+        try {
+            accounts = accountService.getAccounts(username);
+            LOGGER.info("Accounts size: " +
+                    (null != accounts ? accounts.size() : "null"));
+            model.addAttribute("accounts", accounts);
+            model.addAttribute("username", username);
+        } catch (AppBusinessException e) {
+            LOGGER.error(e);
+            page.setMessage(e.getMessage());
+            page.setValid(false);
+
+            return "message";
+        } catch (Exception e) {
+            LOGGER.error(e);
+            page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
+            page.setValid(false);
+
+            return "message";
+        }
+
+        return "manage/account-list";
+    }
 
     /**
+     * Add new account form
+     *
+     * @param username
+     * @param account
+     * @param model
+     * @param session
+     * @return view
+     */
+    @RequestMapping(value = "/manage/account/add/{id}",
+            method = RequestMethod.GET)
+    public String addAccount(@PathVariable("id") String username,
+                             @ModelAttribute("account") Account account,
+                             Model model,
+                             HttpSession session) {
+        PageViewBean page = new PageViewBean();
+        model.addAttribute("page", page);
+
+        try {
+            if (!StringUtils.hasText(username)) {
+                page.setMessage("Username required");
+                page.setValid(false);
+
+                return "message";
+            }
+
+            AppUser user = userService.getUser(username);
+            if (user == null ||
+                    !AppConstants.EXTERNAL_USERS_ROLES.containsKey(
+                            user.getUserType())) {
+                page.setMessage("Invalid external user");
+                page.setValid(false);
+
+                return "message";
+            }
+
+            session.setAttribute("user.account.add.userId", user.getUserId());
+            Map<String, String> accountTypes;
+            if (!AppConstants.ROLE_MERCHANT.equals(user.getUserType()))
+                accountTypes = AppConstants.ACCOUNT_TYPES_NORMAL;
+            else
+                accountTypes = AppConstants.ACCOUNT_TYPES_MERCHANT;
+
+            model.addAttribute("accountTypes", accountTypes);
+            session.setAttribute("user.account.add.types", accountTypes);
+
+            // return account form
+            return "manage/account-add";
+        } catch (Exception e) {
+            page.setValid(false);
+            page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
+
+            return "message";
+        }
+    }
+
+    @RequestMapping(value = "/manage/account/add",
+            method = RequestMethod.POST)
+    public String addAccount(@ModelAttribute("account")
+                             Account account,
+                             Model model,
+                             BindingResult result,
+                             HttpSession session) {
+
+        String username = (String)
+                session.getAttribute("user.account.add.userId");
+        PageViewBean page = new PageViewBean();
+        model.addAttribute("page", page);
+
+        Map<String, String> accountTypes = (Map<String, String>)
+                session.getAttribute("user.account.add.types");
+
+        try {
+
+            accountValidator.validate(account, result);
+
+            if (!StringUtils.hasText(username)
+                    || null == accountTypes) {
+                page.setValid(false);
+                page.setMessage("Invalid request");
+            } else if (result.hasErrors()) {
+                model.addAttribute("accountTypes", accountTypes);
+                return "manage/account-add";
+            } else {
+                accountService.addAccount(username, account);
+                page.setMessage("Account has been created");
+                session.removeAttribute("user.account.add.userId");
+                session.removeAttribute("user.account.add.types");
+            }
+        } catch (AppBusinessException e) {
+            LOGGER.error(e);
+            page.setValid(false);
+            page.setMessage(e.getMessage());
+            session.removeAttribute("user.account.add.userId");
+            session.removeAttribute("user.account.add.types");
+        } catch (Exception e) {
+            LOGGER.error(e);
+            page.setValid(false);
+            page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
+            session.removeAttribute("user.account.add.userId");
+            session.removeAttribute("user.account.add.types");
+        }
+
+        return "message";
+    }
+
+    /**
+     * Add a external user
+     *
      * @param user
      * @param model
      * @param result
@@ -278,7 +438,8 @@ public class ManagerController {
             emailService.sendEmail(user.getEmail(), sub, body);
 
             page.setValid(true);
-            page.setMessage("User created with username '" + user.getUserId() + "'");
+            page.setMessage("User created with username '" +
+                    user.getUserId() + "'");
             model.addAttribute("page", page);
 
             return "message";
@@ -292,18 +453,4 @@ public class ManagerController {
 
     }
 
-    private static void copySubUserToDBUser(AppUser reqUser, AppUser dbUser) {
-        if (reqUser == null || dbUser == null)
-            return;
-        // end
-        dbUser.setName(reqUser.getName());
-        dbUser.setEmail(reqUser.getEmail());
-        dbUser.setAddress(reqUser.getAddress());
-        dbUser.setPhoneNumber(reqUser.getPhoneNumber());
-        dbUser.setStatus(reqUser.getStatus());
-        dbUser.setGender(reqUser.getGender());
-        dbUser.setDateString(reqUser.getDateString());
-        dbUser.setSsn(reqUser.getSsn());
-        // end
-    }
 }

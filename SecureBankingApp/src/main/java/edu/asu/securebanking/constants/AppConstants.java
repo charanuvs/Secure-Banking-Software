@@ -57,12 +57,32 @@ public final class AppConstants {
 
     public static final String BANK_FROM_ADDR = "customerService@secureonlinebanking";
 
-    public static String LOGGEDIN_USER = "loggedInUser";
+    public static final String LOGGEDIN_USER = "loggedInUser";
 
-    public static String DEFAULT_ERROR_MSG = "Something is wrong. Please try again";
+    public static final String DEFAULT_ERROR_MSG =
+            "Something is wrong. Please try again";
 
+    public static final SimpleDateFormat DATE_FORMAT =
+            new SimpleDateFormat("yyyy-MM-dd");
 
-    public static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    public static final String ACCOUNT_SAVINGS = "SAVINGS";
+
+    public static final String ACCOUNT_CHECKIN = "CHECKIN";
+
+    public static final String ACCOUNT_MERCHANT = "MERCHANT";
+
+    public static final Map<String, String> ACCOUNT_TYPES =
+            new HashMap<String, String>();
+
+    public static final Map<String, String> ACCOUNT_TYPES_NORMAL =
+            new HashMap<String, String>();
+
+    public static final Map<String, String> ACCOUNT_TYPES_MERCHANT =
+            new HashMap<String, String>();
+
+    public static final double MIN_BALANCE = 0;
+
+    public static final double MAX_BALANCE = 1000000;
 
     static {
         GENDERS.put(GENDER_MALE, "Male");
@@ -87,6 +107,18 @@ public final class AppConstants {
         // User status
         USER_STATUS.put(USER_ACTIVE, "Active");
         USER_STATUS.put(USER_LOCKED, "Locked");
+
+        // Account types
+        ACCOUNT_TYPES.put(ACCOUNT_SAVINGS, "Savings");
+        ACCOUNT_TYPES.put(ACCOUNT_CHECKIN, "Checkin");
+        ACCOUNT_TYPES.put(ACCOUNT_MERCHANT, "Merchant");
+
+        // Account types normal
+        ACCOUNT_TYPES_NORMAL.put(ACCOUNT_SAVINGS, "Savings");
+        ACCOUNT_TYPES_NORMAL.put(ACCOUNT_CHECKIN, "Checkin");
+
+        // Account type merchant
+        ACCOUNT_TYPES_MERCHANT.put(ACCOUNT_CHECKIN, "Merchant");
 
     }
 }

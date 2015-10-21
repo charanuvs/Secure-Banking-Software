@@ -45,6 +45,6 @@ public class PasswordValidator implements Validator {
 
         // password matched
         if (!password.equals(pwd.getConfirmPassword()))
-            errors.rejectValue("confirmPassword", "pwd.samepwd", "");
+            errors.rejectValue("confirmPassword", "pwd.samepwd.error", "");
     }
 }

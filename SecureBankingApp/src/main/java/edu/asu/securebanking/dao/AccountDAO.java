@@ -1,7 +1,6 @@
 package edu.asu.securebanking.dao;
 
 import edu.asu.securebanking.beans.Account;
-import edu.asu.securebanking.beans.AppUser;
 
 import java.util.List;
 
@@ -13,8 +12,15 @@ public interface AccountDAO {
     /**
      * Get accounts for a User
      *
-     * @param user
+     * @param username
      * @return accounts
      */
-    public List<Account> getAccounts(AppUser user);
+    public List<Account> getAccounts(String username);
+
+    /**
+     * Add new account to the system
+     *
+     * @param account
+     */
+    public void addAccount(Account account);
 }

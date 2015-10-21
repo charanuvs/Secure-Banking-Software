@@ -1,5 +1,6 @@
 package edu.asu.securebanking.util;
 
+import edu.asu.securebanking.beans.AppUser;
 import edu.asu.securebanking.constants.AppConstants;
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -53,6 +54,25 @@ public final class AppUtil {
             return "";
 
         return AppConstants.DATE_FORMAT.format(date);
+    }
+
+    /**
+     * @param reqUser
+     * @param dbUser
+     */
+    public static void copySubUserToDBUser(AppUser reqUser, AppUser dbUser) {
+        if (reqUser == null || dbUser == null)
+            return;
+        // end
+        dbUser.setName(reqUser.getName());
+        dbUser.setEmail(reqUser.getEmail());
+        dbUser.setAddress(reqUser.getAddress());
+        dbUser.setPhoneNumber(reqUser.getPhoneNumber());
+        dbUser.setStatus(reqUser.getStatus());
+        dbUser.setGender(reqUser.getGender());
+        dbUser.setDateString(reqUser.getDateString());
+        dbUser.setSsn(reqUser.getSsn());
+        // end
     }
 
 }

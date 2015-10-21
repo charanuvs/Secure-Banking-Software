@@ -33,7 +33,11 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
 
     @Override
     public List<AppUser> getInternalUsers() {
-        return null;
+        Criteria criteria = getSession().createCriteria(AppUser.class);
+        criteria.add(Restrictions.in("userType",
+                AppConstants.INTERNAL_USERS_ROLES.keySet()));
+        criteria.addOrder(Order.asc("name"));
+        return criteria.list();
     }
 
     @Override

@@ -96,7 +96,7 @@ public class AllUserController {
             // No errors in validator
             AppUser user = userService.getUserforPwd(loggedInUser.getUserId(), pwd);
             // Add this user to session
-            session.setAttribute("password.user", user);
+            session.setAttribute("password.user", pwd);
             // OTP and send the message
             String otp = otpService.generateOTP();
             session.setAttribute("password.user.otp", otp);
@@ -135,14 +135,16 @@ public class AllUserController {
         // if password.user and password.user.otp does not exist
         // return
         String sessionOtp = (String) session.getAttribute("password.user.otp");
-        AppUser user = (AppUser) session.getAttribute("password.user");
+        PasswordBean pwd = (PasswordBean) session.getAttribute("password.user");
         PageViewBean page = new PageViewBean();
         model.addAttribute("page", page);
+        AppUser loggedInUser = (AppUser)
+                session.getAttribute(AppConstants.LOGGEDIN_USER);
 
         try {
 
             if (!StringUtils.hasText(sessionOtp)
-                    || null == user) {
+                    || null == pwd) {
                 LOGGER.debug("session OTP is empty: " + sessionOtp);
                 // remove session variables and redirect
                 page.setMessage("Invalid request");
@@ -155,12 +157,13 @@ public class AllUserController {
 
             } else {
                 // Update user with the new password
-                userService.updateUser(user);
-
+                userService.savePassword(loggedInUser.getUserId(),
+                        pwd);
                 page.setValid(true);
                 page.setMessage("Password changed successfully!");
             }
         } catch (Exception e) {
+            LOGGER.error(e);
             page.setValid(false);
             page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
         } finally {

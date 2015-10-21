@@ -44,7 +44,6 @@ public class UserService {
      */
     @Transactional(rollbackOn = Throwable.class)
     public AppUser getUser(final String username) {
-
         return userDAO.getUser(username);
     }
 
@@ -67,6 +66,14 @@ public class UserService {
     }
 
     /**
+     * @return internalUsers
+     */
+    @Transactional(rollbackOn = Throwable.class)
+    public List<AppUser> getInternalUsers() {
+        return userDAO.getInternalUsers();
+    }
+
+    /**
      * @param username
      * @return user
      */
@@ -77,6 +84,22 @@ public class UserService {
         // check if external user
         if (user != null &&
                 AppConstants.EXTERNAL_USERS_ROLES.containsKey(user.getUserType()))
+            return user;
+
+        return null;
+    }
+
+    /**
+     * @param username
+     * @return user
+     */
+    @Transactional(rollbackOn = Throwable.class)
+    public AppUser getInternalUser(String username) {
+        AppUser user = userDAO.getUser(username);
+
+        // check if external user
+        if (user != null &&
+                AppConstants.INTERNAL_USERS_ROLES.containsKey(user.getUserType()))
             return user;
 
         return null;
@@ -105,12 +128,28 @@ public class UserService {
         AppUser user = getUser(username);
 
         if (!encoder.matches(pwd.getCurrentPassword(), user.getPassword())) {
-            throw new AppBusinessException(messageSource.getMessage("pwd.incorrectcurrentpwd",
+            throw new AppBusinessException(messageSource.getMessage("pwd.incorrectcurrentpwd.error",
                     new Object[]{},
                     Locale.getDefault()));
         }
-        user.setPassword(encoder.encode(pwd.getPassword()));
+
+        // user.setPassword(encoder.encode(pwd.getPassword()));
         return user;
+    }
+
+    /**
+     * Save password
+     *
+     * @param username
+     * @param pwd
+     */
+    @Transactional(rollbackOn = Throwable.class)
+    public void savePassword(String username, PasswordBean pwd) {
+        // all check are done
+        AppUser user = userDAO.getUser(username);
+        user.setPassword(encoder.encode(pwd.getPassword()));
+        // Update user
+        userDAO.updateUser(user);
     }
 
 }

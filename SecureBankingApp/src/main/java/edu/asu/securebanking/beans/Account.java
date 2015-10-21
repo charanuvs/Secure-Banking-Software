@@ -9,13 +9,13 @@ import java.util.Date;
  * Created by Vikranth on 10/20/2015.
  */
 @Entity
-@Table(name = "account")
+@Table(name = "ACCOUNT")
 public class Account implements Serializable {
 
     @Id
     @Column(name = "ACC_NO")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long accountNum;
+    private Integer accountNum;
 
     @ManyToOne
     @JoinColumn(name = "USER_ID")
@@ -28,16 +28,21 @@ public class Account implements Serializable {
     private String accountType;
 
     @Column(name = "OPEN_DATE")
+    @Temporal(TemporalType.DATE)
     private Date openingDate;
 
     @Column(name = "CLOSING_DATE")
+    @Temporal(TemporalType.DATE)
     private Date closingDate;
 
-    public Long getAccountNum() {
+    @Transient
+    private String balanceString;
+
+    public Integer getAccountNum() {
         return accountNum;
     }
 
-    public void setAccountNum(Long accountNum) {
+    public void setAccountNum(Integer accountNum) {
         this.accountNum = accountNum;
     }
 
@@ -79,6 +84,14 @@ public class Account implements Serializable {
 
     public void setClosingDate(Date closingDate) {
         this.closingDate = closingDate;
+    }
+
+    public String getBalanceString() {
+        return balanceString;
+    }
+
+    public void setBalanceString(String balanceString) {
+        this.balanceString = balanceString;
     }
 
     @Override
