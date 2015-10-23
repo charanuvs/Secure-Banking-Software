@@ -21,8 +21,9 @@
 
 
     <div class="well">
+        <c:url var="formAction" value="/manage/account/add"/>
         <form:form method="post"
-                   class="form-horizontal" commandName="account" action="/manage/account/add">
+                   class="form-horizontal" commandName="account" action="${formAction}">
             <legend>Add User</legend>
             <form:errors path="*" cssClass="alert alert-danger" element="div"></form:errors>
             <div class="form-group">

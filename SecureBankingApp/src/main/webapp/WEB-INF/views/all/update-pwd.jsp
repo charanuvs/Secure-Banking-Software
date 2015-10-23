@@ -20,8 +20,9 @@
 <div class="container col-sm-6 col-sm-offset-3 ">
 
     <div class="well">
+        <c:url var="formAction" value="/all/pwd"/>
         <form:form method="post"
-                   class="form-horizontal" commandName="pwd" action="/all/pwd">
+                   class="form-horizontal" commandName="pwd" action="${formAction}">
             <legend>Update Password</legend>
             <form:errors path="*" cssClass="alert alert-danger" element="div"></form:errors>
 
