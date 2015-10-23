@@ -1,11 +1,15 @@
-Testing the git Repo
+Secure Online Banking
+=======
 
-Andrew was here...
-..and Windows is the best.
+## Softwares
+ 1. Java - **jdk1.8.0_60**
+ 2. Maven -  **Maven 3.3.3**
+ 3. Apache Tomcat - **apache-tomcat-7.0.64**
 
-I mean windows 10
-hi
+## Steps to Integrate with eclipse
+ 1. Import the `"SecureBankingApp"` folder as a maven project into your eclipse.
+ 2. Make sure that your Eclipse points to the jdk version mentioned above to build.
+ 3. To run right click on the project and "Run on server". Configure the server that matches the version above.
+ 4. Or you can build the project with the command `"mvn clean install"` and then deploy the war file on the server.
 
-##HELP FOR GIT COMMANDS
-https://www.atlassian.com/git/tutorials/syncing/git-pull
-
+The log file goes into `/log` directory. Make sure that you have read and write permissions.
