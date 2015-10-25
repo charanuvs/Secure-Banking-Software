@@ -1,6 +1,7 @@
 package edu.asu.securebanking.beans;
 
 import javax.persistence.*;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -40,6 +41,12 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "AUTHORISED_EMP")
     private AppUser authEmployee;
+
+    @Transient
+    private Integer toAccountNumber;
+
+    @Transient
+    private Integer fromAccountNumber;
 
     public Integer getTransactionId() {
         return transactionId;

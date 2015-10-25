@@ -52,7 +52,18 @@ public class AccountService {
 
         return accountDAO.getAccounts(username);
     }
-
+    
+    /**
+     * Get account for an Account Number
+     *
+     * @param accountNum
+     * @return account
+     */
+    
+    public Account getAccount(Integer accountNum) throws AppBusinessException {
+    	return accountDAO.getAccount(accountNum);
+    }
+    
     /**
      * Add new account to the system
      *

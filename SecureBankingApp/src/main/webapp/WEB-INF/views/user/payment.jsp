@@ -29,9 +29,9 @@
       }
     
       #resetbutton {
-      	position: relative;
-      	margin-left: 17%;
-      	margin-top: 29%;
+      	position: absolute;
+      	left: 5%;
+      	top: 50%;
       }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
@@ -56,14 +56,8 @@ et" type="text/css">
       
       	<form id= 'paymentform' method = 'post' action='/user/payment/confirm'>
 
-        	<label>From Username:</label>
-        	<input type='text' id='fromusername'>
-
         	<label>From Account:</label>
         	<input type='number' id='fromaccvalue'>
-
-        	<label>To Username:</label>
-        	<input type='text' id='tousername'>
       		
         	<label>To Account:</label>
         	<input type='number' id='toaccvalue'>
