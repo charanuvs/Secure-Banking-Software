@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * Created by Vikranth on 10/20/2015.
+ * Updated by Rishabh on 10/25/2015.
  */
 public interface AccountDAO {
 
@@ -16,6 +17,14 @@ public interface AccountDAO {
      * @return accounts
      */
     public List<Account> getAccounts(String username);
+
+    /**
+     * Get account for an Account Number
+     *
+     * @param accountNum
+     * @return account
+     */
+    public Account getAccount(Integer accountNum);
 
     /**
      * Add new account to the system
