@@ -417,6 +417,7 @@ public class ManagerController {
 
             prevUser = userService.getUser(user.getUserId());
 
+
             if (null != prevUser) {
                 String error = "User with username '" +
                         prevUser.getUserId() + "' already exists";
