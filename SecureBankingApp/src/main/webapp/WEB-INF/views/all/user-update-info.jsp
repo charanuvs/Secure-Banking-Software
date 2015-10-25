@@ -21,8 +21,9 @@
 
 
     <div class="well">
+        <c:url var="formAction" value="/all/update"/>
         <form:form method="post"
-                   class="form-horizontal" commandName="user" action="/all/update">
+                   class="form-horizontal" commandName="user" action="${formAction}">
             <legend>Update Info</legend>
             <form:errors path="*" cssClass="alert alert-danger" element="div"></form:errors>
             <div class="form-group">

@@ -24,8 +24,9 @@
     </div>
 
     <div class="well">
+        <c:url var="formAction" value="/all/pwd/otp"/>
         <form:form method="post"
-                   class="form-horizontal" action="/all/pwd/otp">
+                   class="form-horizontal" action="${formAction}">
             <legend>Update Password</legend>
 
             <div class="form-group">
