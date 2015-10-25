@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserDAO {
 
     /**
-     * Get user for an email ID
+     * Get user for an username
      *
      * @param username
      * @return user
