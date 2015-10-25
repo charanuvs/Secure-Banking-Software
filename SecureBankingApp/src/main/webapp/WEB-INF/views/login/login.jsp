@@ -41,8 +41,9 @@
     </c:if>
 
     <div class="well">
+        <c:url var="formAction" value="/loginAuth"/>
         <form:form method="POST" name="login"
-                   class="form-horizontal" commandName="loginFormBean" action="loginAuth">
+                   class="form-horizontal" commandName="loginFormBean" action="${formAction}">
             <legend>Login</legend>
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="username">Username</label>
@@ -66,7 +67,7 @@
                            value="Login">
                 </div>
             </div>
-            
+
         </form:form>
 
     </div>
