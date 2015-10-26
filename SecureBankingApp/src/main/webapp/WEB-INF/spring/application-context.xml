@@ -40,6 +40,8 @@
           id="userDAO"></bean>
     <bean class="edu.asu.securebanking.dao.impl.AccountDAOImpl"
           id="accountDAO"/>
+    <bean class="edu.asu.securebanking.dao.impl.TransactionDAOImpl"
+          id="transactionDAO"/>
 
     <!-- password -->
     <bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"
