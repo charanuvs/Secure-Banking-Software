@@ -2,7 +2,6 @@ package edu.asu.securebanking.beans;
 
 import javax.persistence.*;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -26,7 +25,7 @@ public class Transaction {
     private Account fromAccount;
 
     @Column(name = "AMOUNT")
-    private BigDecimal amount;
+    private Double amount;
 
     @Column(name = "T_TYPE", columnDefinition = "enum('TRANSFER', 'PAYMENT')")
     private String transactionType;
@@ -43,10 +42,34 @@ public class Transaction {
     private AppUser authEmployee;
 
     @Transient
-    private Integer toAccountNumber;
+    private String toAccountNumber;
 
     @Transient
-    private Integer fromAccountNumber;
+    private String fromAccountNumber;
+    
+    @Transient
+    private String transactionTypeString;
+    
+    @Transient
+    private String amountString;
+    
+    public String getAmountString() {	
+    	return amountString;
+    }
+    
+    public String getTransactionTypeString() {
+    	return transactionTypeString;
+    }
+    
+    public String getToAccountNumber() {
+    	
+    	return toAccountNumber;
+    }
+    
+    public String getFromAccountNumber() {
+    	
+    	return fromAccountNumber;
+    }
 
     public Integer getTransactionId() {
         return transactionId;
@@ -72,11 +95,11 @@ public class Transaction {
         this.fromAccount = fromAccount;
     }
 
-    public BigDecimal getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

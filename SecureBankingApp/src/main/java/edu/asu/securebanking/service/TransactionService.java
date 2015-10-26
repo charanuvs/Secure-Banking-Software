@@ -20,7 +20,6 @@ public class TransactionService {
      */
     @Transactional(rollbackOn = Throwable.class)
     public void addTransaction(Transaction transaction) {
-        // Hash the password of the user
         
         transactionDAO.addTransaction(transaction);
     }

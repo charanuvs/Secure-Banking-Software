@@ -4,7 +4,21 @@ package edu.asu.securebanking.controller;
 import edu.asu.securebanking.beans.Transaction;
 import edu.asu.securebanking.beans.PageViewBean;
 import edu.asu.securebanking.constants.AppConstants;
+import edu.asu.securebanking.dao.TransactionDAO;
+import edu.asu.securebanking.exceptions.AppBusinessException;
 import edu.asu.securebanking.util.AppUtil;
+import edu.asu.securebanking.service.AccountService;
+import edu.asu.securebanking.service.EmailService;
+import edu.asu.securebanking.service.TransactionService;
+import edu.asu.securebanking.beans.Account;
+import edu.asu.securebanking.beans.AppUser;
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import edu.asu.securebanking.service.OTPService;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +41,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class PaymentController {
 
     private static final Logger LOGGER = Logger.getLogger(LoginController.class);
+    final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+    
+    @Autowired
+    private AccountService accountService;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private OTPService otpService;
+
+    @Autowired
+    private TransactionService transactionService;
     /*
     @Autowired
     @Qualifier("paymentValidator")
@@ -47,64 +74,60 @@ public class PaymentController {
      * @param model
      * @param result
      * @return view
+     * @throws AppBusinessException 
      */
-    /*
+    
     @RequestMapping(value = "/user/payment/confirm",
             method = RequestMethod.POST)
-    public String addTransaction(@ModelAttribute("transaction") Transaction transaction,
+    public void addTransaction(@ModelAttribute("transaction") Transaction transaction,
                           Model model,
-                          BindingResult result) {
+                          BindingResult result,
+                          HttpSession session) throws AppBusinessException {
 
         PageViewBean page = new PageViewBean();
         model.addAttribute("page", page);
 
-        try {
+        Integer toAccountNumberInt = Integer.parseInt(transaction.getToAccountNumber());
+        Integer fromAccountNumberInt = Integer.parseInt(transaction.getFromAccountNumber());
+	
+        Account toAccount = accountService.getAccount(toAccountNumberInt);
+        Account fromAccount = accountService.getAccount(fromAccountNumberInt);
+        
+        String transType = transaction.getTransactionTypeString();
+        
+        if(transType.equals("Payment")) {
+        	if(toAccount.getAccountType().equals("MERCHANT")) {
+        	
+        		transaction.setToAccount(toAccount);
+        		transaction.setFromAccount(fromAccount);
+	            transaction.setAmount(Double.parseDouble(transaction.getAmountString()));            
+	        	transaction.setTransactionType(new String("PAYMENT"));            
+	            transaction.setStatus(new String("PENDING"));
+	            
+	            Date currentDate = new Date();
+	            
+	            //Date Format needs to be like yyyy-mm-dd
+	            transaction.setDate(currentDate);
+	            
+	            session.setAttribute("user.payment", transaction);
+	
+	            AppUser loggedInUser = (AppUser)
+	                    session.getAttribute(AppConstants.LOGGEDIN_USER);
+	            
+	            session.setAttribute("user.payment", transaction);
 
-            //externalUserValidator.validate(user, result);
-
-            if (result.hasErrors()) {
-                LOGGER.debug("Errors in appuser obj");
-                return "manage/user-add";
-            }
-
-            AppUser prevUser = null;
-
-            toUser = userService.getUser(user.getUserId());
-
-
-            if (null != prevUser) {
-                String error = "User with username '" +
-                        prevUser.getUserId() + "' already exists";
-                LOGGER.debug(error);
-                result.rejectValue("userId", "userId", error);
-                return "manage/user-add";
-            }
-
-            // Everythings good
-            userService.addUser(user);
-            LOGGER.info("Object saved: " + user);
-
-            // Send an email
-            String sub = "You are new User account created";
-            String body = "Please find the login details below" +
-                    "\n\nUsername: " + user.getUserId() + "\n" +
-                    "Password: " + user.getTempPassword();
-            emailService.sendEmail(user.getEmail(), sub, body);
-
-            page.setValid(true);
-            page.setMessage("User created with username '" +
-                    user.getUserId() + "'");
-            model.addAttribute("page", page);
-
-            return "message";
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage());
-            page.setValid(false);
-            page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
-
-            return "message";
+	            //transactionService.addTransaction(transaction);
+	            /*
+	            // OTP and send the message
+	            String otp = otpService.generateOTP();
+	            session.setAttribute("payment.otp", otp);
+	            // send email
+	            emailService.sendEmail(loggedInUser.getEmail(), "OTP to process your payment",
+	                    "The OTP to process your payment: " + otp);
+	            */
+	        }
+	        else
+	        	LOGGER.warn("To Account is not Merchant for account number"+toAccount.getAccountNum().toString());
         }
-	}
-}
-*/
+    }
 }
