@@ -127,7 +127,41 @@ public class PaymentController {
 	            */
 	        }
 	        else
-	        	LOGGER.warn("To Account is not Merchant for account number"+toAccount.getAccountNum().toString());
+	        	LOGGER.warn("To Account is not Merchant for account number "+toAccount.getAccountNum().toString());
+        }
+        else if(transType.equals("Transaction")) {
+        	if(!(toAccount.getAccountType().equals("MERCHANT"))) {
+        	
+        		transaction.setToAccount(toAccount);
+        		transaction.setFromAccount(fromAccount);
+	            transaction.setAmount(Double.parseDouble(transaction.getAmountString()));            
+	        	transaction.setTransactionType(new String("TRANSACTION"));            
+	            transaction.setStatus(new String("PENDING"));
+	            
+	            Date currentDate = new Date();
+	            
+	            //Date Format needs to be like yyyy-mm-dd
+	            transaction.setDate(currentDate);
+	            
+	            session.setAttribute("user.payment", transaction);
+	
+	            AppUser loggedInUser = (AppUser)
+	                    session.getAttribute(AppConstants.LOGGEDIN_USER);
+	            
+	            session.setAttribute("user.payment", transaction);
+
+	            //transactionService.addTransaction(transaction);
+	            /*
+	            // OTP and send the message
+	            String otp = otpService.generateOTP();
+	            session.setAttribute("payment.otp", otp);
+	            // send email
+	            emailService.sendEmail(loggedInUser.getEmail(), "OTP to process your payment",
+	                    "The OTP to process your payment: " + otp);
+	            */
+	        }
+	        else
+	        	LOGGER.warn("To Account is a Merchant account for account number "+toAccount.getAccountNum().toString());
         }
     }
 }
