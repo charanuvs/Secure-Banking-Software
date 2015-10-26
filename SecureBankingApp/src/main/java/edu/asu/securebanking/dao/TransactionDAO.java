@@ -9,7 +9,12 @@ import java.util.List;
  * Created by Zahed on 10/21/2015.
  */
 public interface TransactionDAO {
-
+    /**
+     * @param Transaction
+     * @return added
+     */
+    public void addTransaction(Transaction transaction);
+    
     /**
      * Get transaction for a account
      *
@@ -17,4 +22,5 @@ public interface TransactionDAO {
      * @return transactions
      */
     public List<Transaction> getTransactions(Integer accountNum);
+
 }

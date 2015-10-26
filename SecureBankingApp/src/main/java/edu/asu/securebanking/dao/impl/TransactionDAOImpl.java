@@ -7,11 +7,14 @@ import edu.asu.securebanking.dao.TransactionDAO;
 
 import java.util.List;
 
-/**
- * Created by Zahed on 10/21/2015.
- */
 public class TransactionDAOImpl extends AbstractDAO implements TransactionDAO {
-    @Override
+
+	@Override
+    public void addTransaction(Transaction transaction) {
+		getSession().save(transaction);
+	}
+	
+	@Override
     public List<Transaction> getTransactions(Integer accountNum) {
         return null;
     }

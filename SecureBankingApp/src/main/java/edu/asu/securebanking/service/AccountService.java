@@ -21,7 +21,6 @@ import java.util.Locale;
  * Created by Vikranth on 10/20/2015.
  */
 public class AccountService {
-
 	@Autowired
 	private AccountDAO accountDAO;
 
@@ -95,39 +94,51 @@ public class AccountService {
 		}
 		return transactionDAO.getTransactions(accountNum);
 	}
+    
+    /**
+     * Get account for an Account Number
+     *
+     * @param accountNum
+     * @return account
+     */
+    
+    public Account getAccount(Integer accountNum) throws AppBusinessException {
+    	return accountDAO.getAccount(accountNum);
+    }
+    
+    /**
+     * Add new account to the system
+     *
+     * @param username
+     * @param account
+     * @throws AppBusinessException
+     */
+    @Transactional(rollbackOn = Throwable.class)
+    public void addAccount(String username, Account account)
+            throws AppBusinessException {
+        AppUser user = userDAO.getUser(username);
 
-	/**
-	 * Add new account to the system
-	 *
-	 * @param username
-	 * @param account
-	 * @throws AppBusinessException
-	 */
-	@Transactional(rollbackOn = Throwable.class)
-	public void addAccount(String username, Account account) throws AppBusinessException {
-		AppUser user = userDAO.getUser(username);
+        if (null == user) {
+            throw new AppBusinessException("User does not exist");
+        }
 
-		if (null == user) {
-			throw new AppBusinessException("User does not exist");
-		}
+        // Check if account type is valid
+        String userType = user.getUserType();
 
-		// Check if account type is valid
-		String userType = user.getUserType();
+        // For merchant
+        if (AppConstants.ROLE_MERCHANT.equals(userType)) {
+            account.setAccountType(AppConstants.ACCOUNT_MERCHANT);
+        } else if (!AppConstants.ACCOUNT_TYPES_NORMAL
+                .containsKey(account.getAccountType())) { // For customer
+            // Invalid account type
+            throw new AppBusinessException(messageSource.getMessage("account.type.error",
+                    new Object[]{}, Locale.getDefault()));
+        }
 
-		// For merchant
-		if (AppConstants.ROLE_MERCHANT.equals(userType)) {
-			account.setAccountType(AppConstants.ACCOUNT_MERCHANT);
-		} else if (!AppConstants.ACCOUNT_TYPES_NORMAL.containsKey(account.getAccountType())) { // For
-																								// customer
-			// Invalid account type
-			throw new AppBusinessException(
-					messageSource.getMessage("account.type.error", new Object[] {}, Locale.getDefault()));
-		}
+        // everythings good - set the defaults
+        account.setUser(user);
+        account.setOpeningDate(new Date());
 
-		// everythings good - set the defaults
-		account.setUser(user);
-		account.setOpeningDate(new Date());
-
-		accountDAO.addAccount(account);
-	}
+        accountDAO.addAccount(account);
+    }
 }
