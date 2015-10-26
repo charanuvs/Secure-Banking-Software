@@ -3,8 +3,10 @@ package edu.asu.securebanking.controller;
 import edu.asu.securebanking.beans.AppUser;
 import edu.asu.securebanking.beans.PageViewBean;
 import edu.asu.securebanking.constants.AppConstants;
+import edu.asu.securebanking.exceptions.AppBusinessException;
 import edu.asu.securebanking.service.AccountService;
 import edu.asu.securebanking.service.EmailService;
+import edu.asu.securebanking.service.PIIService;
 import edu.asu.securebanking.service.UserService;
 import edu.asu.securebanking.util.AppUtil;
 import org.apache.log4j.Logger;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -52,6 +55,10 @@ public class AdminController {
     @Autowired
     @Qualifier("accountValidator")
     private Validator accountValidator;
+
+    @Autowired
+    @Qualifier("piiService")
+    private PIIService piiService;
 
     private static Logger LOGGER = Logger.getLogger(AdminController.class);
 
@@ -219,6 +226,14 @@ public class AdminController {
                 return "message";
             }
 
+            // Check for PII
+            boolean isAuthPii = piiService
+                    .isAuthorizedInternalUser(user.getUserId(), loggedInUsername);
+
+            if (!isAuthPii) {
+                return "redirect:/admin/request/" + user.getUserId();
+            }
+
             // User exists
             model.addAttribute("user", user);
             // other attributes
@@ -308,4 +323,62 @@ public class AdminController {
         }
     }
 
+    /**
+     * @param userId
+     * @param model
+     * @return piiFormView
+     */
+    @RequestMapping(value = "/admin/request/{userId}",
+            method = RequestMethod.GET)
+    public String requestPII(@PathVariable("userId") String userId,
+                             Model model) {
+
+        model.addAttribute("userId", userId);
+        return "admin/pii-request-form";
+
+    }
+
+    /**
+     * @param userId
+     * @return piiFormView
+     */
+    @RequestMapping(value = "/admin/request/",
+            method = RequestMethod.POST)
+    public String addRequestedPII(String userId,
+                                  Model model,
+                                  HttpSession session) {
+
+        PageViewBean page = new PageViewBean();
+        model.addAttribute("page", page);
+        String toUserId = ((AppUser)
+                session.getAttribute(AppConstants.LOGGEDIN_USER))
+                .getUserId();
+
+        LOGGER.info("userId: " + userId + ", toUserId: " + toUserId);
+        if (!StringUtils.hasText(userId) ||
+                !StringUtils.hasText(toUserId)) {
+            page.setMessage("Invalid request");
+            page.setValid(false);
+
+            return "message";
+        }
+
+        try {
+            piiService.makeRequestForInternalUser(userId, toUserId);
+            page.setValid(true);
+            page.setMessage("Requested for user access successful");
+        } catch (AppBusinessException e) {
+            LOGGER.error(e);
+            page.setValid(false);
+            page.setMessage(e.getMessage());
+
+        } catch (Exception e) {
+            LOGGER.error(e);
+            page.setValid(false);
+            page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
+        }
+
+        return "message";
+
+    }
 }

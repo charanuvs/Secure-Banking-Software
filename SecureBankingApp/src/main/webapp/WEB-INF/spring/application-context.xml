@@ -37,14 +37,15 @@
 
     <!-- DAO -->
     <bean class="edu.asu.securebanking.dao.impl.UserDAOImpl"
-          id="userDAO"></bean>
+          id="userDAO"/>
     <bean class="edu.asu.securebanking.dao.impl.AccountDAOImpl"
           id="accountDAO"/>
+    <bean class="edu.asu.securebanking.dao.impl.PIIDAOImpl" id="piiDAO"/>
 
     <!-- password -->
     <bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"
           id="pwdEncoder">
-        <constructor-arg value="12"></constructor-arg>
+        <constructor-arg value="12"/>
     </bean>
 
     <!-- Email conf -->
@@ -68,12 +69,13 @@
 
     <!-- service -->
     <bean class="edu.asu.securebanking.service.LoginService"
-          id="loginService"></bean>
+          id="loginService"/>
     <bean class="edu.asu.securebanking.service.UserService"
-          id="userService"></bean>
+          id="userService"/>
     <bean id="otpService" class="edu.asu.securebanking.service.OTPService"
             />
     <bean id="accountService" class="edu.asu.securebanking.service.AccountService"/>
+    <bean id="piiService" class="edu.asu.securebanking.service.PIIService"/>
 
     <!-- validators -->
     <bean class="edu.asu.securebanking.util.LoginFormValidator"

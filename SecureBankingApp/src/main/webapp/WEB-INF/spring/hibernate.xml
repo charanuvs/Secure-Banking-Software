@@ -19,6 +19,7 @@
                 <value>edu.asu.securebanking.beans.AppUser</value>
                 <value>edu.asu.securebanking.beans.Account</value>
                 <value>edu.asu.securebanking.beans.Transaction</value>
+                <value>edu.asu.securebanking.beans.PII</value>
             </list>
         </property>
     </bean>

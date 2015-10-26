@@ -22,38 +22,32 @@
 
     <h3>Users</h3>
 
-    <c:if test="${fn:length(users) gt 0}">
+    <c:if test="${fn:length(piiRequests) gt 0}">
         <table class="table table-bordered">
             <thead>
             <tr>
                 <th>#</th>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Email</th>
-                <th>Status</th>
-                <th>Account</th>
-                <th>Update</th>
+                <th>Request to User Details</th>
+                <th>Access from User</th>
+                <th>Authorize</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${users}" var="user" varStatus="loop">
+            <c:forEach items="${piiRequests}" var="pii" varStatus="loop">
                 <tr>
                     <td><c:out value="${loop.index + 1}"/></td>
-                    <td><c:out value="${user.name}"/></td>
-                    <td><c:out value="${roles[user.userType]}"/></td>
-                    <td><c:out value="${user.email}"/></td>
-                    <td><c:out value="${status[user.status]}"/></td>
-                    <td><a href="<c:url value='/manage/account/${user.userId}'/>"
-                           class="btn btn-default btn-sm">Account</a></td>
-                    <td><a href="<c:url value='/manage/user/update/${user.userId}'/>"
-                           class="btn btn-default btn-sm">View/Update</a></td>
+                    <td><c:out value="${pii.user.name}"/></td>
+                    <td><c:out value="${pii.fromUser.name}"/></td>
+                    <td><a href="<c:url
+                    value='/gov/authorize/${pii.user.userId}/${pii.fromUser.userId}'/>"
+                           class="btn btn-default btn-sm">Authorize</a></td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
     </c:if>
-    <c:if test="${fn:length(users) eq 0}">
-        <div class="well">No users found</div>
+    <c:if test="${fn:length(piiRequests) eq 0}">
+        <div class="well">No requests found</div>
     </c:if>
 
 </div>

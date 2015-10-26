@@ -84,6 +84,9 @@ public final class AppConstants {
 
     public static final double MAX_BALANCE = 1000000;
 
+    public static final String PII_REQUEST = "REQUEST";
+    public static final String PII_AUTHORIZE = "AUTHORIZE";
+
     static {
         GENDERS.put(GENDER_MALE, "Male");
         GENDERS.put(GENDER_FEMALE, "Female");

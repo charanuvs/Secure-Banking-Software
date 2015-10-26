@@ -13,6 +13,8 @@
 
     <http pattern="/static/**" security="none"/>
 
+    <http pattern="/gov/**" security="none"/>
+
     <http use-expressions="true" authentication-manager-ref="userAuthManager">
         <!--<csrf disabled="true"/>-->
         <intercept-url pattern="/user/**" access="hasRole('ROLE_NORMAL')"/>

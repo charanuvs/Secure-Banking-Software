@@ -31,6 +31,7 @@
                 <th>Type</th>
                 <th>Balance</th>
                 <th>Opening date</th>
+                <th>View/Download Statement</th>
             </tr>
             </thead>
             <tbody>
@@ -41,6 +42,9 @@
                     <td><fmt:formatNumber value="${account.balance}"
                                           type="currency"/></td>
                     <td><fmt:formatDate value="${account.openingDate}" pattern="dd MMMM yyyy"/></td>
+                    <td><a href="<c:url value="/user/statement/${account.accountNum}"/>"
+                           class="btn btn-default">View/Download</a>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -49,10 +53,6 @@
     <c:if test="${fn:length(accounts) eq 0}">
         <div class="well">No accounts found for this user</div>
     </c:if>
-    <div class="container-fluid">
-        <a href="<c:url value='/manage/account/add/${username}' />"
-           class="btn btn-default">Add account</a>
-    </div>
 
 </div>
 

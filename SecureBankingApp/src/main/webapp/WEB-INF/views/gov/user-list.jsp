@@ -28,11 +28,8 @@
             <tr>
                 <th>#</th>
                 <th>Name</th>
-                <th>Type</th>
                 <th>Email</th>
-                <th>Status</th>
-                <th>Account</th>
-                <th>Update</th>
+                <th>Request for Details</th>
             </tr>
             </thead>
             <tbody>
@@ -40,13 +37,9 @@
                 <tr>
                     <td><c:out value="${loop.index + 1}"/></td>
                     <td><c:out value="${user.name}"/></td>
-                    <td><c:out value="${roles[user.userType]}"/></td>
                     <td><c:out value="${user.email}"/></td>
-                    <td><c:out value="${status[user.status]}"/></td>
-                    <td><a href="<c:url value='/manage/account/${user.userId}'/>"
-                           class="btn btn-default btn-sm">Account</a></td>
-                    <td><a href="<c:url value='/manage/user/update/${user.userId}'/>"
-                           class="btn btn-default btn-sm">View/Update</a></td>
+                    <td><a href="<c:url value='/gov/request/${user.userId}'/>"
+                           class="btn btn-default btn-sm">Request</a></td>
                 </tr>
             </c:forEach>
             </tbody>

@@ -43,7 +43,7 @@
                     <td><c:out value="${user.email}"/></td>
                     <td><c:out value="${status[user.status]}"/></td>
                     <td><a href="<c:url value='/admin/user/update/${user.userId}'/>"
-                           class="btn btn-default btn-sm">Update</a></td>
+                           class="btn btn-default btn-sm">View/Update</a></td>
                 </tr>
             </c:forEach>
             </tbody>
