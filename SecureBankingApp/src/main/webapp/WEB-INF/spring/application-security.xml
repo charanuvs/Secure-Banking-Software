@@ -39,10 +39,11 @@
 
     <authentication-manager id="userAuthManager">
         <authentication-provider user-service-ref="userAuthService">
-            <password-encoder ref="pwdEncoder"></password-encoder>
+            <password-encoder ref="pwdEncoder"/>
         </authentication-provider>
     </authentication-manager>
 
-    <beans:bean id="userAuthService" class="edu.asu.securebanking.service.AppUserDetailsService"></beans:bean>
-    <beans:bean class="edu.asu.securebanking.util.AppAuthSuccessHandler" id="appAuthSuccessHandler"></beans:bean>
+    <beans:bean id="userAuthService" class="edu.asu.securebanking.service.AppUserDetailsService"/>
+    <beans:bean class="edu.asu.securebanking.util.AppAuthSuccessHandler" id="appAuthSuccessHandler"/>
+
 </beans:beans>
