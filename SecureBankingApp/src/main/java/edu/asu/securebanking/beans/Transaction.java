@@ -1,6 +1,7 @@
 package edu.asu.securebanking.beans;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -9,7 +10,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "TRANSACTION")
-public class Transaction {
+public class Transaction implements Serializable {
 
     @Id
     @Column(name = "T_ID")
@@ -40,6 +41,50 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "AUTHORISED_EMP")
     private AppUser authEmployee;
+
+    @Transient
+    private String toAccountNumber;
+
+    @Transient
+    private String fromAccountNumber;
+
+    @Transient
+    private String transactionTypeString;
+
+    @Transient
+    private String amountString;
+
+    public String getToAccountNumber() {
+        return toAccountNumber;
+    }
+
+    public void setToAccountNumber(String toAccountNumber) {
+        this.toAccountNumber = toAccountNumber;
+    }
+
+    public String getFromAccountNumber() {
+        return fromAccountNumber;
+    }
+
+    public void setFromAccountNumber(String fromAccountNumber) {
+        this.fromAccountNumber = fromAccountNumber;
+    }
+
+    public String getTransactionTypeString() {
+        return transactionTypeString;
+    }
+
+    public void setTransactionTypeString(String transactionTypeString) {
+        this.transactionTypeString = transactionTypeString;
+    }
+
+    public String getAmountString() {
+        return amountString;
+    }
+
+    public void setAmountString(String amountString) {
+        this.amountString = amountString;
+    }
 
     public Integer getTransactionId() {
         return transactionId;
@@ -116,6 +161,10 @@ public class Transaction {
                 ", status='" + status + '\'' +
                 ", date=" + date +
                 ", authEmployee=" + authEmployee +
+                ", toAccountNumber='" + toAccountNumber + '\'' +
+                ", fromAccountNumber='" + fromAccountNumber + '\'' +
+                ", transactionTypeString='" + transactionTypeString + '\'' +
+                ", amountString='" + amountString + '\'' +
                 '}';
     }
 }

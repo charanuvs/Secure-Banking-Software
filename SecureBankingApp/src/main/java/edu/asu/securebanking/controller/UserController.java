@@ -3,6 +3,7 @@ package edu.asu.securebanking.controller;
 import edu.asu.securebanking.beans.Account;
 import edu.asu.securebanking.beans.AppUser;
 import edu.asu.securebanking.beans.PageViewBean;
+import edu.asu.securebanking.beans.Transaction;
 import edu.asu.securebanking.constants.AppConstants;
 import edu.asu.securebanking.exceptions.AppBusinessException;
 import edu.asu.securebanking.service.AccountService;
@@ -11,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -69,5 +72,23 @@ public class UserController {
         }
 
         return "user/account-list";
+    }
+
+
+    @RequestMapping(value = "/user/payment", method = RequestMethod.GET)
+    public String payment(@ModelAttribute("transaction")
+                          Transaction transaction,
+                          Model model) {
+        model.addAttribute("types", AppConstants.TRANSACTION_TYPES);
+        return "all/payment";
+    }
+
+    @RequestMapping(value = "/user/payment/confirm", method = RequestMethod.POST)
+    public String payment(@ModelAttribute("transaction")
+                          Transaction transaction,
+                          BindingResult result,
+                          Model model) {
+        LOGGER.info(transaction);
+        return "message";
     }
 }

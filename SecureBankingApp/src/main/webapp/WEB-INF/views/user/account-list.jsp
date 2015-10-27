@@ -43,7 +43,7 @@
                                           type="currency"/></td>
                     <td><fmt:formatDate value="${account.openingDate}" pattern="dd MMMM yyyy"/></td>
                     <td><a href="<c:url value="/user/statements/${account.accountNum}"/>"
-                           class="btn btn-default">View/Download</a>
+                           class="btn btn-default btn-sm">View/Download</a>
                     </td>
                 </tr>
             </c:forEach>

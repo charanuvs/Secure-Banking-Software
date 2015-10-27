@@ -80,6 +80,9 @@ public final class AppConstants {
     public static final Map<String, String> ACCOUNT_TYPES_MERCHANT =
             new HashMap<String, String>();
 
+    public static final Map<String, String> TRANSACTION_TYPES =
+            new HashMap<String, String>();
+
     public static final double MIN_BALANCE = 0;
 
     public static final double MAX_BALANCE = 1000000;
@@ -122,6 +125,10 @@ public final class AppConstants {
 
         // Account type merchant
         ACCOUNT_TYPES_MERCHANT.put(ACCOUNT_CHECKIN, "Merchant");
+
+        // Transaction types
+        TRANSACTION_TYPES.put("TRANSACTION", "Transaction");
+        TRANSACTION_TYPES.put("PAYMENT", "Payment");
 
     }
 }
