@@ -49,12 +49,24 @@
                        items="${transactions}">
                 <tr>
                     <td><fmt:formatDate value="${transaction.date}" pattern="MM/dd/yy"/></td>
-                    <td><c:out value="${transaction.fromAccount.accountNum }"/>
+                    <td>
                         <c:if test="${transaction.fromAccount.user.userId == user}">
-                            <span class="text-muted">(Your account)</span></c:if></td>
-                    <td><c:out value="${transaction.toAccount.accountNum }"/>
+                            <c:out value="${transaction.fromAccount.accountNum }"/>
+                            <span class="text-muted">(Your account)</span>
+                        </c:if>
+                        <c:if test="${transaction.fromAccount.user.userId != user}">
+                            <c:out value="${transaction.fromAccount.user.name}"/>
+                        </c:if>
+                    </td>
+                    <td>
                         <c:if test="${transaction.toAccount.user.userId == user}">
-                            <span class="text-muted">(Your account)</span></c:if></td>
+                            <c:out value="${transaction.toAccount.accountNum }"/>
+                            <span class="text-muted">(Your account)</span>
+                        </c:if>
+                        <c:if test="${transaction.toAccount.user.userId != user}">
+                            <c:out value="${transaction.toAccount.user.name }"/>
+                        </c:if>
+                    </td>
                     <td><fmt:formatNumber value="${transaction.amount}"
                                           type="currency"/></td>
                     <td><c:out value="${transaction.transactionType }"/></td>
