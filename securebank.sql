@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2015 at 09:37 PM
+-- Generation Time: Oct 28, 2015 at 12:00 AM
 -- Server version: 5.6.26
 -- PHP Version: 5.6.12
 
@@ -36,7 +36,18 @@ CREATE TABLE IF NOT EXISTS `account` (
   `TYPE` enum('SAVINGS','CHECKIN','MERCHANT') DEFAULT NULL,
   `OPEN_DATE` date DEFAULT NULL,
   `CLOSING_DATE` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `account`
+--
+
+INSERT INTO `account` (`ACC_NO`, `USER_ID`, `BALANCE`, `TYPE`, `OPEN_DATE`, `CLOSING_DATE`) VALUES
+(1, 'vdoosac', '0.00', 'SAVINGS', '2015-10-20', NULL),
+(5, 'merch1', '78.00', 'MERCHANT', '2015-10-20', NULL),
+(7, 'merch1', '78.00', 'MERCHANT', '2015-10-20', NULL),
+(8, 'merch1', '1000000.00', 'MERCHANT', '2015-10-20', NULL),
+(9, 'vdoosac', '780.00', 'CHECKIN', '2015-10-20', NULL);
 
 -- --------------------------------------------------------
 
@@ -57,6 +68,28 @@ CREATE TABLE IF NOT EXISTS `log` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `pii`
+--
+
+DROP TABLE IF EXISTS `pii`;
+CREATE TABLE IF NOT EXISTS `pii` (
+  `PII_ID` int(11) NOT NULL,
+  `USER_ID` varchar(20) NOT NULL,
+  `FROM_USER_ID` varchar(20) NOT NULL,
+  `TYPE` enum('REQUEST','AUTHORIZE') NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pii`
+--
+
+INSERT INTO `pii` (`PII_ID`, `USER_ID`, `FROM_USER_ID`, `TYPE`) VALUES
+(5, 'vdoosam2', 'vdoosam2', 'AUTHORIZE'),
+(6, 'vdoosam', 'admin', 'AUTHORIZE');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `transaction`
 --
 
@@ -70,7 +103,15 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `T_STATUS` enum('PENDING','COMPLETE') DEFAULT NULL,
   `T_DATE` date DEFAULT NULL,
   `AUTHORISED_EMP` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `transaction`
+--
+
+INSERT INTO `transaction` (`T_ID`, `TO_ACCOUNT`, `FROM_ACCOUNT`, `AMOUNT`, `T_TYPE`, `T_STATUS`, `T_DATE`, `AUTHORISED_EMP`) VALUES
+(1, 1, 5, '45.00', 'TRANSFER', 'COMPLETE', '2015-10-01', NULL),
+(2, 1, 5, '78.00', 'TRANSFER', 'PENDING', '2015-10-15', NULL);
 
 -- --------------------------------------------------------
 
@@ -99,10 +140,13 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`USER_ID`, `SSN`, `NAME`, `ADDRESS`, `DOB`, `EMAIL`, `PHONE_NO`, `PASSWORD`, `GENDER`, `USER_TYPE`, `GOV_CERT`, `STATUS`) VALUES
-('merch1', '', 'Merchant AB', '1255 East University Drive, Apt 120', '1980-01-01', 'vdoosa@asu.edu', '4803348771', '$2a$10$hOJ62n4CLrK4/PYJ5RM.pOSee.Zg8wTLxNm1WrOAc3Ng4umnqrGAS', 'OTHER', 'ROLE_MERCHANT', NULL, 'ACTIVE'),
-('vdoosa', '', 'Vikranth Doosa', '1255 East University Drive, Apt 120', '1990-11-21', 'vdoosa@asu.edu', '4803348775', '$2a$10$NRhNYxOpWFSGH7mu6MyJ9u6vb29yUXSArF8HEJXtd4sphfAdy2O4i', 'MALE', 'ROLE_NORMAL', NULL, 'ACTIVE'),
-('vdoosa2', '', 'Vikranth Customer', '1255 East University Drive, Apt 120', '1990-08-02', 'vdoosa@asu.edu', '4803348775', '$2a$10$lEYuz8r2RdCDaQzVdV7Vg.EvqxbjLNtwQClE9oWJ1o1jOhAtBNlEy', 'MALE', 'ROLE_NORMAL', NULL, 'ACTIVE'),
-('vdoosam', NULL, 'Vikranth Manager', 'Some address', '1990-04-18', 'vickydoosa@gmail.com', '19874563210', '$2a$10$zSv2QnEyksK7gldd4f7vXOuVzOiQUSBJa1cj88DK.PK1q7pkF.J6m', 'MALE', 'ROLE_MANAGER', NULL, 'ACTIVE');
+('admin', '', 'Vikranth Admin', '1255 East University Drive, Apt 120', '1990-11-21', 'vdoosa@asu.edu', '4803348770', '$2a$12$8k6fqQi1GyIB1gJ1jQ1BEuwcSMyV3bl7Ne/dLiPx/0r.Vy.V4b5gy', 'MALE', 'ROLE_ADMIN', NULL, 'ACTIVE'),
+('merch1', '', 'Merchant AB', '1255 East University Drive, Apt 120', '1980-01-01', 'vdoosa@asu.edu', '4803348771', '$2a$12$h11bhOFETu9hqNif4hlZBeBifzB0DLpfz3o6PzXrg8qvwm3tV8WQW', 'OTHER', 'ROLE_MERCHANT', NULL, 'ACTIVE'),
+('merch2', '', 'Amazon Services', '1255 East University Drive, Apt 120', '1980-01-01', 'vdoosa@asu.edu', '4803348770', '$2a$12$nEbGmN3Bmhug51tWN3DiXOsiaDS5Z6aokK3IxzO3fHMu20yuQ4ynm', 'OTHER', 'ROLE_MERCHANT', NULL, 'ACTIVE'),
+('test2', '1111111111', 'Test', '1255 East University Drive, Apt 120', '1990-11-21', 'test@test.com', '4803348770', '$2a$12$3EUG4MWk2Ult2csEVld4kOkQDwARj2z2h2umVJE2tfvVIQkwoxSYK', 'MALE', 'ROLE_NORMAL', NULL, 'ACTIVE'),
+('vdoosac', '1234567890', 'Vikranth Customer', '1255 East University Drive, Apt 120', '1990-11-21', 'vdoosa@asu.edu', '4803348771', '$2a$12$A4iyr/HqcUCmx8Gi2lLOtuLD2yMtmXoCjh2ApFuKZM2MisVmj371m', 'MALE', 'ROLE_NORMAL', NULL, 'ACTIVE'),
+('vdoosam', '', 'Vikranth Manager', 'Some address 3', '1990-04-18', 'vickydoosa@gmail.com', '1987456321', '$2a$12$zLVrxv0g5w6fzvKGDf4sXOepzt/T3XnULocQsT.uGkcVdKc.qLN/W', 'MALE', 'ROLE_MANAGER', NULL, 'ACTIVE'),
+('vdoosam2', '1111111111', 'Vikranth Manage', '1255 East University Drive, Apt 120', '1990-11-21', 'vdoosa@asu.edu', '4803348770', '$2a$12$.eo7EZuQRp/nNodg995hW.aeOd62BNZqquydbu5n5GfAHB6ETk0YS', 'FEMALE', 'ROLE_MANAGER', NULL, 'ACTIVE');
 
 --
 -- Indexes for dumped tables
@@ -122,6 +166,14 @@ ALTER TABLE `log`
   ADD PRIMARY KEY (`LOG_ID`),
   ADD KEY `ACCOUNT_NO` (`ACCOUNT_NO`),
   ADD KEY `USER_ID` (`USER_ID`);
+
+--
+-- Indexes for table `pii`
+--
+ALTER TABLE `pii`
+  ADD PRIMARY KEY (`PII_ID`),
+  ADD UNIQUE KEY `PII_ibfk_3` (`USER_ID`,`FROM_USER_ID`),
+  ADD KEY `PII_ibfk_2` (`FROM_USER_ID`);
 
 --
 -- Indexes for table `transaction`
@@ -146,17 +198,22 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `ACC_NO` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ACC_NO` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `log`
 --
 ALTER TABLE `log`
   MODIFY `LOG_ID` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `pii`
+--
+ALTER TABLE `pii`
+  MODIFY `PII_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+--
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `T_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `T_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- Constraints for dumped tables
 --
@@ -173,6 +230,13 @@ ALTER TABLE `account`
 ALTER TABLE `log`
   ADD CONSTRAINT `LOG_ibfk_1` FOREIGN KEY (`ACCOUNT_NO`) REFERENCES `account` (`ACC_NO`),
   ADD CONSTRAINT `LOG_ibfk_2` FOREIGN KEY (`USER_ID`) REFERENCES `user` (`USER_ID`);
+
+--
+-- Constraints for table `pii`
+--
+ALTER TABLE `pii`
+  ADD CONSTRAINT `PII_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `user` (`USER_ID`),
+  ADD CONSTRAINT `PII_ibfk_2` FOREIGN KEY (`FROM_USER_ID`) REFERENCES `user` (`USER_ID`);
 
 --
 -- Constraints for table `transaction`
