@@ -152,4 +152,19 @@ public class UserService {
         userDAO.updateUser(user);
     }
 
+    /**
+     * Save password
+     *
+     * @param username
+     * @param pwd
+     */
+    @Transactional(rollbackOn = Throwable.class)
+    public void savePassword(String username, String pwd) {
+        // all check are done
+        AppUser user = userDAO.getUser(username);
+        user.setPassword(encoder.encode(pwd));
+        // Update user
+        userDAO.updateUser(user);
+    }
+
 }

@@ -41,6 +41,8 @@
     <bean class="edu.asu.securebanking.dao.impl.AccountDAOImpl"
           id="accountDAO"/>
     <bean class="edu.asu.securebanking.dao.impl.PIIDAOImpl" id="piiDAO"/>
+    <bean id="transactionDAO"
+          class="edu.asu.securebanking.dao.impl.TransactionDAOImpl"/>
 
     <!-- password -->
     <bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"

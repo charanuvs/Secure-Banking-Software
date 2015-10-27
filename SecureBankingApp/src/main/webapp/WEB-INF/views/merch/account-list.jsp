@@ -28,7 +28,6 @@
             <thead>
             <tr>
                 <th>#</th>
-                <th>Type</th>
                 <th>Balance</th>
                 <th>Opening date</th>
                 <th>View/Download Statement</th>
@@ -38,11 +37,10 @@
             <c:forEach items="${accounts}" var="account" varStatus="loop">
                 <tr>
                     <td><c:out value="${account.accountNum}"/></td>
-                    <td><c:out value="${accountTypes[account.accountType]}"/></td>
                     <td><fmt:formatNumber value="${account.balance}"
                                           type="currency"/></td>
                     <td><fmt:formatDate value="${account.openingDate}" pattern="dd MMMM yyyy"/></td>
-                    <td><a href="<c:url value="/user/statements/${account.accountNum}"/>"
+                    <td><a href="<c:url value="/merch/statements/${account.accountNum}"/>"
                            class="btn btn-default">View/Download</a>
                     </td>
                 </tr>
@@ -51,7 +49,7 @@
         </table>
     </c:if>
     <c:if test="${fn:length(accounts) eq 0}">
-        <div class="well">No accounts found for this user</div>
+        <div class="well">No accounts found for this merchant</div>
     </c:if>
 
 </div>

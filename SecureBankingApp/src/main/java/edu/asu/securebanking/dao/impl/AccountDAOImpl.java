@@ -26,4 +26,9 @@ public class AccountDAOImpl extends AbstractDAO implements AccountDAO {
     public void addAccount(Account account) {
         getSession().save(account);
     }
+
+    @Override
+    public Account getAccount(Integer accountNum) {
+        return (Account) getSession().get(Account.class, accountNum);
+    }
 }

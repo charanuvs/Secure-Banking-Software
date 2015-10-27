@@ -8,6 +8,7 @@ import edu.asu.securebanking.exceptions.AppBusinessException;
 import edu.asu.securebanking.service.EmailService;
 import edu.asu.securebanking.service.OTPService;
 import edu.asu.securebanking.service.UserService;
+import edu.asu.securebanking.util.AppUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -264,6 +265,121 @@ public class AllUserController {
 
             return "message";
         }
+    }
+
+    /**
+     * @return view
+     */
+    @RequestMapping(value = "/pwd", method = RequestMethod.GET)
+    private String forgotPassword() {
+        return "all/forgot-pwd";
+    }
+
+    /**
+     * @return view
+     */
+    @RequestMapping(value = "/pwd", method = RequestMethod.POST)
+    private String forgotPassword(@RequestParam("username")
+                                  String username,
+                                  Model model,
+                                  HttpSession session) {
+
+        PageViewBean page = new PageViewBean();
+        model.addAttribute("page", page);
+
+        try {
+
+            if (!StringUtils.hasText(username)) {
+                page.setValid(false);
+                page.setMessage("Invalid request");
+                return "message";
+            }
+
+            // user not logged in
+            AppUser user = userService.getUser(username);
+            if (user == null) {
+                page.setValid(false);
+                page.setMessage("Invalid request");
+                return "message";
+            }
+
+            // Send the OTP
+            String otp = otpService.generateOTP();
+            emailService.sendEmail(user.getEmail(),
+                    "OTP to change the password",
+                    "Your OTP to change the password: " + otp);
+
+            session.setAttribute("user.password.forgot.otp", otp);
+            model.addAttribute("username", username);
+        } catch (Exception e) {
+            page.setValid(false);
+            page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
+            LOGGER.error(e.getMessage());
+
+            return "message";
+        }
+
+        return "all/forgot-pwd-otp";
+    }
+
+    /**
+     * @return view
+     */
+    @RequestMapping(value = "/pwd/reset", method = RequestMethod.POST)
+    private String resetPassword(@RequestParam("username")
+                                 String username,
+                                 @RequestParam("otp")
+                                 String otp,
+                                 Model model,
+                                 HttpSession session) {
+
+        PageViewBean page = new PageViewBean();
+        model.addAttribute("page", page);
+        String sessionOtp = (String)
+                session.getAttribute("user.password.forgot.otp");
+
+        try {
+            LOGGER.info(sessionOtp);
+            if (!StringUtils.hasText(username)
+                    || !StringUtils.hasText(otp)
+                    || !StringUtils.hasText(sessionOtp)) {
+                page.setValid(false);
+                page.setMessage("Invalid request");
+            } else {
+
+                // user not logged in
+                AppUser user = userService.getUser(username);
+                if (user == null) {
+                    page.setValid(false);
+                    page.setMessage("Invalid request");
+                } else if (!sessionOtp.equals(otp)) {
+                    page.setValid(false);
+                    page.setMessage("Invalid OTP. Please try again");
+                }
+
+                // Save the password
+                // Set the defaults
+                String pwd = AppUtil.getRandomPwd();
+
+                emailService.sendEmail(user.getEmail(),
+                        "Password reset", "Your password has been reset: " + pwd);
+
+                userService.savePassword(username, pwd);
+
+                page.setMessage("Your password has been reset. " +
+                        "Please check your email for the new password.");
+                page.setValid(true);
+            }
+        } catch (Exception e) {
+            page.setValid(false);
+            page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
+            LOGGER.error(e);
+
+        } finally {
+            session.removeAttribute("user.password.forgot.otp");
+        }
+
+        return "message";
     }
 
     /**

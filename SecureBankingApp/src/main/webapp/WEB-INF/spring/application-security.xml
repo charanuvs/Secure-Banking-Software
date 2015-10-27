@@ -24,6 +24,7 @@
         <intercept-url pattern="/merch/**" access="hasRole('ROLE_MERCHANT')"/>
         <intercept-url pattern="/logout" access="hasAnyRole('ROLE_EMPLOYEE',
             'ROLE_NORMAL', 'ROLE_ADMIN', 'ROLE_MERCHANT', 'ROLE_MANAGER')"/>
+        <intercept-url pattern="/pwd/**" access="isAnonymous()"/>
         <intercept-url pattern="/all/**" access="hasAnyRole('ROLE_EMPLOYEE',
             'ROLE_NORMAL', 'ROLE_ADMIN', 'ROLE_MERCHANT', 'ROLE_MANAGER')"/>
         <form-login username-parameter="username" password-parameter="password"

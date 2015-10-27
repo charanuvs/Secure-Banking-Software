@@ -15,12 +15,19 @@ public interface AccountDAO {
      * @param username
      * @return accounts
      */
-    public List<Account> getAccounts(String username);
+    List<Account> getAccounts(String username);
 
     /**
      * Add new account to the system
      *
      * @param account
      */
-    public void addAccount(Account account);
+    void addAccount(Account account);
+
+    /**
+     * Get account
+     *
+     * @param accountNum
+     */
+    Account getAccount(Integer accountNum);
 }

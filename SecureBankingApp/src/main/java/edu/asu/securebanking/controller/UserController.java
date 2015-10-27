@@ -33,12 +33,12 @@ public class UserController {
 
     private static Logger LOGGER = Logger.getLogger(UserController.class);
 
-    @RequestMapping(value = {"/user/home", "/user/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/user/home", "/user/", "/merch/home",
+            "/merch/"}, method = RequestMethod.GET)
     public String home(HttpSession session,
                        Model model) {
 
-        String username = ((AppUser) session.getAttribute(AppConstants.LOGGEDIN_USER))
-                .getUserId();
+        AppUser user = ((AppUser) session.getAttribute(AppConstants.LOGGEDIN_USER));
 
         PageViewBean page = new PageViewBean();
         List<Account> accounts;
@@ -46,11 +46,14 @@ public class UserController {
         model.addAttribute("accountTypes", AppConstants.ACCOUNT_TYPES);
 
         try {
-            accounts = accountService.getAccounts(username);
+            accounts = accountService.getAccounts(user.getUserId());
             LOGGER.info("Accounts size: " +
                     (null != accounts ? accounts.size() : "null"));
             model.addAttribute("accounts", accounts);
-            model.addAttribute("username", username);
+            model.addAttribute("username", user.getUserId());
+
+            if (user.getUserType().equals(AppConstants.ROLE_MERCHANT))
+                return "merch/account-list";
         } catch (AppBusinessException e) {
             LOGGER.error(e);
             page.setMessage(e.getMessage());

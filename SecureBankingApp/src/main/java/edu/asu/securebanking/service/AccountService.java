@@ -2,8 +2,10 @@ package edu.asu.securebanking.service;
 
 import edu.asu.securebanking.beans.Account;
 import edu.asu.securebanking.beans.AppUser;
+import edu.asu.securebanking.beans.Transaction;
 import edu.asu.securebanking.constants.AppConstants;
 import edu.asu.securebanking.dao.AccountDAO;
+import edu.asu.securebanking.dao.TransactionDAO;
 import edu.asu.securebanking.dao.UserDAO;
 import edu.asu.securebanking.exceptions.AppBusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,10 @@ public class AccountService {
     @Autowired
     @Qualifier("userDAO")
     private UserDAO userDAO;
+
+    @Autowired
+    @Qualifier("transactionDAO")
+    private TransactionDAO transactionDAO;
 
     @Autowired
     private ResourceBundleMessageSource messageSource;
@@ -87,5 +93,45 @@ public class AccountService {
         account.setOpeningDate(new Date());
 
         accountDAO.addAccount(account);
+    }
+
+    /**
+     * @param accountNum
+     * @return
+     * @throws AppBusinessException
+     */
+    @Transactional(rollbackOn = Throwable.class)
+    public List<Transaction> getTransactions(Integer accountNum) {
+        return transactionDAO.getTransactions(accountNum);
+    }
+
+    /**
+     * @param username
+     * @param accountNum
+     * @return isAuth
+     */
+    @Transactional
+    public boolean isAuthorizedAccountHolder(String username,
+                                             Integer accountNum) {
+        boolean isAuth = false;
+        Account account = accountDAO.getAccount(accountNum);
+
+        if (account == null ||
+                !account.getUser().getUserId().equals(username)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Get account from account num
+     *
+     * @param accountNum
+     * @return account
+     */
+    @Transactional
+    public Account getAccount(Integer accountNum) {
+        return accountDAO.getAccount(accountNum);
     }
 }
