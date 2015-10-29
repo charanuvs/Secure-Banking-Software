@@ -4,7 +4,6 @@ import edu.asu.securebanking.beans.PageViewBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Created by Vikranth on 10/28/2015.
@@ -17,7 +16,7 @@ public class ErrorController {
      *
      * @return view
      */
-    @RequestMapping(value = "/error/access", method = RequestMethod.GET)
+    @RequestMapping(value = "/error/access")
     public String error403(Model model) {
         PageViewBean page = new PageViewBean();
 
@@ -31,7 +30,7 @@ public class ErrorController {
     /**
      * @return view
      */
-    @RequestMapping(value = "/error/", method = RequestMethod.GET)
+    @RequestMapping(value = "/error/")
     public String internalError(Model model) {
         PageViewBean page = new PageViewBean();
 
@@ -46,7 +45,7 @@ public class ErrorController {
     /**
      * @return view
      */
-    @RequestMapping(value = "/error/404", method = RequestMethod.GET)
+    @RequestMapping(value = "/error/404")
     public String error404(Model model) {
         PageViewBean page = new PageViewBean();
 

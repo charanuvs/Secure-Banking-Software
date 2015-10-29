@@ -64,14 +64,14 @@
         <location>/error/404</location>
     </error-page>
 
-    <!--<error-page>
+    <error-page>
         <error-code>500</error-code>
-        <location>/error/</location>
-    </error-page>-->
+        <location>/error/access</location>
+    </error-page>
 
-    <!--<error-page>
+    <error-page>
         <exception-type>java.lang.Exception</exception-type>
-        <location>/Error.jsp</location>
-    </error-page>-->
+        <location>/error/access</location>
+    </error-page>
 
 </web-app>
