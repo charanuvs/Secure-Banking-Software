@@ -17,7 +17,7 @@ public final class AppConstants {
      */
     public static final String DOC_TITLE = "Bank CSE545";
 
-    public static final String KEY_PATH = "C:\\keys\\";
+    public static final String KEY_PATH = "/home/ubuntu/";
 
     public static final String ROLE_NORMAL = "ROLE_NORMAL";
 
