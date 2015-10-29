@@ -65,6 +65,7 @@
                 <div class="col-sm-7">
                     <input type="submit" id="submit" class="btn btn-primary btn-lg btn-sm-10"
                            value="Login">
+                    <a href="<c:url value="/pwd" />" style="margin-left: 10px;">Forgot password</a>
                 </div>
             </div>
 

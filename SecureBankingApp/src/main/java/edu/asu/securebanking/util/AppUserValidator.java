@@ -26,7 +26,7 @@ public class AppUserValidator implements Validator {
 
     protected static String phoneRegex = "^[0-9]{10,12}$";
 
-    protected static String ssnRegex = "^[0-9]{10}$";
+    protected static String ssnRegex = "^[0-9]{9}$";
 
     protected static String simpleEmailRegex = "^\\S+@\\S+$";
 
@@ -128,7 +128,7 @@ public class AppUserValidator implements Validator {
         if (StringUtils.hasText(user.getSsn())) {
             if (!ssnPattern.matcher(user.getSsn()).matches())
                 errors.rejectValue("ssn", "ssn", "Invalid SSN, " +
-                        "SSN should either be empty or 10 digit number");
+                        "SSN should either be empty or 9 digit number");
         } else {
             user.setSsn("");
         }

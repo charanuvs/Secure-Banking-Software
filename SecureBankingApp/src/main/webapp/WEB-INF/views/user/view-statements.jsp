@@ -69,7 +69,7 @@
                     </td>
                     <td><fmt:formatNumber value="${transaction.amount}"
                                           type="currency"/></td>
-                    <td><c:out value="${transaction.transactionType }"/></td>
+                    <td><c:out value="${transaction.transactionType}"/></td>
                     <td><c:out value="${transaction.status }"/></td>
                 </tr>
             </c:forEach>
@@ -79,7 +79,7 @@
 
         <!-- Can download -->
         <div class="container-fluid"><a href="<c:url
-        value='/user/statements/download/${account.accountNum}' />"
+        value='/user/statements/${account.accountNum}?view=excel' />"
                                         class="btn btn-primary btn-lg">Download Statement</a></div>
     </c:if>
 

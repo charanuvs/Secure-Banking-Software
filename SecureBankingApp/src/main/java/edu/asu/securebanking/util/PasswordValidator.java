@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  */
 public class PasswordValidator implements Validator {
 
-    private static String allRegex = "^[0-9A-Za-z!@#\\$]{6,10}$";
+    private static String allRegex = "^[0-9A-Za-z!@#\\$]{6,15}$";
 
     private static Pattern pwdPattern = Pattern.compile(allRegex);
 

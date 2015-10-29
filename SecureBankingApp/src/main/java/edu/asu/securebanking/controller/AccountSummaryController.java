@@ -15,9 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -35,16 +39,20 @@ public class AccountSummaryController {
 
     @Autowired
     @Qualifier("loginFormValidator")
-    LoginFormValidator loginFormValidator;
+    private LoginFormValidator loginFormValidator;
 
     @Autowired
-    LoginService loginService;
+    private LoginService loginService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    AccountService accountService;
+    private AccountService accountService;
+
+    @Autowired
+    @Qualifier("accountExcelView")
+    private View accountExcelView;
 
     /**
      * @param session
@@ -54,9 +62,11 @@ public class AccountSummaryController {
      */
     @RequestMapping(value = {"/user/statements/{accountId}",
             "/merch/statements/{accountId}"}, method = RequestMethod.GET)
-    public String viewStatement(HttpSession session,
-                                Model model,
-                                @PathVariable("accountId") Integer accountId) {
+    public ModelAndView viewStatement(HttpSession session,
+                                      Model model,
+                                      @PathVariable("accountId") Integer accountId,
+                                      @RequestParam(value = "view",
+                                              required = false) String view) {
 
         PageViewBean page = new PageViewBean();
         model.addAttribute("page", page);
@@ -76,25 +86,33 @@ public class AccountSummaryController {
             // get the transactions
             List<Transaction> transactions = accountService.getTransactions(accountId);
 
+            model.addAttribute("appUser", user);
             model.addAttribute("transactions", transactions);
             model.addAttribute("account", account);
             model.addAttribute("user", user.getUserId());
 
+            if (StringUtils.hasText(view) &&
+                    view.equalsIgnoreCase("excel")) {
+                return new ModelAndView(accountExcelView);
+            }
+
             if (user.getUserType().equals(AppConstants.ROLE_MERCHANT)) {
-                return "merch/view-statements";
+                return new ModelAndView("merch/view-statements");
             }
         } catch (AppBusinessException e) {
             page.setValid(false);
             page.setMessage(e.getMessage());
             LOGGER.error(e);
-            return "message";
+            return new ModelAndView("message");
         } catch (Exception e) {
             page.setValid(false);
             page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
             LOGGER.error(e);
-            return "message";
+            return new ModelAndView("message");
         }
 
-        return "user/view-statements";
+        return new ModelAndView("user/view-statements");
     }
+
+
 }

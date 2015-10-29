@@ -200,6 +200,15 @@
         </dependency>
 
 
+        <!-- Apache poi -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.10-FINAL</version>
+        </dependency>
+        <!-- end -->
+
+
     </dependencies>
     <build>
         <finalName>onlinebanking</finalName>
