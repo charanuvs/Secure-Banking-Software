@@ -54,6 +54,12 @@ public class Transaction implements Serializable {
     @Transient
     private String amountString;
 
+    @Transient
+    private Integer toAccountNumberInteger;
+
+    @Transient
+    private Integer fromAccountNumberInteger;
+
     public String getToAccountNumber() {
         return toAccountNumber;
     }
@@ -166,5 +172,21 @@ public class Transaction implements Serializable {
                 ", transactionTypeString='" + transactionTypeString + '\'' +
                 ", amountString='" + amountString + '\'' +
                 '}';
+    }
+
+    public Integer getFromAccountNumberInteger() {
+        return fromAccountNumberInteger;
+    }
+
+    public void setFromAccountNumberInteger(Integer fromAccountNumberInteger) {
+        this.fromAccountNumberInteger = fromAccountNumberInteger;
+    }
+
+    public Integer getToAccountNumberInteger() {
+        return toAccountNumberInteger;
+    }
+
+    public void setToAccountNumberInteger(Integer toAccountNumberInteger) {
+        this.toAccountNumberInteger = toAccountNumberInteger;
     }
 }

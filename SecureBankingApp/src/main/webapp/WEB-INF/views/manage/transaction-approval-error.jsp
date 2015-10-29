@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>XYZ Bank</title>
+    <title>Bank of Upper Concourse</title>
 
     <!-- include css -->
     <jsp:include page="../css.jsp"></jsp:include>
@@ -18,7 +18,8 @@
 <jsp:include page="nav.jsp"/>
 
 <div class="container col-sm-6 col-sm-offset-3 ">
-<p style="color:red"><%= session.getAttribute("approval.err") %></p>
+    <p style="color:red"><%= session.getAttribute("approval.err") %>
+    </p>
 </div>
 </body>
 

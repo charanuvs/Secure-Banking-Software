@@ -7,7 +7,7 @@ import java.util.List;
 public interface TransactionDAO {
 
     /**
-     * @param Transaction
+     * @param transaction
      * @return added
      */
     public void addTransaction(Transaction transaction);
@@ -21,7 +21,7 @@ public interface TransactionDAO {
     public void updateTransaction(Transaction t);
 
     public void deleteTransaction(Transaction t);
-    
+
     public List<Transaction> getTransactions(Integer accountNum);
 
 }

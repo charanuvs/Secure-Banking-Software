@@ -100,4 +100,6 @@
     <bean class="edu.asu.securebanking.util.AccountValidator"
           id="accountValidator"/>
 
+    <bean id="transactionValidator" class="edu.asu.securebanking.util.TransactionValidator"/>
+
 </beans>

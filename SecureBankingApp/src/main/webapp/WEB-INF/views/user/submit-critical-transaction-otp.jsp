@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>XYZ Bank</title>
+    <title>Bank of Upper Concourse</title>
 
     <!-- include css -->
     <jsp:include page="../css.jsp"></jsp:include>
@@ -15,21 +15,21 @@
     <jsp:include page="../js.jsp"></jsp:include>
 </head>
 <body>
-<jsp:include page="nav.jsp"></jsp:include>
+<jsp:include page="../nav.jsp"></jsp:include>
 
 <div class="container col-sm-6 col-sm-offset-3 ">
 
     <div class="alert alert-info">
-        Transactions with amount greater than or equal to $10,000 are critical and require use of OTP. 
+        Transactions with amount greater than or equal to $10,000 are critical and require use of OTP.
         We have sent your OTP to your email address. Please enter the OTP to continue:
     </div>
 
     <div class="well">
-    	
+
         <c:url var="formAction" value="/user/payment/confirm-critical"/>
         <form:form method="post"
                    class="form-horizontal" action="${formAction}">
-            <legend>Submit Transaction</legend>
+            <legend>Submit Transfer</legend>
 
             <div class="form-group">
                 <label class="col-sm-4 control-label" for="otp">OTP</label>

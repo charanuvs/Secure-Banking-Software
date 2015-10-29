@@ -15,14 +15,15 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="<c:url value='/'></c:url>">Bank CSE545</a>
+            <a class="navbar-brand" href="<c:url value='/'></c:url>">Bank of Upper Concourse</a>
         </div>
 
         <div class="collapse navbar-collapse">
             <jsp:include page="../logout_inc.jsp"/>
 
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="<c:url value='/user/payment' />">Transfers and Payments</a></li>
+                <li class="active"><a href="<c:url value='/user/transfer' />">Transfers Funds</a></li>
+                <li class="active"><a href="<c:url value='/user/payment' />">Payment</a></li>
                 <li class="active"><a href="<c:url value='/all/update' />">Update Info</a></li>
                 <li class="active"><a href="<c:url value='/all/pwd' />">Change Password</a></li>
             </ul>

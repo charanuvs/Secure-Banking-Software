@@ -35,4 +35,9 @@ public interface AccountDAO {
      * @param account
      */
     void updateAccount(Account account);
+
+    /**
+     * @return accounts
+     */
+    List<Account> getMerchantAccounts();
 }

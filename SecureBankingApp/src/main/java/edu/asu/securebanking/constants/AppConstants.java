@@ -15,7 +15,7 @@ public final class AppConstants {
     /**
      * Default DOC title
      */
-    public static final String DOC_TITLE = "Bank CSE545";
+    public static final String DOC_TITLE = "Bank of Upper Concourse";
 
     public static final String KEY_PATH = "/home/ubuntu/keys/";
 
@@ -96,6 +96,12 @@ public final class AppConstants {
     public static final String TRANSACTION_AUTHORIZED_YES = "YES";
 
     public static final String TRANSACTION_AUTHORIZED_NO = "NO";
+
+    public static final double ONE_MILLION = 1000000;
+
+    public static final double TEN_K = 10000;
+
+    public static final String APPLET_LOCATION = "/home/ubuntu/jar/DecryptApplet.jar";
 
     static {
         GENDERS.put(GENDER_MALE, "Male");

@@ -27,7 +27,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="<c:url value='/'></c:url>">Bank CSE545</a>
+            <a class="navbar-brand" href="<c:url value='/'></c:url>">Bank of Upper Concourse</a>
         </div>
     </div>
     <!--/.container-fluid -->
@@ -35,12 +35,11 @@
 
 <div class="container">
     <div class="jumbotron">
-        <h1>XYZ Secure Online Banking</h1>
+        <h1>Bank of Upper Concourse</h1>
 
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Ab, ex. Maxime, autem. Repellat quod autem quos delectus!
-            Possimus at eius atque dolores corrupti, fugiat accusamus qui,
-            vel incidunt itaque, ipsam.</p>
+        <p>Hello. Welcome to our banking application. In order to login and use this application, please go through the
+            steps provided in the <a href="http://www.public.asu.edu/~vuppulur/ss.pdf" target="_blank">User guide</a>
+        </p>
 
         <p>
             <a class="btn btn-lg btn-primary" href="<c:url value='/login' />" role="button">Log In to Access »</a>

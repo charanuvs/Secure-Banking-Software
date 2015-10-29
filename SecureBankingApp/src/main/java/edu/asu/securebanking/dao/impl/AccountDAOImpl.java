@@ -23,6 +23,14 @@ public class AccountDAOImpl extends AbstractDAO implements AccountDAO {
     }
 
     @Override
+    public List<Account> getMerchantAccounts() {
+
+        Criteria criteria = getSession().createCriteria(Account.class);
+
+        return criteria.list();
+    }
+
+    @Override
     public void addAccount(Account account) {
         getSession().save(account);
     }

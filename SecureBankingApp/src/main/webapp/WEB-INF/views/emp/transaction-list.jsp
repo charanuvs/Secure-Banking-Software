@@ -2,12 +2,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>XYZ Bank</title>
+    <title>Bank of Upper Concourse</title>
 
     <!-- include css -->
     <jsp:include page="../css.jsp"></jsp:include>
@@ -41,8 +42,10 @@
                     <td><c:out value="${transaction.transactionType}"/></td>
                     <td><c:out value="${transaction.fromAccount.accountNum}"/></td>
                     <td><c:out value="${transaction.toAccount.accountNum}"/></td>
-                    <td><c:out value="${transaction.amount}"/></td>
-                    <td><c:out value="${transaction.fromAccount.balance}"/></td>
+                    <td><fmt:formatNumber value="${transaction.amount}"
+                                          type="currency"/></td>
+                    <td><fmt:formatNumber value="${transaction.fromAccount.balance}"
+                                          type="currency"/></td>
                     <td><a href="<c:url value='/emp/transactions/approve/${transaction.transactionId}'/>"
                            class="btn btn-default btn-sm">Approve</a></td>
                     <td><a href="<c:url value='/emp/transactions/deny/${transaction.transactionId}'/>"

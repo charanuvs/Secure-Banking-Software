@@ -14,6 +14,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -143,5 +144,25 @@ public class AccountService {
     public void updateAccount(Account account)
             throws AppBusinessException {
         accountDAO.updateAccount(account);
+    }
+
+    /**
+     * @return merchantAccounts
+     * @throws AppBusinessException
+     */
+    @Transactional
+    public List<Account> getMerchantAccounts() throws AppBusinessException {
+        List<Account> accounts = accountDAO.getMerchantAccounts();
+
+        Iterator<Account> it = accounts.iterator();
+
+        while (it.hasNext()) {
+            Account account = it.next();
+            if (!account.getUser().getUserType().equals(AppConstants.ROLE_MERCHANT)) {
+                it.remove();
+            }
+        }
+
+        return accounts;
     }
 }

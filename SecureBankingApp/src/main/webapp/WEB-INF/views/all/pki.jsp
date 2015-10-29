@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>XYZ Bank</title>
+    <title>Bank CSE545</title>
 
     <!-- include css -->
     <jsp:include page="../css.jsp"></jsp:include>
@@ -52,6 +52,8 @@
                 <div class="col-sm-7">
                     <input type="submit" id="submit"
                            class="btn btn-primary btn-lg btn-sm-10" value="Submit">
+                    <span style="margin-left: 10px;">Download Decryption Program
+                        </span><a href="<c:url value="/all/download" />">Here</a>
                 </div>
             </div>
 

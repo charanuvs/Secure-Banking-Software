@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Bank CSE545</title>
+    <title>Bank of Upper Concourse</title>
 
     <!-- include css -->
     <jsp:include page="../css.jsp"></jsp:include>
@@ -28,7 +28,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="<c:url value='/'></c:url>">Bank CSE545</a>
+            <a class="navbar-brand" href="<c:url value='/'></c:url>">Bank of Upper Concourse</a>
         </div>
     </div>
     <!--/.container-fluid -->
@@ -49,14 +49,14 @@
                 <label class="col-sm-3 control-label" for="username">Username</label>
 
                 <div class="col-sm-7">
-                    <form:input path="username" class="form-control" type="text"/>
+                    <form:input path="username" class="form-control osk-trigger" type="text"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="username">Password</label>
 
                 <div class="col-sm-7">
-                    <form:input path="password" class="form-control" type="password"/>
+                    <form:input path="password" class="form-control osk-trigger" type="password"/>
                 </div>
             </div>
 
@@ -73,6 +73,15 @@
 
     </div>
 </div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#loginFormBean .osk-trigger').onScreenKeyboard({
+            rewireReturn: 'submit',
+            rewireTab: true
+        });
+    });
+</script>
 </body>
 
 </html>

@@ -11,10 +11,12 @@ import edu.asu.securebanking.service.AccountService;
 import edu.asu.securebanking.service.EmailService;
 import edu.asu.securebanking.service.OTPService;
 import edu.asu.securebanking.service.TransactionService;
+import edu.asu.securebanking.util.TransactionValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +28,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Rishabh
@@ -52,8 +55,10 @@ public class PaymentController {
     @Autowired
     private TransactionService transactionService;
 
+    @Autowired
+    private TransactionValidator transactionValidator;
 
-    @RequestMapping(value = "/user/payment", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/payments", method = RequestMethod.GET)
     public String payment(@ModelAttribute("transaction") Transaction transaction, final Model model) {
         PageViewBean page = new PageViewBean();
         model.addAttribute("page", page);
@@ -61,6 +66,368 @@ public class PaymentController {
         model.addAttribute("types", AppConstants.TRANSACTION_TYPES);
 
         return "user/payment";
+    }
+
+    /**
+     * @param transaction
+     * @param model
+     * @param session
+     * @return transfer
+     */
+    @RequestMapping(value = {"/user/transfer",
+            "/merch/transfer"}, method = RequestMethod.GET)
+    public String transfer(@ModelAttribute("transaction") Transaction transaction, final Model model,
+                           HttpSession session) {
+        PageViewBean page = new PageViewBean();
+        model.addAttribute("page", page);
+        model.addAttribute("types", AppConstants.TRANSACTION_TYPES);
+        AppUser user = (AppUser) session.getAttribute(AppConstants.LOGGEDIN_USER);
+        String userType;
+
+        if (AppConstants.ROLE_MERCHANT.equals(user.getUserType()))
+            userType = "merch";
+        else
+            userType = "user";
+
+        model.addAttribute("userType", userType);
+
+        try {
+            List<Account> accounts = accountService.getAccounts(user.getUserId());
+
+            if (accounts == null || accounts.size() == 0) {
+                page.setMessage("You do not have any accounts to make transfer");
+                page.setValid(false);
+                return "message";
+            }
+            // add accounts to the list
+            model.addAttribute("accounts", accounts);
+        } catch (AppBusinessException e) {
+            LOGGER.error(e);
+            page.setMessage(e.getMessage());
+            page.setValid(false);
+
+            return "message";
+        } catch (Exception e) {
+            LOGGER.error(e);
+            page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
+            page.setValid(false);
+
+            return "message";
+        }
+
+        return "user/transfer";
+    }
+
+    /**
+     * @param transaction
+     * @param model
+     * @param session
+     * @return transfer
+     */
+    @RequestMapping(value = "/user/payment", method = RequestMethod.GET)
+    public String payment(@ModelAttribute("transaction") Transaction transaction, final Model model,
+                          HttpSession session) {
+        PageViewBean page = new PageViewBean();
+        model.addAttribute("page", page);
+        model.addAttribute("types", AppConstants.TRANSACTION_TYPES);
+        AppUser user = (AppUser) session.getAttribute(AppConstants.LOGGEDIN_USER);
+
+        try {
+            List<Account> accounts = accountService.getAccounts(user.getUserId());
+            List<Account> merchantAccounts = accountService.getMerchantAccounts();
+
+            if (accounts == null || accounts.size() == 0) {
+                page.setMessage("You do not have any accounts to make transfer");
+                page.setValid(false);
+                return "message";
+            }
+
+            if (merchantAccounts == null || merchantAccounts.size() == 0) {
+                page.setMessage("There are no merchant accounts to make a payment");
+                page.setValid(false);
+                return "message";
+            }
+            // add accounts to the list
+            model.addAttribute("accounts", accounts);
+            model.addAttribute("merchantAccounts", merchantAccounts);
+        } catch (AppBusinessException e) {
+            LOGGER.error(e);
+            page.setMessage(e.getMessage());
+            page.setValid(false);
+
+            return "message";
+        } catch (Exception e) {
+            LOGGER.error(e);
+            page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
+            page.setValid(false);
+
+            return "message";
+        }
+
+        return "user/payment-new";
+    }
+
+    /**
+     * @param transaction
+     * @param model
+     * @param session
+     * @return transfer
+     */
+    @RequestMapping(value = "/user/payment", method = RequestMethod.POST)
+    public String paymentPost(@ModelAttribute("transaction") Transaction transaction, final Model model,
+                              HttpSession session,
+                              BindingResult result) {
+
+        PageViewBean page = new PageViewBean();
+        model.addAttribute("page", page);
+        model.addAttribute("types", AppConstants.TRANSACTION_TYPES);
+        AppUser user = (AppUser) session.getAttribute(AppConstants.LOGGEDIN_USER);
+
+        try {
+
+            transaction.setTransactionType("PAYMENT");
+            transaction.setStatus("PENDING");
+
+            List<Account> accounts = accountService.getAccounts(user.getUserId());
+            List<Account> merchantAccounts = accountService.getMerchantAccounts();
+
+            if (accounts == null || accounts.size() == 0) {
+                page.setMessage("You do not have any accounts to make transfer");
+                page.setValid(false);
+                return "message";
+            }
+
+            if (merchantAccounts == null || merchantAccounts.size() == 0) {
+                page.setMessage("There are no merchant accounts to make a payment");
+                page.setValid(false);
+                return "message";
+            }
+
+            model.addAttribute("accounts", accounts);
+            model.addAttribute("merchantAccounts", merchantAccounts);
+
+            transactionValidator.validate(transaction, result);
+
+            if (result.hasErrors())
+                return "user/payment-new";
+
+            if (transaction.getAmount().doubleValue() > AppConstants.TEN_K) {
+                // critical
+                session.setAttribute("transaction.critical.payment", transaction);
+
+                // OTP and send the message
+                String otp = otpService.generateOTP();
+                session.setAttribute("transaction.critical.payment.otp", otp);
+                // send email
+                emailService.sendEmail(user.getEmail(), "OTP to submit your transaction",
+                        "The OTP to submit your transaction: " + otp);
+
+                return "user/submit-critical-transaction-payment";
+            }
+
+            transactionService.addNewTransaction(transaction, user.getUserId());
+            // valid transaction
+            // transactionService.addTransaction(transaction);
+            page.setMessage("Payment Posted");
+            page.setValid(true);
+        } catch (AppBusinessException e) {
+            LOGGER.error(e);
+            page.setMessage(e.getMessage());
+            page.setValid(false);
+        } catch (Exception e) {
+            LOGGER.error(e);
+            page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
+            page.setValid(false);
+
+        }
+
+        return "message";
+    }
+
+
+    /**
+     * @param model
+     * @param session
+     * @return transfer
+     */
+    @RequestMapping(value = "/user/payment/confirm", method = RequestMethod.POST)
+    public String paymentPostConfirmOTP(final Model model,
+                                        HttpSession session,
+                                        @RequestParam("otp") String otp) {
+
+        PageViewBean page = new PageViewBean();
+        model.addAttribute("page", page);
+        AppUser user = (AppUser) session.getAttribute(AppConstants.LOGGEDIN_USER);
+        String sessionOtp = (String) session.getAttribute("transaction.critical.payment.otp");
+        Transaction transaction = (Transaction) session.getAttribute("transaction.critical.payment");
+
+        try {
+
+            if (!StringUtils.hasText(otp) || transaction == null
+                    || !sessionOtp.equals(otp)) {
+                page.setMessage("Invalid request");
+                page.setValid(false);
+                return "message";
+            }
+
+            transactionService.addNewTransaction(transaction, user.getUserId());
+            // valid transaction
+            // transactionService.addTransaction(transaction);
+            page.setMessage("Payment Posted");
+            page.setValid(true);
+        } catch (AppBusinessException e) {
+            LOGGER.error(e);
+            page.setMessage(e.getMessage());
+            page.setValid(false);
+
+        } catch (Exception e) {
+            LOGGER.error(e);
+            page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
+            page.setValid(false);
+
+        } finally {
+            session.removeAttribute("transaction.critical.payment.otp");
+            session.removeAttribute("transaction.critical.payment");
+        }
+
+        return "message";
+    }
+
+    /**
+     * @param transaction
+     * @param model
+     * @param session
+     * @return transfer
+     */
+    @RequestMapping(value = {"/user/transfer",
+            "/merch/transfer"}, method = RequestMethod.POST)
+    public String transferPost(@ModelAttribute("transaction") Transaction transaction, final Model model,
+                               HttpSession session,
+                               BindingResult result) {
+
+        PageViewBean page = new PageViewBean();
+        model.addAttribute("page", page);
+        model.addAttribute("types", AppConstants.TRANSACTION_TYPES);
+        AppUser user = (AppUser) session.getAttribute(AppConstants.LOGGEDIN_USER);
+
+        String userType;
+        if (AppConstants.ROLE_MERCHANT.equals(user.getUserType()))
+            userType = "merch";
+        else
+            userType = "user";
+
+        model.addAttribute("userType", userType);
+
+        try {
+
+            transaction.setTransactionType("TRANSFER");
+            transaction.setStatus("PENDING");
+
+            transactionValidator.validate(transaction, result);
+            List<Account> accounts = accountService.getAccounts(user.getUserId());
+
+            if (accounts == null || accounts.size() == 0) {
+                page.setMessage("You do not have any accounts to make transfer");
+                page.setValid(false);
+                return "message";
+            }
+            // add accounts to the list
+            model.addAttribute("accounts", accounts);
+
+            if (result.hasErrors())
+                return "user/transfer";
+
+            if (transaction.getAmount().doubleValue() > AppConstants.TEN_K) {
+                // critical
+                session.setAttribute("transaction.critical", transaction);
+
+                // OTP and send the message
+                String otp = otpService.generateOTP();
+                session.setAttribute("transaction.critical.otp", otp);
+                // send email
+                emailService.sendEmail(user.getEmail(), "OTP to submit your transaction",
+                        "The OTP to submit your transaction: " + otp);
+
+                return "user/submit-critical-transaction";
+            }
+
+            transactionService.addNewTransaction(transaction, user.getUserId());
+            // valid transaction
+            // transactionService.addTransaction(transaction);
+            page.setMessage("Transfer Posted");
+            page.setValid(true);
+        } catch (AppBusinessException e) {
+            LOGGER.error(e);
+            page.setMessage(e.getMessage());
+            page.setValid(false);
+
+            return "message";
+        } catch (Exception e) {
+            LOGGER.error(e);
+            page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
+            page.setValid(false);
+
+        }
+
+        return "message";
+    }
+
+    /**
+     * @param model
+     * @param session
+     * @return transfer
+     */
+    @RequestMapping(value = {"/user/transfer/confirm", "/merch/transfer/confirm"}, method = RequestMethod.POST)
+    public String transferPostConfirmOTP(final Model model,
+                                         HttpSession session,
+                                         @RequestParam("otp") String otp) {
+
+        PageViewBean page = new PageViewBean();
+        model.addAttribute("page", page);
+        model.addAttribute("types", AppConstants.TRANSACTION_TYPES);
+        AppUser user = (AppUser) session.getAttribute(AppConstants.LOGGEDIN_USER);
+        String sessionOtp = (String) session.getAttribute("transaction.critical.otp");
+        Transaction transaction = (Transaction) session.getAttribute("transaction.critical");
+
+        String userType;
+
+        if (AppConstants.ROLE_MERCHANT.equals(user.getUserType()))
+            userType = "merch";
+        else
+            userType = "user";
+
+        model.addAttribute("userType", userType);
+
+        try {
+
+            if (!StringUtils.hasText(otp) || transaction == null
+                    || !sessionOtp.equals(otp)) {
+                page.setMessage("Invalid request");
+                page.setValid(false);
+                return "message";
+            }
+
+            transactionService.addNewTransaction(transaction, user.getUserId());
+            // valid transaction
+            // transactionService.addTransaction(transaction);
+            page.setMessage("Transfer Posted");
+            page.setValid(true);
+        } catch (AppBusinessException e) {
+            LOGGER.error(e);
+            page.setMessage(e.getMessage());
+            page.setValid(false);
+
+        } catch (Exception e) {
+            LOGGER.error(e);
+            page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
+            page.setValid(false);
+
+        } finally {
+            session.removeAttribute("transaction.critical.otp");
+            session.removeAttribute("transaction.critical");
+        }
+
+        return "message";
     }
 
 

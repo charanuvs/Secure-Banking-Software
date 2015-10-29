@@ -62,7 +62,7 @@ public class ManagerController {
      *
      * @return home
      */
-    @RequestMapping(value = {"/manage/home", "/manage/"},
+    @RequestMapping(value = {"/manage/home"},
             method = RequestMethod.GET)
 
     public String home() {
@@ -462,7 +462,8 @@ public class ManagerController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "/manage/transactions/list", method = RequestMethod.GET)
+    @RequestMapping(value = {"/manage/transactions/list",
+            "/manage/"}, method = RequestMethod.GET)
     public String getCriticalTransactions(Model model) {
 
         PageViewBean page = new PageViewBean();
@@ -505,13 +506,15 @@ public class ManagerController {
 
             // check if the transaction has been approved or not
             if (transaction.getStatus().equals("APPROVED")) {
-                session.setAttribute("approval.err", "The transaction you requested has already been approved");
-                return "/manage/transaction-approval-error";
+                page.setMessage("The transaction you requested has already been approved");
+                page.setValid(false);
+                return "message";
             }
             // check if the user has sufficient funds
             if (transaction.getAmount().compareTo(transaction.getFromAccount().getBalance()) > 0) {
-                session.setAttribute("approval.err", "Cannot approve due to insufficient funds");
-                return "/manage/transaction-approval-error";
+                page.setValid(false);
+                page.setMessage("Cannot approve due to insufficient funds");
+                return "message";
             }
 
             transaction.setStatus("COMPLETE");
@@ -532,7 +535,7 @@ public class ManagerController {
             accountService.updateAccount(fromAccount);
 
             // return updated transaction list
-            return "redirect:/manage/transactions/list";
+            return "redirect:/manage/";
         } catch (Exception e) {
             page.setValid(false);
             page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
@@ -562,8 +565,9 @@ public class ManagerController {
 
             // check if the transaction has been approved or not
             if (transaction.getStatus().equals("APPROVED")) {
-                session.setAttribute("approval.err", "The transaction you requested has already been approved");
-                return "/manage/transactions/approval-error";
+                page.setMessage("The transaction you requested has already been approved");
+                page.setValid(false);
+                return "message";
             }
 
             LOGGER.info("TRANSACTION: " + transaction);
@@ -571,7 +575,7 @@ public class ManagerController {
             transactionService.deleteTransaction(transaction);
 
             // return updated transaction list
-            return "redirect:/manage/transactions/list";
+            return "redirect:/manage/";
         } catch (Exception e) {
             page.setValid(false);
             page.setMessage(AppConstants.DEFAULT_ERROR_MSG);

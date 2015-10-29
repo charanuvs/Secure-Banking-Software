@@ -3,10 +3,4 @@
 
 <script type="text/javascript" src="<c:url value='/static/js/jquery.js'></c:url>"></script>
 <script type="text/javascript" src="<c:url value='/static/js/bootstrap.min.js'></c:url>"></script>
-<script type="text/javascript" src="<c:url value='/static/js/jquery.keyboard.extension-all.js'></c:url>"></script>
-
-<script type="text/javascript" src="<c:url value='/static/js/keyboard.js'></c:url>"></script>
-<script type="text/javascript"
-        src="<c:url value='https://www.google.com/jsapi'></c:url>"></script>
-<script type="text/javascript"
-        src="<c:url value='/static/js/virtualkeyboard.js'></c:url>"></script>
+<script type="text/javascript" src="<c:url value='/static/js/jquery.onScreenKeyboard.js'></c:url>"></script>

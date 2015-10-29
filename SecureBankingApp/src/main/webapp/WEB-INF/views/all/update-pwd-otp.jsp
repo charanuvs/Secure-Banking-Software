@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Bank CSE545</title>
+    <title>Bank of Upper Concourse</title>
 
     <!-- include css -->
     <jsp:include page="../css.jsp"></jsp:include>
@@ -33,7 +33,7 @@
                 <label class="col-sm-4 control-label" for="otp">OTP</label>
 
                 <div class="col-sm-7">
-                    <input type="password" id="otp" name="otp" class="form-control">
+                    <input type="password" id="otp" name="otp" class="form-control osk-trigger">
                 </div>
             </div>
 
@@ -49,6 +49,15 @@
     </div>
 </div>
 
+
+<script type="text/javascript">
+    $(function () {
+        $('form .osk-trigger').onScreenKeyboard({
+            rewireReturn: 'submit',
+            rewireTab: true
+        });
+    });
+</script>
 </body>
 
 </html>
