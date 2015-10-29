@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Bank CSE545</title>
+    <title>XYZ Bank</title>
 
     <!-- include css -->
     <jsp:include page="../css.jsp"></jsp:include>
@@ -19,13 +19,20 @@
 
 <div class="container col-sm-6 col-sm-offset-3 ">
 
-    <c:if test="${page.valid == false}">
-        <div class="alert alert-danger">Something wrong</div>
+    <c:if test="${page.valid == true}">
+        <c:if test="${not empty page.message}">
+            <div class="alert alert-success">
+                <c:out value="${page.message}"></c:out>
+            </div>
+        </c:if>
     </c:if>
-
-    <div class="well">
-        Welcome - <c:out value="${loggedInUser.name}"/>
-    </div>
+    <c:if test="${page.valid == false}">
+        <c:if test="${not empty page.message}">
+            <div class="alert alert-danger">
+                <c:out value="${page.message}"></c:out>
+            </div>
+        </c:if>
+    </c:if>
 </div>
 </body>
 

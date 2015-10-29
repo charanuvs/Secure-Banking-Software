@@ -15,7 +15,7 @@ public final class AppConstants {
     /**
      * Default DOC title
      */
-    public static final String DOC_TITLE = "XYZ Bank";
+    public static final String DOC_TITLE = "Bank CSE545";
 
     public static final String ROLE_NORMAL = "ROLE_NORMAL";
 
@@ -127,7 +127,7 @@ public final class AppConstants {
         ACCOUNT_TYPES_MERCHANT.put(ACCOUNT_CHECKIN, "Merchant");
 
         // Transaction types
-        TRANSACTION_TYPES.put("TRANSACTION", "Transaction");
+        TRANSACTION_TYPES.put("TRANSFER", "Transfer");
         TRANSACTION_TYPES.put("PAYMENT", "Payment");
 
     }

@@ -30,4 +30,9 @@ public interface AccountDAO {
      * @param accountNum
      */
     Account getAccount(Integer accountNum);
+
+    /**
+     * @param account
+     */
+    void updateAccount(Account account);
 }

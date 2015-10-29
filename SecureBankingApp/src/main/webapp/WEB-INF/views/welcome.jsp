@@ -27,7 +27,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="<c:url value='/'></c:url>">XYZ Bank</a>
+            <a class="navbar-brand" href="<c:url value='/'></c:url>">Bank CSE545</a>
         </div>
     </div>
     <!--/.container-fluid -->

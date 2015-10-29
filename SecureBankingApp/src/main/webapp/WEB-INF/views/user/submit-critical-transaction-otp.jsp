@@ -15,19 +15,21 @@
     <jsp:include page="../js.jsp"></jsp:include>
 </head>
 <body>
-<jsp:include page="../nav.jsp"></jsp:include>
+<jsp:include page="nav.jsp"></jsp:include>
 
 <div class="container col-sm-6 col-sm-offset-3 ">
 
     <div class="alert alert-info">
-        We have emailed you an OTP to your mail address. Please enter the OTP to change your password.
+        Transactions with amount greater than or equal to $10,000 are critical and require use of OTP.
+        We have sent your OTP to your email address. Please enter the OTP to continue:
     </div>
 
     <div class="well">
-        <c:url var="formAction" value="/all/pwd/otp"/>
+
+        <c:url var="formAction" value="/user/payment/confirm-critical"/>
         <form:form method="post"
                    class="form-horizontal" action="${formAction}">
-            <legend>Update Password</legend>
+            <legend>Submit Transaction</legend>
 
             <div class="form-group">
                 <label class="col-sm-4 control-label" for="otp">OTP</label>

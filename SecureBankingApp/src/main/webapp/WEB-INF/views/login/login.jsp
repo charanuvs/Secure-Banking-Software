@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>XYZ Bank</title>
+    <title>Bank CSE545</title>
 
     <!-- include css -->
     <jsp:include page="../css.jsp"></jsp:include>
@@ -28,7 +28,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="<c:url value='/'></c:url>">XYZ Bank</a>
+            <a class="navbar-brand" href="<c:url value='/'></c:url>">Bank CSE545</a>
         </div>
     </div>
     <!--/.container-fluid -->

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -53,6 +54,11 @@ public class AccountSummaryController {
     @Autowired
     @Qualifier("accountExcelView")
     private View accountExcelView;
+
+
+    @Resource(name = "accountPdfView")
+    private View accountPdfView;
+
 
     /**
      * @param session
@@ -92,8 +98,8 @@ public class AccountSummaryController {
             model.addAttribute("user", user.getUserId());
 
             if (StringUtils.hasText(view) &&
-                    view.equalsIgnoreCase("excel")) {
-                return new ModelAndView(accountExcelView);
+                    view.equalsIgnoreCase("pdf")) {
+                return new ModelAndView(accountPdfView);
             }
 
             if (user.getUserType().equals(AppConstants.ROLE_MERCHANT)) {

@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Bank CSE545</title>
+    <title>XYZ Bank</title>
 
     <!-- include css -->
     <jsp:include page="../css.jsp"></jsp:include>
@@ -15,17 +15,10 @@
     <jsp:include page="../js.jsp"></jsp:include>
 </head>
 <body>
-<jsp:include page="nav.jsp"></jsp:include>
+<jsp:include page="nav.jsp"/>
 
 <div class="container col-sm-6 col-sm-offset-3 ">
-
-    <c:if test="${page.valid == false}">
-        <div class="alert alert-danger">Something wrong</div>
-    </c:if>
-
-    <div class="well">
-        Welcome - <c:out value="${loggedInUser.name}"/>
-    </div>
+<p style="color:red"><%= session.getAttribute("approval.err") %></p>
 </div>
 </body>
 

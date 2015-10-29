@@ -134,4 +134,14 @@ public class AccountService {
     public Account getAccount(Integer accountNum) {
         return accountDAO.getAccount(accountNum);
     }
+
+    /**
+     * @param account
+     * @throws AppBusinessException
+     */
+    @Transactional(rollbackOn = Throwable.class)
+    public void updateAccount(Account account)
+            throws AppBusinessException {
+        accountDAO.updateAccount(account);
+    }
 }

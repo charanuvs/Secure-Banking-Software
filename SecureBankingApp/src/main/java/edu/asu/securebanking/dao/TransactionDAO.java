@@ -22,4 +22,30 @@ public interface TransactionDAO {
      */
     public List<Transaction> getTransactions(Integer accountNum);
 
+    /**
+     * @return list
+     */
+    public List<Transaction> getPendingCriticalTransactions();
+
+    /**
+     * @return list
+     */
+    public List<Transaction> getPendingNonCriticalTransactions();
+
+    /**
+     * @param transactionID
+     * @return list
+     */
+    public Transaction getTransaction(String transactionID);
+
+    /**
+     * @param t
+     */
+    public void updateTransaction(Transaction t);
+
+    /**
+     * @param t
+     */
+    public void deleteTransaction(Transaction t);
+
 }

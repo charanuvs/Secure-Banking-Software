@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Bank CSE545</title>
+    <title>XYZ Bank</title>
 
     <!-- include css -->
     <jsp:include page="../css.jsp"></jsp:include>

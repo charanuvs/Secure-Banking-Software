@@ -15,40 +15,47 @@
     <jsp:include page="../js.jsp"></jsp:include>
 </head>
 <body>
-<jsp:include page="../nav.jsp"></jsp:include>
+<jsp:include page="nav.jsp"></jsp:include>
 
 <div class="container col-sm-6 col-sm-offset-3 ">
 
+
     <div class="well">
-        <c:url var="formAction" value="/all/pwd"/>
+        <c:url var="formAction" value="/user/payment/validate"/>
         <form:form method="post"
-                   class="form-horizontal" commandName="pwd" action="${formAction}">
-            <legend>Update Password</legend>
+                   class="form-horizontal" commandName="transaction" action="${formAction}">
+            <legend>Update Info</legend>
             <form:errors path="*" cssClass="alert alert-danger" element="div"></form:errors>
-
             <div class="form-group">
-                <label class="col-sm-4 control-label" for="currentPassword">Current Password</label>
+                <label class="col-sm-4 control-label" for="fromAccountNumber">From Account</label>
 
                 <div class="col-sm-7">
-                    <form:password path="currentPassword" class="form-control"
+                    <form:input path="fromAccountNumber" class="form-control" type="text"
                             />
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-sm-4 control-label" for="password">Password</label>
+                <label class="col-sm-4 control-label" for="toAccountNumber">To Account</label>
 
                 <div class="col-sm-7">
-                    <form:password path="password" class="form-control"
-                            />
+                    <form:input path="toAccountNumber" class="form-control" type="text"/>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-sm-4 control-label" for="confirmPassword">Confirm Password</label>
+                <label class="col-sm-4 control-label" for="amountString">Amount</label>
 
                 <div class="col-sm-7">
-                    <form:password path="confirmPassword" class="form-control"/>
+                    <form:input path="amountString" class="form-control" type="text"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="transactionType">Amount</label>
+
+                <div class="col-sm-7">
+                    <form:select path="transactionType" items="${types}" cssClass="form-control"/>
                 </div>
             </div>
 
@@ -56,7 +63,7 @@
                 <div class="col-sm-4"></div>
                 <div class="col-sm-7">
                     <input type="submit" id="submit" class="btn btn-primary btn-lg btn-sm-10"
-                           value="Update">
+                           value="Submit">
                 </div>
             </div>
 

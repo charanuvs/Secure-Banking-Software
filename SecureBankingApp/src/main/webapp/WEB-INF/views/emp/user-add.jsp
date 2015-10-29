@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Bank CSE545</title>
+    <title>XYZ Bank</title>
 
     <!-- include css -->
     <jsp:include page="../css.jsp"></jsp:include>
@@ -21,7 +21,7 @@
 
 
     <div class="well">
-        <c:url var="formAction" value="/admin/user/add"/>
+        <c:url var="formAction" value="/manage/user/add"/>
         <form:form method="post"
                    class="form-horizontal" commandName="user" action="${formAction}">
             <legend>Add User</legend>
@@ -111,6 +111,32 @@
     </div>
 </div>
 
+<script type="application/javascript">
+    (function () {
+        $gender = $("#genderCont");
+        $ssn = $("#ssnCont");
+        $userType = $('#userType');
+        $dob = $('#dobCont');
+        $userType.change(function () {
+            update();
+        });
+
+        function update() {
+            var val = $userType.val();
+            if (val === 'ROLE_MERCHANT') {
+                $ssn.hide();
+                $gender.hide();
+                $dob.hide();
+            } else {
+                $ssn.show();
+                $gender.show();
+                $dob.show();
+            }
+        }
+
+        update();
+    })();
+</script>
 </body>
 
 </html>

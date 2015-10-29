@@ -8,7 +8,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>XYZ Bank</title>
+    <title>Bank CSE545</title>
 
     <!-- include css -->
     <jsp:include page="../css.jsp"></jsp:include>
@@ -79,7 +79,7 @@
 
         <!-- Can download -->
         <div class="container-fluid"><a href="<c:url
-        value='/merch/statements/${account.accountNum}?view=excel' />"
+        value='/merch/statements/${account.accountNum}?view=pdf' />"
                                         class="btn btn-primary btn-lg">Download Statement</a></div>
     </c:if>
 
