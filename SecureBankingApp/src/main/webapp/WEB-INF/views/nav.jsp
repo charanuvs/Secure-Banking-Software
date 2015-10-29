@@ -17,6 +17,12 @@
             </button>
             <a class="navbar-brand" href="<c:url value='/'></c:url>">Bank CSE545</a>
         </div>
+
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="<c:url value='/' />">Home</a></li>
+            </ul>
+        </div>
     </div>
     <!--/.container-fluid -->
 </nav>

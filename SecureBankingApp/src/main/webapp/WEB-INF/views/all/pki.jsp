@@ -19,7 +19,7 @@
 <div class="container col-sm-6 col-sm-offset-3 ">
 
     <div class="well">
-        <c:url var="formAction" value="/all/key"/>
+        <c:url var="formAction" value="/all/${typeKey}"/>
         <form:form method="post"
                    class="form-horizontal"
                    action="${formAction}">

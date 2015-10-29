@@ -61,7 +61,8 @@ public class AppUserValidator implements Validator {
         // user id
         if (!userIdPattern.matcher(user.getUserId()).matches()) {
             errors.rejectValue("userId", "userId",
-                    "Invalid username/Characters plus Numeric, min 4 and max 10 characters");
+                    "Invalid username/characters (all small caps) " +
+                            "plus Numeric, min 4 and max 10 characters");
         }
 
         // name

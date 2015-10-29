@@ -79,7 +79,7 @@
 
         <!-- Can download -->
         <div class="container-fluid"><a href="<c:url
-        value='/merch/statements/${account.accountNum}?view=pdf' />"
+        value='/merch/statements/download/${account.accountNum}?' />"
                                         class="btn btn-primary btn-lg">Download Statement</a></div>
     </c:if>
 
