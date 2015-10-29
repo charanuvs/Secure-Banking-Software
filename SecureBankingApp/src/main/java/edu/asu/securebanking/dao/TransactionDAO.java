@@ -4,48 +4,24 @@ import edu.asu.securebanking.beans.Transaction;
 
 import java.util.List;
 
-/**
- * Created by Zahed on 10/21/2015.
- */
 public interface TransactionDAO {
 
     /**
-     * @param transaction
+     * @param Transaction
+     * @return added
      */
     public void addTransaction(Transaction transaction);
 
-    /**
-     * Get transaction for a account
-     *
-     * @param accountNum
-     * @return transactions
-     */
-    public List<Transaction> getTransactions(Integer accountNum);
-
-    /**
-     * @return list
-     */
     public List<Transaction> getPendingCriticalTransactions();
 
-    /**
-     * @return list
-     */
     public List<Transaction> getPendingNonCriticalTransactions();
 
-    /**
-     * @param transactionID
-     * @return list
-     */
     public Transaction getTransaction(String transactionID);
 
-    /**
-     * @param t
-     */
     public void updateTransaction(Transaction t);
 
-    /**
-     * @param t
-     */
     public void deleteTransaction(Transaction t);
+    
+    public List<Transaction> getTransactions(Integer accountNum);
 
 }

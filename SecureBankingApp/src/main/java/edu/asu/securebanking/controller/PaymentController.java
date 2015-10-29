@@ -42,6 +42,7 @@ public class PaymentController {
     @Autowired
     private AccountService accountService;
 
+
     @Autowired
     private EmailService emailService;
 
@@ -69,6 +70,9 @@ public class PaymentController {
                                  Model model,
                                  BindingResult result,
                                  HttpSession session) throws AppBusinessException {
+
+        AppUser loggedInUser = (AppUser)
+                session.getAttribute(AppConstants.LOGGEDIN_USER);
 
         // check fields
         if (!isNumeric(transaction.getToAccountNumber())
@@ -114,6 +118,11 @@ public class PaymentController {
             session.setAttribute("transaction.err", "Your transaction was not processed. \nPayment transactions must be to a merchant acount, and transfers must be to user acounts.");
             return "/user/payment-deny";
         }
+        // check for upper bound
+        else if (amount.compareTo(new BigDecimal("1000000")) > 0) {
+            session.setAttribute("transaction.err", "Your transaction was not processed. \nReason: Max amount for a single transaction is $1,000,000.");
+            return "/user/payment-deny";
+        }
         // check if user has sufficient funds
         else if (fromAccount.getBalance().compareTo(amount) == -1) {
             session.setAttribute("transaction.err", "Your transaction was not processed. \nReason: Insufficient funds.");
@@ -125,9 +134,8 @@ public class PaymentController {
             session.setAttribute("transaction.critical.fromAccount", fromAccount);
             session.setAttribute("transaction.critical.toAccount", toAccount);
             session.setAttribute("transaction.critical.transactionType", transType);
+            session.setAttribute("transaction.critical.transactionType", transType);
 
-            AppUser loggedInUser = (AppUser)
-                    session.getAttribute(AppConstants.LOGGEDIN_USER);
 
             session.setAttribute("transaction.critical.postUrl", "/user/payment/confirm-critical");
 
@@ -149,7 +157,7 @@ public class PaymentController {
             transaction.setAmount(amount);
             transaction.setTransactionType(transType);
             transaction.setStatus(new String("PENDING"));
-            transaction.setAuthEmployee((AppUser) session.getAttribute(AppConstants.LOGGEDIN_USER));
+            //transaction.setAuthEmployee(userDAO.getUser(loggedInUser.getUserId()));
 
             Date currentDate = new Date();
 
@@ -157,9 +165,6 @@ public class PaymentController {
             transaction.setDate(currentDate);
 
             session.setAttribute("user.payment", transaction);
-
-            AppUser loggedInUser = (AppUser)
-                    session.getAttribute(AppConstants.LOGGEDIN_USER);
 
             session.setAttribute("user.payment", transaction);
             LOGGER.info("Transnew: " + transaction);
@@ -209,6 +214,7 @@ public class PaymentController {
         transaction.setTransactionType(transType);
         transaction.setStatus(new String("PENDING"));
 
+
         Date currentDate = new Date();
 
         //Date Format needs to be like yyyy-mm-dd
@@ -218,6 +224,8 @@ public class PaymentController {
 
         AppUser loggedInUser = (AppUser)
                 session.getAttribute(AppConstants.LOGGEDIN_USER);
+
+        //transaction.setAuthEmployee(userDAO.getUser(loggedInUser.getUserId()));
 
         session.setAttribute("user.payment", transaction);
         LOGGER.info("Transnew: " + transaction);

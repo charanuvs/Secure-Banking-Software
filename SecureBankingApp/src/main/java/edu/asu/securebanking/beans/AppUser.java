@@ -58,6 +58,9 @@ public class AppUser implements Serializable {
     @Column(name = "PASSWORD")
     private String password;
 
+    @Column(name = "AUTHORIZED_TRANSACTIONS", columnDefinition = "enum('YES', 'NO')")
+    private String transAuth;
+
     @Transient
     private String tempPassword;
 
@@ -192,10 +195,27 @@ public class AppUser implements Serializable {
         this.password = password;
     }
 
+    /**
+     * Check if a user is active
+     *
+     * @return isActive
+     */
+    public boolean isActive() {
+        return AppConstants.USER_ACTIVE.equalsIgnoreCase(this.status);
+    }
+
+    public String getTransAuth() {
+        return transAuth;
+    }
+
+    public void setTransAuth(String transAuth) {
+        this.transAuth = transAuth;
+    }
+
     @Override
     public String toString() {
         return "AppUser{" +
-                "userId=" + userId +
+                "userId='" + userId + '\'' +
                 ", email='" + email + '\'' +
                 ", name='" + name + '\'' +
                 ", gender='" + gender + '\'' +
@@ -204,15 +224,10 @@ public class AppUser implements Serializable {
                 ", address='" + address + '\'' +
                 ", ssn='" + ssn + '\'' +
                 ", userType='" + userType + '\'' +
+                ", govCert='" + govCert + '\'' +
+                ", status='" + status + '\'' +
+                ", transAuth='" + transAuth + '\'' +
+                ", dateString='" + dateString + '\'' +
                 '}';
-    }
-
-    /**
-     * Check if a user is active
-     *
-     * @return isActive
-     */
-    public boolean isActive() {
-        return AppConstants.USER_ACTIVE.equalsIgnoreCase(this.status);
     }
 }

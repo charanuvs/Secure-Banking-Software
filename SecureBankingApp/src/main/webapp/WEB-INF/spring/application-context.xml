@@ -80,6 +80,8 @@
     <bean id="piiService" class="edu.asu.securebanking.service.PIIService"/>
     <bean id="transactionService" class="edu.asu.securebanking.service.TransactionService"/>
 
+    <bean id="pkiService" class="edu.asu.securebanking.service.PKIService"/>
+
     <!-- validators -->
     <bean class="edu.asu.securebanking.util.LoginFormValidator"
           id="loginFormValidator"/>

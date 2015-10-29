@@ -22,6 +22,7 @@
             <jsp:include page="../logout_inc.jsp"/>
 
             <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="<c:url value='/user/payment' />">Transfers and Payments</a></li>
                 <li class="active"><a href="<c:url value='/all/update' />">Update Info</a></li>
                 <li class="active"><a href="<c:url value='/all/pwd' />">Change Password</a></li>
             </ul>

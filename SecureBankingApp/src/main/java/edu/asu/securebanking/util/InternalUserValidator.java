@@ -19,5 +19,9 @@ public class InternalUserValidator extends AppUserValidator {
         if (!AppConstants.INTERNAL_USERS_ROLES.containsKey(user.getUserType())) {
             errors.rejectValue("userType", "userType", "Invalid User type");
         }
+
+        // Check for Trans auth validator
+        // set no
+        user.setTransAuth(AppConstants.TRANSACTION_AUTHORIZED_NO);
     }
 }

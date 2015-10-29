@@ -18,16 +18,7 @@
 <jsp:include page="nav.jsp"/>
 
 <div class="container col-sm-6 col-sm-offset-3 ">
-<!-- 
-    <c:if test="${page.valid == false}">
-        <div class="alert alert-danger">Something wrong</div>
-    </c:if>
-
-    <div class="well">
-        Welcome - <c:out value="${loggedInUser.name}"/>
-    </div>
--->
-<p style="color:green">Your transaction was successfully submitted and is awaiting approval</p>
+<p style="color:red"><%= session.getAttribute("approval.err") %></p>
 </div>
 </body>
 

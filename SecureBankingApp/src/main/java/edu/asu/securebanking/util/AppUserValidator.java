@@ -154,5 +154,13 @@ public class AppUserValidator implements Validator {
         if (!AppConstants.USER_STATUS.containsKey(user.getStatus())) {
             errors.rejectValue("status", "status", "Invalid status");
         }
+
+        // Check for Trans auth validator
+        if (AppConstants.TRANSACTION_AUTHORIZED_YES.
+                equalsIgnoreCase(user.getTransAuth())) {
+            user.setTransAuth(AppConstants.TRANSACTION_AUTHORIZED_YES);
+        } else {
+            user.setTransAuth(AppConstants.TRANSACTION_AUTHORIZED_NO);
+        }
     }
 }

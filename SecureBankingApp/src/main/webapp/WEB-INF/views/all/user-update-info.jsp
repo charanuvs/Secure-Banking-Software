@@ -67,6 +67,23 @@
                 </div>
             </div>
 
+            <!-- If user is internal add this -->
+            <c:if test="${isExternalUser}">
+                <div class="form-group">
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-7">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="_transAuth" value="${tranAuth}">
+                                Authorize Transactions?
+                            </label>
+                            <form:hidden path="transAuth"/>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
+
+
             <div class="form-group">
                 <div class="col-sm-4"></div>
                 <div class="col-sm-7">
@@ -80,6 +97,23 @@
     </div>
 </div>
 
+<script>
+    $(function () {
+        $check = $("#_transAuth");
+        $transAuth = $("#transAuth");
+        if ($check.length > 0) {
+            if ($transAuth.val() === "YES") {
+                $check.prop('checked', true);
+            }
+            $check.on('click', function () {
+                if ($check.prop('checked'))
+                    $transAuth.val("YES");
+                else
+                    $transAuth.val("NO");
+            });
+        }
+    });
+</script>
 </body>
 
 </html>

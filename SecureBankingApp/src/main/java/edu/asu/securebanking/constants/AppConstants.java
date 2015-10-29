@@ -17,6 +17,8 @@ public final class AppConstants {
      */
     public static final String DOC_TITLE = "Bank CSE545";
 
+    public static final String KEY_PATH = "C:\\keys\\";
+
     public static final String ROLE_NORMAL = "ROLE_NORMAL";
 
     public static final String ROLE_MERCHANT = "ROLE_MERCHANT";
@@ -88,7 +90,12 @@ public final class AppConstants {
     public static final double MAX_BALANCE = 1000000;
 
     public static final String PII_REQUEST = "REQUEST";
+
     public static final String PII_AUTHORIZE = "AUTHORIZE";
+
+    public static final String TRANSACTION_AUTHORIZED_YES = "YES";
+
+    public static final String TRANSACTION_AUTHORIZED_NO = "NO";
 
     static {
         GENDERS.put(GENDER_MALE, "Male");

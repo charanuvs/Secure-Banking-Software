@@ -23,6 +23,9 @@ import java.util.Locale;
 public class UserService {
 
     @Autowired
+    private PKIService pkiService;
+
+    @Autowired
     @Qualifier("userDAO")
     private UserDAO userDAO;
 
@@ -51,10 +54,17 @@ public class UserService {
      * @param user
      */
     @Transactional(rollbackOn = Throwable.class)
-    public void addUser(final AppUser user) {
+    public void addUser(final AppUser user) throws AppBusinessException {
         // Hash the password of the user
         user.setPassword(encoder.encode(user.getPassword()));
         userDAO.addUser(user);
+
+        try {
+            pkiService.generateKeyAndSendToUser(user.getUserId(), user.getEmail());
+        } catch (Exception e) {
+            LOGGER.equals(e);
+            throw new AppBusinessException("Cannot create user. Please try again.");
+        }
     }
 
     /**
