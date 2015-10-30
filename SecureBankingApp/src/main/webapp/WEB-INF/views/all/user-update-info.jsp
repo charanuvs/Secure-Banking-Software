@@ -75,7 +75,7 @@
                         <div class="checkbox">
                             <label>
                                 <input type="checkbox" id="_transAuth" value="${tranAuth}">
-                                Authorize Transactions?
+                                Authorize Transactions and Account Information to be seen?
                             </label>
                             <form:hidden path="transAuth"/>
                         </div>

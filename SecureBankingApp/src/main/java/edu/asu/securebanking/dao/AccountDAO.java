@@ -40,4 +40,10 @@ public interface AccountDAO {
      * @return accounts
      */
     List<Account> getMerchantAccounts();
+
+    /**
+     * @param username
+     * @return
+     */
+    List<Account> getAuthAccounts(String username);
 }

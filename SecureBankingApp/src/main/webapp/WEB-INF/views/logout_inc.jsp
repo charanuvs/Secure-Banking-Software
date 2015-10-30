@@ -4,6 +4,6 @@
 
 <form class="navbar-form navbar-right" action="<c:url value='/logout' /> "
       method="post">
-    <input type="submit" class="btn" value="Logout"/>
+    <input type="submit" class="btn btn-sm" value="Logout"/>
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 </form>

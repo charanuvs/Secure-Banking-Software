@@ -57,17 +57,6 @@ public class ManagerController {
 
     private static Logger LOGGER = Logger.getLogger(ManagerController.class);
 
-    /**
-     * Manager home page
-     *
-     * @return home
-     */
-    @RequestMapping(value = {"/manage/home"},
-            method = RequestMethod.GET)
-
-    public String home() {
-        return "manage/home";
-    }
 
     /**
      * Add user form
@@ -241,6 +230,7 @@ public class ManagerController {
                               Model model) {
         PageViewBean page = new PageViewBean();
         List<Account> accounts;
+        model.addAttribute("page", page);
 
         model.addAttribute("accountTypes", AppConstants.ACCOUNT_TYPES);
 
@@ -463,7 +453,7 @@ public class ManagerController {
      * @return
      */
     @RequestMapping(value = {"/manage/transactions/list",
-            "/manage/"}, method = RequestMethod.GET)
+            "/manage/", "/manage/home"}, method = RequestMethod.GET)
     public String getCriticalTransactions(Model model) {
 
         PageViewBean page = new PageViewBean();

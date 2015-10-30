@@ -19,6 +19,10 @@ public final class AppConstants {
 
     public static final String KEY_PATH = "/home/ubuntu/keys/";
 
+    public static final String LOG_FILE = "/home/ubuntu/logs/SecureOnlineBanking.log";
+
+    public static final int MAX_LOG_SIZE = 1000;
+
     public static final String ROLE_NORMAL = "ROLE_NORMAL";
 
     public static final String ROLE_MERCHANT = "ROLE_MERCHANT";
@@ -100,6 +104,8 @@ public final class AppConstants {
     public static final double ONE_MILLION = 1000000;
 
     public static final double TEN_K = 10000;
+
+    public static final int MAX_OTP_TIME = 9000;
 
     public static final String APPLET_LOCATION = "/home/ubuntu/jar/DecryptApplet.jar";
 

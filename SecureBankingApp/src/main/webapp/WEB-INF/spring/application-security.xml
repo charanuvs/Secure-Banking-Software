@@ -17,18 +17,18 @@
 
     <http use-expressions="true" authentication-manager-ref="userAuthManager">
         <!--<csrf disabled="true"/>-->
-        <intercept-url pattern="/user/**" access="hasRole('ROLE_NORMAL')"/>
-        <intercept-url pattern="/emp/**" access="hasRole('ROLE_EMPLOYEE')"/>
-        <intercept-url pattern="/manage/**" access="hasRole('ROLE_MANAGER')"/>
-        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
-        <intercept-url pattern="/merch/**" access="hasRole('ROLE_MERCHANT')"/>
+        <intercept-url pattern="/user/**" access="hasRole('ROLE_NORMAL')" requires-channel="https"/>
+        <intercept-url pattern="/emp/**" access="hasRole('ROLE_EMPLOYEE')" requires-channel="https"/>
+        <intercept-url pattern="/manage/**" access="hasRole('ROLE_MANAGER')" requires-channel="https"/>
+        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" requires-channel="https"/>
+        <intercept-url pattern="/merch/**" access="hasRole('ROLE_MERCHANT')" requires-channel="https"/>
         <intercept-url pattern="/logout" access="hasAnyRole('ROLE_EMPLOYEE',
-            'ROLE_NORMAL', 'ROLE_ADMIN', 'ROLE_MERCHANT', 'ROLE_MANAGER')"/>
+            'ROLE_NORMAL', 'ROLE_ADMIN', 'ROLE_MERCHANT', 'ROLE_MANAGER')" requires-channel="https"/>
         <intercept-url pattern="/pwd/**" access="isAnonymous()"/>
         <intercept-url pattern="/all/**" access="hasAnyRole('ROLE_EMPLOYEE',
-            'ROLE_NORMAL', 'ROLE_ADMIN', 'ROLE_MERCHANT', 'ROLE_MANAGER')"/>
+            'ROLE_NORMAL', 'ROLE_ADMIN', 'ROLE_MERCHANT', 'ROLE_MANAGER')" requires-channel="https"/>
         <intercept-url pattern="/error/**" access="hasAnyRole('ROLE_EMPLOYEE',
-            'ROLE_NORMAL', 'ROLE_ADMIN', 'ROLE_MERCHANT', 'ROLE_MANAGER')"/>
+            'ROLE_NORMAL', 'ROLE_ADMIN', 'ROLE_MERCHANT', 'ROLE_MANAGER')" requires-channel="https"/>
         <form-login username-parameter="username" password-parameter="password"
                     login-page="/login"
                     always-use-default-target="true"
@@ -37,7 +37,7 @@
                     authentication-failure-url="/login?invalidCred=true"
                     authentication-success-handler-ref="appAuthSuccessHandler"
                 />
-        <logout logout-url="/logout" logout-success-url="/login"/>
+        <logout logout-url="/logout" logout-success-url="/login" delete-cookies="JSESSIONID" invalidate-session="true"/>
     </http>
 
     <authentication-manager id="userAuthManager">

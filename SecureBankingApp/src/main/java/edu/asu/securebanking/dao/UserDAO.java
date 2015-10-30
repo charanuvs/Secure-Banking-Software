@@ -36,6 +36,11 @@ public interface UserDAO {
     public List<AppUser> getExternalUsers();
 
     /**
+     * @return externalUsers
+     */
+    public List<AppUser> getAuthExternalUsers();
+
+    /**
      * @return employees
      */
     public List<AppUser> getInternalUsers();

@@ -18,7 +18,18 @@
             <a class="navbar-brand" href="<c:url value='/'></c:url>">Bank of Upper Concourse</a>
         </div>
 
+        <c:if test="${not empty sessionScope['loggedInUser']}">
+            <p class="navbar-text">
+                <small class="text-muted">Hi,</small>
+                <span class="text-info"><c:out value="${sessionScope['loggedInUser'].name}"/></span></p>
+        </c:if>
+
         <div class="collapse navbar-collapse">
+
+            <c:if test="${not empty sessionScope['loggedInUser']}">
+                <jsp:include page="logout_inc.jsp"/>
+            </c:if>
+
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="<c:url value='/' />">Home</a></li>
             </ul>

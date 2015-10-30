@@ -38,7 +38,7 @@ public class GovController {
      * @param model
      * @return internalUsers
      */
-    @RequestMapping(value = {"/gov/users", "/gov/"},
+    @RequestMapping(value = {"/gov/users", "/gov"},
             method = RequestMethod.GET)
     public String home(Model model) {
 

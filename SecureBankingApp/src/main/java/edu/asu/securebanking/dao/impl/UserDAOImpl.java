@@ -32,6 +32,18 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
     }
 
     @Override
+    public List<AppUser> getAuthExternalUsers() {
+        Criteria criteria = getSession().createCriteria(AppUser.class);
+        criteria.add(Restrictions.and(
+                Restrictions.in("userType",
+                        AppConstants.EXTERNAL_USERS_ROLES.keySet()),
+                Restrictions.eq("transAuth", AppConstants.TRANSACTION_AUTHORIZED_YES)));
+        criteria.addOrder(Order.asc("name"));
+
+        return criteria.list();
+    }
+
+    @Override
     public List<AppUser> getInternalUsers() {
         Criteria criteria = getSession().createCriteria(AppUser.class);
         criteria.add(Restrictions.in("userType",

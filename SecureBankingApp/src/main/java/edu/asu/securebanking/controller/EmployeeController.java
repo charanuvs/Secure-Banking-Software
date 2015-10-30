@@ -1,9 +1,11 @@
 package edu.asu.securebanking.controller;
 
 import edu.asu.securebanking.beans.Account;
+import edu.asu.securebanking.beans.AppUser;
 import edu.asu.securebanking.beans.PageViewBean;
 import edu.asu.securebanking.beans.Transaction;
 import edu.asu.securebanking.constants.AppConstants;
+import edu.asu.securebanking.exceptions.AppBusinessException;
 import edu.asu.securebanking.service.AccountService;
 import edu.asu.securebanking.service.EmailService;
 import edu.asu.securebanking.service.TransactionService;
@@ -56,19 +58,7 @@ public class EmployeeController {
     @Qualifier("accountValidator")
     private Validator accountValidator;
 
-    private static Logger LOGGER = Logger.getLogger(ManagerController.class);
-
-    /**
-     * Manager home page
-     *
-     * @return home
-     */
-    @RequestMapping(value = {"/emp/home"},
-            method = RequestMethod.GET)
-
-    public String home() {
-        return "emp/home";
-    }
+    private static Logger LOGGER = Logger.getLogger(EmployeeController.class);
 
 
     // ADDED 10/27/2015 -- ANDREW
@@ -79,7 +69,8 @@ public class EmployeeController {
      * @param model
      * @return
      */
-    @RequestMapping(value = {"/emp/transactions/list", "/emp/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/emp/transactions/list", "/emp/",
+            "/emp/home"}, method = RequestMethod.GET)
     public String getNonCriticalTransactions(Model model) {
 
         PageViewBean page = new PageViewBean();
@@ -191,6 +182,76 @@ public class EmployeeController {
 
             return "message";
         }
+    }
+
+
+    /**
+     * Get all external Users
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/emp/user/list", method = RequestMethod.GET)
+    public String getAuthorizedExternalUsers(Model model) {
+
+        PageViewBean page = new PageViewBean();
+        model.addAttribute("page", page);
+
+        try {
+            List<AppUser> users = userService.getAuthExternalUsers();
+
+            LOGGER.info("Users size: " + users.size());
+            model.addAttribute("users", users);
+            model.addAttribute("roles", AppConstants.EXTERNAL_USERS_ROLES);
+            model.addAttribute("status", AppConstants.USER_STATUS);
+            return "emp/user-list";
+        } catch (Exception e) {
+            page.setValid(false);
+            page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
+
+            return "message";
+        }
+    }
+
+    /**
+     * Get accounts for external user
+     *
+     * @param username
+     * @param model
+     * @return view
+     */
+    @RequestMapping(value = "/emp/account/{id}",
+            method = RequestMethod.GET)
+    public String getAccounts(@PathVariable("id") String
+                                      username,
+                              Model model) {
+        PageViewBean page = new PageViewBean();
+        model.addAttribute("page", page);
+        List<Account> accounts;
+
+        model.addAttribute("accountTypes", AppConstants.ACCOUNT_TYPES);
+
+        try {
+            accounts = accountService.getAuthAccounts(username);
+            LOGGER.info("Accounts size: " +
+                    (null != accounts ? accounts.size() : "null"));
+            model.addAttribute("accounts", accounts);
+            model.addAttribute("username", username);
+        } catch (AppBusinessException e) {
+            LOGGER.error(e);
+            page.setMessage(e.getMessage());
+            page.setValid(false);
+
+            return "message";
+        } catch (Exception e) {
+            LOGGER.error(e);
+            page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
+            page.setValid(false);
+
+            return "message";
+        }
+
+        return "emp/account-list";
     }
 
 }

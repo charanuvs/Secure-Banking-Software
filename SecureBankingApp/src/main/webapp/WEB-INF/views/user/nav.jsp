@@ -3,6 +3,7 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <nav class="navbar navbar-default navbar-static-top" role="navigation">
+
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed"
@@ -17,6 +18,9 @@
             </button>
             <a class="navbar-brand" href="<c:url value='/'></c:url>">Bank of Upper Concourse</a>
         </div>
+        <p class="navbar-text">
+            <small class="text-muted">Hi,</small>
+            <span class="text-info"><c:out value="${sessionScope['loggedInUser'].name}"/></span></p>
 
         <div class="collapse navbar-collapse">
             <jsp:include page="../logout_inc.jsp"/>

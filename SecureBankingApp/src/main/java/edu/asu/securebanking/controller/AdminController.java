@@ -4,10 +4,7 @@ import edu.asu.securebanking.beans.AppUser;
 import edu.asu.securebanking.beans.PageViewBean;
 import edu.asu.securebanking.constants.AppConstants;
 import edu.asu.securebanking.exceptions.AppBusinessException;
-import edu.asu.securebanking.service.AccountService;
-import edu.asu.securebanking.service.EmailService;
-import edu.asu.securebanking.service.PIIService;
-import edu.asu.securebanking.service.UserService;
+import edu.asu.securebanking.service.*;
 import edu.asu.securebanking.util.AppUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +56,9 @@ public class AdminController {
     @Autowired
     @Qualifier("piiService")
     private PIIService piiService;
+
+    @Autowired
+    private SystemLogService logService;
 
     private static Logger LOGGER = Logger.getLogger(AdminController.class);
 
@@ -379,6 +379,39 @@ public class AdminController {
         }
 
         return "message";
+
+    }
+
+
+    /**
+     * @return sysLog
+     */
+    @RequestMapping(value = "/admin/systemlog",
+            method = RequestMethod.GET)
+    public String getSystemLog(
+            Model model,
+            HttpSession session) {
+
+        PageViewBean page = new PageViewBean();
+        model.addAttribute("page", page);
+        List<String> logs;
+        try {
+
+            logs = logService.getLog();
+            model.addAttribute("logs", logs);
+
+        } catch (AppBusinessException e) {
+            LOGGER.error(e);
+            page.setValid(false);
+            page.setMessage(e.getMessage());
+
+        } catch (Exception e) {
+            LOGGER.error(e);
+            page.setValid(false);
+            page.setMessage(AppConstants.DEFAULT_ERROR_MSG);
+        }
+
+        return "admin/logs";
 
     }
 }

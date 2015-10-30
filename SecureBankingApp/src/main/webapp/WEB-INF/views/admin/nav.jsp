@@ -18,6 +18,10 @@
             <a class="navbar-brand" href="<c:url value='/'></c:url>">Bank of Upper Concourse</a>
         </div>
 
+        <p class="navbar-text">
+            <small class="text-muted">Hi,</small>
+            <span class="text-info"><c:out value="${sessionScope['loggedInUser'].name}"/></span></p>
+
         <div class="collapse navbar-collapse">
             <jsp:include page="../logout_inc.jsp"/>
 
@@ -26,6 +30,7 @@
                 <li class="active"><a href="<c:url value='/admin/user/list' />">List Users</a></li>
                 <li class="active"><a href="<c:url value='/all/update' />">Update Info</a></li>
                 <li class="active"><a href="<c:url value='/all/pwd' />">Change Password</a></li>
+                <li class="active"><a href="<c:url value='/admin/systemlog' />">System Log</a></li>
             </ul>
         </div>
     </div>

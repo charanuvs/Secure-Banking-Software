@@ -76,6 +76,14 @@ public class UserService {
     }
 
     /**
+     * @return externalUsers
+     */
+    @Transactional(rollbackOn = Throwable.class)
+    public List<AppUser> getAuthExternalUsers() {
+        return userDAO.getAuthExternalUsers();
+    }
+
+    /**
      * @return internalUsers
      */
     @Transactional(rollbackOn = Throwable.class)

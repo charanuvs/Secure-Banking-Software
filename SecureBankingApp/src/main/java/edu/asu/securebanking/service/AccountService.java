@@ -61,6 +61,30 @@ public class AccountService {
     }
 
     /**
+     * List accounts of a user
+     *
+     * @param username
+     * @return accounts
+     * @throws AppBusinessException
+     */
+    @Transactional(rollbackOn = Throwable.class)
+    public List<Account> getAuthAccounts(String username) throws AppBusinessException {
+
+        // Get the user
+        AppUser user = userDAO.getUser(username);
+
+        if (user == null ||
+                !AppConstants.EXTERNAL_USERS_ROLES.containsKey(user.getUserType())
+                || AppConstants.TRANSACTION_AUTHORIZED_NO.equals(user.getTransAuth())) {
+            // User is not internal user. Throw an exception
+            throw new AppBusinessException(messageSource.getMessage("account.notexternaluser.error",
+                    new Object[]{}, Locale.getDefault()));
+        }
+
+        return accountDAO.getAccounts(username);
+    }
+
+    /**
      * Add new account to the system
      *
      * @param username

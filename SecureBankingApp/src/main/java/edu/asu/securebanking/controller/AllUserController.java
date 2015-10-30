@@ -548,7 +548,6 @@ public class AllUserController {
                 page.setValid(false);
                 page.setMessage("Invalid request");
             } else {
-
                 // user not logged in
                 AppUser user = userService.getUser(username);
                 if (user == null) {
@@ -557,20 +556,20 @@ public class AllUserController {
                 } else if (!sessionOtp.equals(otp)) {
                     page.setValid(false);
                     page.setMessage("Invalid OTP. Please try again");
+                } else {
+                    // Save the password
+                    // Set the defaults
+                    String pwd = AppUtil.getRandomPwd();
+
+                    emailService.sendEmail(user.getEmail(),
+                            "Password reset", "Your password has been reset: " + pwd);
+
+                    userService.savePassword(username, pwd);
+
+                    page.setMessage("Your password has been reset. " +
+                            "Please check your email for the new password.");
+                    page.setValid(true);
                 }
-
-                // Save the password
-                // Set the defaults
-                String pwd = AppUtil.getRandomPwd();
-
-                emailService.sendEmail(user.getEmail(),
-                        "Password reset", "Your password has been reset: " + pwd);
-
-                userService.savePassword(username, pwd);
-
-                page.setMessage("Your password has been reset. " +
-                        "Please check your email for the new password.");
-                page.setValid(true);
             }
         } catch (Exception e) {
             page.setValid(false);
