@@ -160,7 +160,7 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`USER_ID`);
 
 INSERT INTO `user` (`USER_ID`, `SSN`, `NAME`, `ADDRESS`, `DOB`, `EMAIL`, `PHONE_NO`, `PASSWORD`, `GENDER`, `USER_TYPE`, `GOV_CERT`, `AUTHORIZED_TRANSACTIONS`, `STATUS`) VALUES
-('admin', '', 'Vikranth Admin', '1255 East University Drive, Apt 120', '1990-11-21', 'vdoosa@asu.edu', '4803348770', '$2a$12$8k6fqQi1GyIB1gJ1jQ1BEuwcSMyV3bl7Ne/dLiPx/0r.Vy.V4b5gy', 'MALE', 'ROLE_ADMIN', NULL, 'NO', 'ACTIVE');
+('admin', '', 'Vikranth Admin', '1255', '1990-11-21', 'z@asu.edu', '8383838390', '$2a$12$8k6fqQi1GyIB1gJ1jQ1BEuwcSMyV3bl7Ne/dLiPx/0r.Vy.V4b5gy', 'MALE', 'ROLE_ADMIN', NULL, 'NO', 'ACTIVE');
 
 --
 -- AUTO_INCREMENT for dumped tables
