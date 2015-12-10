@@ -140,13 +140,13 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`USER_ID`, `SSN`, `NAME`, `ADDRESS`, `DOB`, `EMAIL`, `PHONE_NO`, `PASSWORD`, `GENDER`, `USER_TYPE`, `GOV_CERT`, `STATUS`) VALUES
-('admin', '', 'Vikranth Admin', '1255 East University Drive, Apt 120', '1990-11-21', 'vdoosa@asu.edu', '4803348770', '$2a$12$8k6fqQi1GyIB1gJ1jQ1BEuwcSMyV3bl7Ne/dLiPx/0r.Vy.V4b5gy', 'MALE', 'ROLE_ADMIN', NULL, 'ACTIVE'),
-('merch1', '', 'Merchant AB', '1255 East University Drive, Apt 120', '1980-01-01', 'vdoosa@asu.edu', '4803348771', '$2a$12$h11bhOFETu9hqNif4hlZBeBifzB0DLpfz3o6PzXrg8qvwm3tV8WQW', 'OTHER', 'ROLE_MERCHANT', NULL, 'ACTIVE'),
-('merch2', '', 'Amazon Services', '1255 East University Drive, Apt 120', '1980-01-01', 'vdoosa@asu.edu', '4803348770', '$2a$12$nEbGmN3Bmhug51tWN3DiXOsiaDS5Z6aokK3IxzO3fHMu20yuQ4ynm', 'OTHER', 'ROLE_MERCHANT', NULL, 'ACTIVE'),
-('test2', '1111111111', 'Test', '1255 East University Drive, Apt 120', '1990-11-21', 'test@test.com', '4803348770', '$2a$12$3EUG4MWk2Ult2csEVld4kOkQDwARj2z2h2umVJE2tfvVIQkwoxSYK', 'MALE', 'ROLE_NORMAL', NULL, 'ACTIVE'),
-('vdoosac', '1234567890', 'Vikranth Customer', '1255 East University Drive, Apt 120', '1990-11-21', 'vdoosa@asu.edu', '4803348771', '$2a$12$A4iyr/HqcUCmx8Gi2lLOtuLD2yMtmXoCjh2ApFuKZM2MisVmj371m', 'MALE', 'ROLE_NORMAL', NULL, 'ACTIVE'),
+('admin', '', 'Vikranth Admin', '1255', '1990-11-21', 'z@asu.edu', '8983273747', '$2a$12$8k6fqQi1GyIB1gJ1jQ1BEuwcSMyV3bl7Ne/dLiPx/0r.Vy.V4b5gy', 'MALE', 'ROLE_ADMIN', NULL, 'ACTIVE'),
+('merch1', '', 'Merchant AB', '1255', '1980-01-01', 'y@asu.edu', '4803348771', '$2a$12$h11bhOFETu9hqNif4hlZBeBifzB0DLpfz3o6PzXrg8qvwm3tV8WQW', 'OTHER', 'ROLE_MERCHANT', NULL, 'ACTIVE'),
+('merch2', '', 'Amazon Services', '1255', '1980-01-01', 'x@asu.edu', '8983273747', '$2a$12$nEbGmN3Bmhug51tWN3DiXOsiaDS5Z6aokK3IxzO3fHMu20yuQ4ynm', 'OTHER', 'ROLE_MERCHANT', NULL, 'ACTIVE'),
+('test2', '1111111111', 'Test', '1255', '1990-11-21', 'test@test.com', '8983273747', '$2a$12$3EUG4MWk2Ult2csEVld4kOkQDwARj2z2h2umVJE2tfvVIQkwoxSYK', 'MALE', 'ROLE_NORMAL', NULL, 'ACTIVE'),
+('vdoosac', '1234567890', 'Vikranth Customer', '1255', '1990-11-21', 'vdoosa@asu.edu', '4803348771', '$2a$12$A4iyr/HqcUCmx8Gi2lLOtuLD2yMtmXoCjh2ApFuKZM2MisVmj371m', 'MALE', 'ROLE_NORMAL', NULL, 'ACTIVE'),
 ('vdoosam', '', 'Vikranth Manager', 'Some address 3', '1990-04-18', 'vickydoosa@gmail.com', '1987456321', '$2a$12$zLVrxv0g5w6fzvKGDf4sXOepzt/T3XnULocQsT.uGkcVdKc.qLN/W', 'MALE', 'ROLE_MANAGER', NULL, 'ACTIVE'),
-('vdoosam2', '1111111111', 'Vikranth Manage', '1255 East University Drive, Apt 120', '1990-11-21', 'vdoosa@asu.edu', '4803348770', '$2a$12$.eo7EZuQRp/nNodg995hW.aeOd62BNZqquydbu5n5GfAHB6ETk0YS', 'FEMALE', 'ROLE_MANAGER', NULL, 'ACTIVE');
+('vdoosam2', '1111111111', 'Vikranth Manage', '1255', '1990-11-21', 'vdoosa@asu.edu', '8983273747', '$2a$12$.eo7EZuQRp/nNodg995hW.aeOd62BNZqquydbu5n5GfAHB6ETk0YS', 'FEMALE', 'ROLE_MANAGER', NULL, 'ACTIVE');
 
 --
 -- Indexes for dumped tables
