@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 30, 2015 at 01:37 AM
+-- Generation Time: Oct 28, 2015 at 12:00 AM
 -- Server version: 5.6.26
 -- PHP Version: 5.6.12
 
@@ -36,11 +36,18 @@ CREATE TABLE IF NOT EXISTS `account` (
   `TYPE` enum('SAVINGS','CHECKIN','MERCHANT') DEFAULT NULL,
   `OPEN_DATE` date DEFAULT NULL,
   `CLOSING_DATE` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=100001 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `account`
 --
+
+INSERT INTO `account` (`ACC_NO`, `USER_ID`, `BALANCE`, `TYPE`, `OPEN_DATE`, `CLOSING_DATE`) VALUES
+(1, 'vdoosac', '0.00', 'SAVINGS', '2015-10-20', NULL),
+(5, 'merch1', '78.00', 'MERCHANT', '2015-10-20', NULL),
+(7, 'merch1', '78.00', 'MERCHANT', '2015-10-20', NULL),
+(8, 'merch1', '1000000.00', 'MERCHANT', '2015-10-20', NULL),
+(9, 'vdoosac', '780.00', 'CHECKIN', '2015-10-20', NULL);
 
 -- --------------------------------------------------------
 
@@ -56,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `log` (
   `L_DATE` date DEFAULT NULL,
   `SEVERITY` enum('MNG','EMP') DEFAULT NULL,
   `DESCRIPTION` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=100001 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -70,7 +77,15 @@ CREATE TABLE IF NOT EXISTS `pii` (
   `USER_ID` varchar(20) NOT NULL,
   `FROM_USER_ID` varchar(20) NOT NULL,
   `TYPE` enum('REQUEST','AUTHORIZE') NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=100001 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pii`
+--
+
+INSERT INTO `pii` (`PII_ID`, `USER_ID`, `FROM_USER_ID`, `TYPE`) VALUES
+(5, 'vdoosam2', 'vdoosam2', 'AUTHORIZE'),
+(6, 'vdoosam', 'admin', 'AUTHORIZE');
 
 -- --------------------------------------------------------
 
@@ -88,8 +103,15 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `T_STATUS` enum('PENDING','COMPLETE') DEFAULT NULL,
   `T_DATE` date DEFAULT NULL,
   `AUTHORISED_EMP` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=100001 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `transaction`
+--
+
+INSERT INTO `transaction` (`T_ID`, `TO_ACCOUNT`, `FROM_ACCOUNT`, `AMOUNT`, `T_TYPE`, `T_STATUS`, `T_DATE`, `AUTHORISED_EMP`) VALUES
+(1, 1, 5, '45.00', 'TRANSFER', 'COMPLETE', '2015-10-01', NULL),
+(2, 1, 5, '78.00', 'TRANSFER', 'PENDING', '2015-10-15', NULL);
 
 -- --------------------------------------------------------
 
@@ -110,12 +132,21 @@ CREATE TABLE IF NOT EXISTS `user` (
   `GENDER` enum('MALE','FEMALE','OTHER') DEFAULT NULL,
   `USER_TYPE` enum('ROLE_NORMAL','ROLE_MERCHANT','ROLE_EMPLOYEE','ROLE_MANAGER','ROLE_ADMIN') DEFAULT NULL,
   `GOV_CERT` varchar(20) DEFAULT NULL,
-  `AUTHORIZED_TRANSACTIONS` enum('YES','NO') NOT NULL DEFAULT 'NO',
   `STATUS` enum('ACTIVE','LOCKED') NOT NULL DEFAULT 'ACTIVE'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`USER_ID`, `SSN`, `NAME`, `ADDRESS`, `DOB`, `EMAIL`, `PHONE_NO`, `PASSWORD`, `GENDER`, `USER_TYPE`, `GOV_CERT`, `STATUS`) VALUES
+('admin', '', 'Vikranth Admin', '1255', '1990-11-21', 'z@asu.edu', '8983273747', '$2a$12$8k6fqQi1GyIB1gJ1jQ1BEuwcSMyV3bl7Ne/dLiPx/0r.Vy.V4b5gy', 'MALE', 'ROLE_ADMIN', NULL, 'ACTIVE'),
+('merch1', '', 'Merchant AB', '1255', '1980-01-01', 'y@asu.edu', '4803348771', '$2a$12$h11bhOFETu9hqNif4hlZBeBifzB0DLpfz3o6PzXrg8qvwm3tV8WQW', 'OTHER', 'ROLE_MERCHANT', NULL, 'ACTIVE'),
+('merch2', '', 'Amazon Services', '1255', '1980-01-01', 'x@asu.edu', '8983273747', '$2a$12$nEbGmN3Bmhug51tWN3DiXOsiaDS5Z6aokK3IxzO3fHMu20yuQ4ynm', 'OTHER', 'ROLE_MERCHANT', NULL, 'ACTIVE'),
+('test2', '1111111111', 'Test', '1255', '1990-11-21', 'test@test.com', '8983273747', '$2a$12$3EUG4MWk2Ult2csEVld4kOkQDwARj2z2h2umVJE2tfvVIQkwoxSYK', 'MALE', 'ROLE_NORMAL', NULL, 'ACTIVE'),
+('vdoosac', '1234567890', 'Vikranth Customer', '1255', '1990-11-21', 'vdoosa@asu.edu', '4803348771', '$2a$12$A4iyr/HqcUCmx8Gi2lLOtuLD2yMtmXoCjh2ApFuKZM2MisVmj371m', 'MALE', 'ROLE_NORMAL', NULL, 'ACTIVE'),
+('vdoosam', '', 'Vikranth Manager', 'Some address 3', '1990-04-18', 'vickydoosa@gmail.com', '1987456321', '$2a$12$zLVrxv0g5w6fzvKGDf4sXOepzt/T3XnULocQsT.uGkcVdKc.qLN/W', 'MALE', 'ROLE_MANAGER', NULL, 'ACTIVE'),
+('vdoosam2', '1111111111', 'Vikranth Manage', '1255', '1990-11-21', 'vdoosa@asu.edu', '8983273747', '$2a$12$.eo7EZuQRp/nNodg995hW.aeOd62BNZqquydbu5n5GfAHB6ETk0YS', 'FEMALE', 'ROLE_MANAGER', NULL, 'ACTIVE');
 
 --
 -- Indexes for dumped tables
@@ -159,9 +190,6 @@ ALTER TABLE `transaction`
 ALTER TABLE `user`
   ADD PRIMARY KEY (`USER_ID`);
 
-INSERT INTO `user` (`USER_ID`, `SSN`, `NAME`, `ADDRESS`, `DOB`, `EMAIL`, `PHONE_NO`, `PASSWORD`, `GENDER`, `USER_TYPE`, `GOV_CERT`, `AUTHORIZED_TRANSACTIONS`, `STATUS`) VALUES
-('admin', '', 'Vikranth Admin', '1255 East University Drive, Apt 120', '1990-11-21', 'vdoosa@asu.edu', '4803348770', '$2a$12$8k6fqQi1GyIB1gJ1jQ1BEuwcSMyV3bl7Ne/dLiPx/0r.Vy.V4b5gy', 'MALE', 'ROLE_ADMIN', NULL, 'NO', 'ACTIVE');
-
 --
 -- AUTO_INCREMENT for dumped tables
 --
@@ -170,7 +198,7 @@ INSERT INTO `user` (`USER_ID`, `SSN`, `NAME`, `ADDRESS`, `DOB`, `EMAIL`, `PHONE_
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `ACC_NO` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=100001;
+  MODIFY `ACC_NO` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `log`
 --
@@ -180,12 +208,12 @@ ALTER TABLE `log`
 -- AUTO_INCREMENT for table `pii`
 --
 ALTER TABLE `pii`
-  MODIFY `PII_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=100001;
+  MODIFY `PII_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `T_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=100001;
+  MODIFY `T_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- Constraints for dumped tables
 --
