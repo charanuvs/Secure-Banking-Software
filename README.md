@@ -13,3 +13,18 @@ Secure Online Banking
  4. Or you can build the project with the command `"mvn clean install"` and then deploy the war file on the server.
 
 The log file goes into `/log` directory. Make sure that you have read and write permissions.
+
+## About
+### Security Features
+ 1. HTTPS/SSL
+ 2. One-Time Password (OTP) for two factor authentication
+ 3. Public Key Infrastructure
+ 4. Role based access
+ 5. Hashed and Salted Passwords
+ 6. Virtual Keyboard
+
+### Attacks taken care of
+ 1. SQL injection attacks
+ 2. XSS attacks
+ 3. CSRF attacks
+ 4. Session Hijacking
